@@ -59,3 +59,24 @@ typings/
 
 # next.js build output
 .next
+################################################################################
+# ficloud-workbench custom
+################################################################################
+
+.idea
+*.log
+/node_modules/
+/npm-debug.log
+/build/
+.vscode
+.*.swp
+dist
+
+.happypack
+
+# 本地调试文件，仅仅加载需要的container
+src/index.dev.js
+client/config.js
+
+# storybook
+storybook-static
