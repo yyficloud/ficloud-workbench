@@ -1,14 +1,13 @@
 {
   "name": "ficloud-workbench",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "description": "ficloud workbench",
   "main": "src/index.js",
   "jsnext:main": "dist/ficloud-workbench.es.js",
   "module": "dist/ficloud-workbench.es.js",
   "style": "dist/ficloud-workbench.min.css",
-  "author": "Jed Watson",
-  "license": "MIT",
+  "author": "yyficloud",
   "repository": {
     "type": "git",
     "url": "https://github.com/yyficloud/ficloud-workbench.git"
