@@ -1,35 +1,32 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import Apps from "./components/App";
-
+import Titles from './components/Titles';
+import classNames from 'classnames';
 /**
  * WorkBench控件
  */
-export default class WorkBench extends React.Component {
-  static displayName = 'WorkBench'
-  static propTypes = {
-    /**
-     * 自定义类名
-     */
-    className: PropTypes.string,
-    value: PropTypes.string
-  };
-
-  state = {
-  };
-
+class WorkBench extends React.Component {
   constructor(props) {
     super(props);
+	  this.state = {
+	  };
   }
-
 
   render() {
     const { value,className } = this.props;
     return (
-      <div className={ className ? className : ''}>
-		财务云工作区
-        <p>{ value ? value : ''}</p>
+      <div className={ classNames('ficloud-bench', { [`${className}`]: className })}>
+		<Titles />
+        <p>{ value ? value : '默认test'}</p>
       </div>
     );
   }
 }
+WorkBench.propTypes = {
+	/**
+	 * 自定义类名
+	 */
+	className: PropTypes.string,
+	value: PropTypes.string
+};
+export default WorkBench;

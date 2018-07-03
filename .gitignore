@@ -64,39 +64,7 @@ typings/
 ################################################################################
 
 .idea
-*.log
-/node_modules/
-/npm-debug.log
-/build/
-.vscode
-.*.swp
-dist
 
-.happypack
-
-# 本地调试文件，仅仅加载需要的container
-src/index.dev.js
-client/config.js
-
-# storybook
-storybook-static# See https://help.github.com/ignore-files/ for more about ignoring files.
-
-# dependencies
-/node_modules
-
-# testing
-/coverage
-
-# production
-/build
-
-# misc
+# Other
 .DS_Store
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+.env

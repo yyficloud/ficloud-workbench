@@ -1,37 +1,65 @@
 const webpack = require('webpack');
 const path = require('path');
-const OpenBrowserPlugin = require('open-browser-webpack-plugin');
-
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+// const OpenBrowserPlugin = require('open-browser-webpack-plugin');
 module.exports = {
-  devServer: {
-    historyApiFallback: true,
-    hot: true,
-    inline: true,
-    progress: true,
-    contentBase: './src',
-    port: 8080
-  },
-  entry: [
-    'webpack/hot/dev-server',
-    'webpack-dev-server/client?http://localhost:8080',
-    path.resolve(__dirname, 'src/main.jsx')
-  ],
-  output: {
-    path: path.resolve(__dirname, 'dist'),
-    publicPath: '/',
-    filename: './bundle.js'
-  },
-  module: {
-    loaders: [
-      { test: /\.css$/, include: path.resolve(__dirname, 'src'), loader: 'style-loader!css-loader' },
-      { test: /\.js[x]?$/, include: path.resolve(__dirname, 'src'), exclude: /node_modules/, loader: 'babel-loader' }
-    ]
-  },
-  resolve: {
-    extensions: ['', '.js', '.jsx']
-  },
-  plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-    new OpenBrowserPlugin({ url: 'http://localhost:8080' })
-  ]
+	context: path.resolve(__dirname, 'examples/src'),
+	entry: {
+		app: './app.js',
+	},
+	output: {
+		path: path.resolve(__dirname, 'examples/dist'),
+		filename: '[name].js',
+		publicPath: '/',
+	},
+	devServer: {
+		contentBase: path.resolve(__dirname, 'examples/src'),
+		port: 8000,
+	},
+	module: {
+		rules: [
+			{
+				test: /\.js$/,
+				exclude: [/node_modules/],
+				use: [{
+					loader: 'babel-loader',
+					options: { presets: ['env'] },
+				}],
+			},
+			{
+				test: /\.less$/,
+				use: ExtractTextPlugin.extract({
+					fallback: 'style-loader',
+					use: ['css-loader', 'less-loader'],
+				})
+			},
+			{
+				test: /\.html$/,
+				use: [
+					{
+						loader: 'html-loader',
+					}
+				]
+			},
+		],
+	},
+	resolve: {
+		alias: {
+			'ficloud-workbench': path.resolve(__dirname, 'src/index'),
+		}
+	},
+	plugins: [
+		new webpack.optimize.CommonsChunkPlugin({
+			name: 'common',
+			filename: 'common.js',
+			minChunk: 2,
+		}),
+		new HtmlWebpackPlugin({
+			filename: 'index.html',
+			inject: false,
+			template: path.resolve(__dirname, 'examples/src/index.html')
+		}),
+		new ExtractTextPlugin('example.css'),
+	]
 };
