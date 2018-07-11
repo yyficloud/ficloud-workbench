@@ -17,7 +17,7 @@ const babelOptions = (production) => {
 	let result = {
 		babelrc: false,
 		presets: [['env', { modules: false }], 'stage-0', 'react'],
-		plugins: ['external-helpers'],
+		plugins: ['transform-decorators-legacy','external-helpers','transform-class-properties'],
 	};
 	if (production) {
 		result.plugins.push('transform-react-remove-prop-types');

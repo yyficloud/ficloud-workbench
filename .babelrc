@@ -1,9 +1,12 @@
 {
   "ignore": ["node-modules/**", "src/index.umd.js"],
-  "presets": [ "env", "stage-0", "react"],
+  "presets": [ "env", "stage-0", "react", "stage-1", "flow"],
+  "plugins": [
+	"transform-decorators-legacy","transform-class-properties","transform-runtime"
+  ],
   "env": {
     "test": {
-      "plugins": ["istanbul"]
+      "plugins": ["transform-decorators-legacy", "transform-class-properties", "istanbul"]
     }
   }
 }

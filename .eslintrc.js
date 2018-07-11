@@ -1,9 +1,10 @@
 module.exports = {
+	parser: 'babel-eslint',
 	parserOptions: {
 		ecmaVersion: 6,
 		sourceType: 'module',
 		ecmaFeatures: {
-			experimentalObjectRestSpread: true,
+			experimentalObjectRestSpread: false,
 			jsx: true,
 		},
 	},
@@ -11,6 +12,7 @@ module.exports = {
 		browser: true,
 		es6: true,
 		node: true,
+		jquery: true,
 	},
 	plugins: ['react'],
 	rules: {

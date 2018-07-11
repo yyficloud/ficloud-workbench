@@ -60,6 +60,11 @@ module.exports = {
 			inject: false,
 			template: path.resolve(__dirname, 'examples/src/index.html')
 		}),
+		new webpack.ProvidePlugin({
+			$:'jquery',
+			jQuery:'jquery',
+			'window.jQuery':'jquery'
+		}),
 		new ExtractTextPlugin('example.css'),
 	]
 };
