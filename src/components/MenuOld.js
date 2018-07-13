@@ -7,7 +7,7 @@ import '../other/messenger';
 import { listen,GetQueryString } from '../other/home.global';
 var timer = null;
 @observer
-export default class Menu extends Component {
+export default class MenuOld extends Component {
     constructor(props) {
         super(props);
         this.state = {

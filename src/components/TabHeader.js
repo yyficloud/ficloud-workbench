@@ -17,10 +17,10 @@ export default class TabHeader extends Component {
 
     return (
       <div className="tab-header">
-        <div onClick={() => this.props.onActive(this.props.item.code)} className={this.props.active ? 'tab-title-item active': 'tab-title-item'} title={this.props.item.name}>
-            {this.props.item.name}
+        <div onClick={() => this.props.onActive(this.props.item.serviceCode)} className={this.props.active ? 'tab-title-item active': 'tab-title-item'} title={this.props.item.name}>
+            {this.props.item.title}
         </div>
-        <span  onClick={() => this.props.onRemove(this.props.item.code)} className="glyphicon glyphicon-remove" />
+        <span  onClick={() => this.props.onRemove(this.props.item.serviceCode)} className="glyphicon glyphicon-remove" />
       </div>
     );
   }

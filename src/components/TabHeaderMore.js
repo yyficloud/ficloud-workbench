@@ -27,9 +27,9 @@ export default class TabHeaderMore extends Component {
                         {
                             moreList.map(item => {
                                 return (
-                                    <li key={item.code} className={currentCode == item.code? 'active': ''}>
-                                        <a href="#" onClick={() => onActive(item.code)}>
-                                            {item.name}
+                                    <li key={item.serviceCode} className={currentCode == item.serviceCode? 'active': ''}>
+                                        <a href="#" onClick={() => onActive(item.serviceCode)}>
+                                            {item.title}
                                         </a>
                                     </li>
                                 );

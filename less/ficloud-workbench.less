@@ -1,2 +1,198 @@
 // common
-@select-primary-color:              #007eff;
+@import "common.less";
+// 主题
+@mainRed: #D93127;                  // 用友红 （注：一级按钮、顶部导航背景色、部分按钮、背景文字等）
+@mainRedHover: #C71509;
+@mainRedFocus: #BD3630;
+@mainGreen: #00B39E;                // 主题绿
+@mainGreenHover: #009886;
+@mainGreenFocus: #008676;
+@mainGreenLight: #D9F3F4;
+@backColor: #F9F9F9;                // 主内容区大背景色
+@lightBackColor:#FAFBFC;            // 首页财务桌面应用方块背景色
+
+// 文字
+@fontColorLevel1: #333333;          // 一级标题文字色
+@fontColorLevel2: #666666;          // 二级文字色
+@fontColorLevel3: #999999;          // 备注信息、不太重要文字色、表格不可编辑列字体色
+@fontColorLevel4: #8894A5;           //首页的图表的文字颜色
+
+// 导航
+@sideNavColor: #5F6671;             // 左侧导航背景色
+@sideNavHover: #4A515D;             // 左侧导航hover色
+@sideNavBorder: #606D7C;            // 左侧导航分割线色
+
+// tab
+@tabBorderColor: #CCCCCC;
+@tabBackColor: #E0E0E0;
+@tabBackHover: #F2F2F2;
+
+// 边框
+@borderColor: #E6E6E6;              // 边框色
+@borderHoverColor: #D3D3D3;         // 边框hover 灰色
+@borderHoverGreen: #00B39E;         // 边框hover 绿色
+@inputBorderColor: #D9D9D9;         // input 边框色
+@inputBorderFocus: #00B39E;         // input 获取焦点时的边框色
+
+// 按钮 input
+@btnDefaultBorder: #D9D9D9;         // btn-default按钮边框色
+@btnPrimaryColor: #00B39E;          // 边框及背景色（基本绿）
+@btnPrimaryHover: #009886;          // btn-primary按钮背景色hover
+@btnPrimaryFocus: #008676;          // btn-primary按钮背景色focus
+
+// 列表 li options 等
+@listHoverBackColor: #00B39E;       // 列表 drop-menu等 列表项hover时背景色
+
+// 表格
+@gridHeaderBackColor: #F2F2F2;      // 表头背景色
+@girdBodyTrEvenColor: #FAFAFA;      // 表格各行变色
+@gridHoverBackColor: #F0F0F0;       // 表格列表hover背景色
+
+// 重置部分bootstrap主题的色值 Level等级越高色值越浅
+//@primaryColorLevel1:;               // 深
+//@primaryColorLevel2:;               // 中
+//@primaryColorLevel3:;               // 浅
+@infoColorLevel1: #108EE9;
+@infoColorLevel2: #ADD8F7;
+@infoColorLevel3: #ECF6FD;
+@successColorLevel1: #65AF47;
+@successColorLevel2: #A7E1C4;
+@successColorLevel3: #EBF8F2;
+@warningColorLevel1: #FFBF00;
+@warningColorLevel2: #ADD8F7;
+@warningColorLevel3: #ECF6FD;
+@dangerColorLevel1: #F04134;
+@dangerColorLevel2: #FCCCA7;
+@dangerColorLevel3: #FEF3EB;
+
+// 其他色
+@photoColor: #A5ABB1;               // 默认头像色
+@placeholderColor: #C7C7C7;         // 辅助色，搜索框内提示颜色
+
+// z-index层级
+@navbarZ: 6000;
+
+// 状态色通用类 success warning error
+//.success { color: #5cb85c; }
+.success { color: @successColorLevel1; }  // 成功信息提示色通用类
+.warning { color: #f0ad4e; }              // 警告信息提示色通用类
+.danger  { color: @dangerColorLevel1; }   // 错误信息提示色通用类
+.error   { color: @dangerColorLevel1; }   // 错误信息提示色通用类
+.color-red { color: @mainRed; }          // ？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？
+.color-grey { color: @placeholderColor; } // placeholder提示颜色通用类
+.readonly { color: @fontColorLevel3; }    // 只读信息通用类
+.pointer-green {
+  color: @mainGreen;
+  &:hover {
+	color: @mainGreenHover;
+  }
+}
+
+
+
+/* tabs首页多页签 */
+.main-tab {
+  .pa;
+  left: 200px;
+  top:0;
+  .mt15;
+  z-index: 6100;
+  overflow: visible;
+}
+
+.main-tab-more {
+  //.pa;
+  //right: -17px;
+  .fl;
+  z-index: 6100;
+  color: @fontColorLevel1;
+  background-color: @tabBackColor;
+  .tab-radius;
+  //margin-right: 85px;
+  //width: 26px;
+  //height: 32px;
+  //color: #0596c1;
+  //text-align: center;
+  //vertical-align: middle;
+  &:hover {
+	background-color: @tabBackHover;
+  }
+  .btn-group button.dropdown-toggle {
+	height: 35px;
+	border: none;
+	background-color: transparent;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+  }
+  .close-all {
+	border-top: 1px solid @borderColor;
+	padding: 3px 0;
+  }
+}
+
+.tab-header {
+  .pointer;
+  float: left;
+  width: 9.6%;
+  height: 35px;
+  .tc;
+  .vm;
+  >span {
+	.fr;
+	color: transparent;
+	right: 5px;
+	top: -23px;
+  }
+  &:hover {
+	.tab-title-item {
+	  background-color: @tabBackHover;
+	}
+	.tab-title-item.active {
+	  background-color: @backColor;
+	}
+	span {
+	  color: @tabBorderColor;
+	  &:hover {
+		color: @mainRed;
+	  }
+	}
+  }
+}
+
+.tab-title-item {
+  line-height: 34px;
+  padding: 0 15px 0 8px;
+  background-color: @tabBackColor;
+  color: @fontColorLevel1;
+  border: 1px solid @tabBorderColor;
+  border-bottom: none;
+  .ellipsis;
+  .tab-radius;
+  &.active {
+	background-color: @backColor;
+  }
+}
+
+.tab-content-item {
+  height: 570px;
+  .none;
+  .oh;
+}
+
+.tab-content-item.active {
+  .Clearfix;
+}
+
+.frame {
+  .w;
+  .h;
+  border: 0;
+  .pt50;
+}
+
+.iframe-container {
+  position: fixed;
+  top: 0;
+  left: 200px;
+  width: calc(~"100% - 200px");
+}

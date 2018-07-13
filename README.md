@@ -11,14 +11,14 @@ npm install ficloud-workbench
 You can then import ficloud-workbench and its styles in your application as follows:
 
 ```js
-import WorkBench from 'ficloud-workbench';
-import 'react-select/dist/ficloud-workbench.css';
+import FinanceCloud from 'ficloud-workbench';
+import 'ficloud-workbench/dist/ficloud-workbench.css';
 ```
 
 
 ## Usage
 ```js
-import WorkBench from 'ficloud-workbench';
-import 'react-select/dist/ficloud-workbench.css';
+import FinanceCloud from 'ficloud-workbench';
+import 'ficloud-workbench/dist/ficloud-workbench.css';
 //
 ```

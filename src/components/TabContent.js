@@ -6,6 +6,7 @@ var timer = null;
 export default class TabContent extends Component {
     constructor(props) {
         super(props);
+        this.handleResize = this.handleResize.bind(this);
         this.state = {
             frameHeight: '620px'
         };
@@ -41,15 +42,22 @@ export default class TabContent extends Component {
             item.params = {};
         }
 
-        //路由参数, 没有设置为空串
-        if (typeof(item.routerParams) == 'undefined') {
-            item.routerParams = '';
-        }
+        // //路由参数, 没有设置为空串
+        // if (typeof(item.routerParams) == 'undefined') {
+        //     item.routerParams = '';
+        // }
 
-        const pstr = 'version=' + Config.VERSION + '&accbook=' + item.accBook + '&code=' + item.code + '&params=' + encodeURIComponent(JSON.stringify(item.params));
-        const uri = item.url?item.url:'';
-        const connStr = item.basePath.indexOf('?') >= 0 ? '&' : '?';
-        const url = item.basePath + connStr + pstr + uri + item.routerParams;
+        const pstr = '?version=' + Config.VERSION + '&accbook=' + item.accBook + '&code=' + item.serviceCode + '&params=' + encodeURIComponent(JSON.stringify(item.params));
+        let uri = item.url?item.url:'';
+        let hash = '/default';
+        let uriArr = uri.split('#');
+
+		if(uriArr.length>=1){
+        	uri=uriArr[0];
+			hash = uriArr[1];
+		}
+        // const connStr = item.basePath.indexOf('?') >= 0 ? '&' : '?';
+        const url = uri +  pstr +'#'+ hash;
 
         return (
             <div className={active ? 'tab-content-item active': 'tab-content-item'} style={{ height: this.state.frameHeight }}>

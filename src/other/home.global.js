@@ -11,7 +11,7 @@ export function listen(callback) {
 }
 
 //获取地址栏参数
-export  function GetQueryString(name) {
+export function GetQueryString(name) {
     var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)');
     var r = window.location.search.substr(1).match(reg);
     if (r != null)return unescape(r[2]);

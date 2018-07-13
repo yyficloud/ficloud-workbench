@@ -16,7 +16,7 @@ module.exports = {
 			),
 			rollup: 'rollup --config',
 			babel: 'babel src -d lib',
-			css: 'lessc less/default.less dist/react-select.css',
+			css: 'lessc less/default.less dist/ficloud-workbench.css',
 			cssmin: 'lessc --clean-css less/default.less dist/ficloud-workbench.min.css',
 			standalone: series(
 				'cp examples/src/standalone.html examples/dist/standalone.html',
