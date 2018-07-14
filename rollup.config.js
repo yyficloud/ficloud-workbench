@@ -2,7 +2,6 @@ import babel from 'rollup-plugin-babel';
 import resolve from 'rollup-plugin-node-resolve';
 import uglify from 'rollup-plugin-uglify';
 import {minify} from 'uglify-es';
-import commonjs from 'rollup-plugin-commonjs';
 
 const name = 'FinanceCloud';
 const path = 'dist/ficloud-workbench';
@@ -11,7 +10,7 @@ const globals = {
 	'prop-types': 'PropTypes',
 	'react-dom': 'ReactDOM',
 	'react': 'React',
-	'_':'lodash',
+	'lodash':'lodash',
 	'tinper-bee':'tinper-bee',
 };
 const external = Object.keys(globals);
@@ -36,16 +35,7 @@ export default [
 			format: 'es',
 		},
 		external: external,
-		plugins: [ babel(babelOptions(false)),resolve({
-			jsnext: true,
-			main: true
-		}),
-			commonjs({
-			namedExports: {
-				'node_modules/tinper-bee/build/tinper-bee.js': ['Menu', 'Icon'],
-			}
-		})
-		],
+		plugins: [ babel(babelOptions(false))],
 	},
 	{
 		input: 'src/index.umd.js',
@@ -61,11 +51,6 @@ export default [
 			customResolveOptions: {
 				moduleDirectory: 'node_modules'
 			}
-		}),
-			commonjs({
-			namedExports: {
-				'node_modules/tinper-bee/build/tinper-bee.js': ['Menu', 'Icon'],
-			}
 		})
 		],
 	},
@@ -79,14 +64,11 @@ export default [
 		globals: globals,
 		external: external,
 		plugins: [ babel(babelOptions(true)), resolve({
-			jsnext: true,
-			main: true
-		}), uglify({}, minify),
-			commonjs({
-			namedExports: {
-				'node_modules/tinper-bee/build/tinper-bee.js': ['Menu', 'Icon'],
+			// 将自定义选项传递给解析插件
+			customResolveOptions: {
+				moduleDirectory: 'node_modules'
 			}
-		})
+		}), uglify({}, minify)
 		],
 	},
 ];

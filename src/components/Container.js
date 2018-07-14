@@ -1,9 +1,7 @@
 import React, {Component} from 'react';
 import {instanceOf} from 'prop-types';
 import {toJS} from 'mobx';
-import find from 'lodash/find';
-import findIndex from 'lodash/findIndex';
-import reject from 'lodash/reject';
+import _ from 'lodash';
 import {Provider, observer} from 'mobx-react';
 import classNames from 'classnames';
 import LeftMenu from './LeftMenu';
@@ -12,7 +10,7 @@ import TabHeader from './TabHeader.js';
 import TabHeaderMore from './TabHeaderMore.js';
 
 const propTypes = {
-
+	//cookies: instanceOf(Cookies).isRequired,
 };
 var timer = null;
 
@@ -106,18 +104,18 @@ class Container extends Component {
 	initCurrent(newTab){
 		let that = this;
 		// 存在code就置为当前页面,不存在就增加
-		let exist = find(that.state.tabList, menu => menu.serviceCode == newTab.serviceCode);
-		let moreExist = find(that.state.moreList, menu => menu.serviceCode == newTab.serviceCode);
+		let exist = _.find(that.state.tabList, menu => menu.serviceCode == newTab.serviceCode);
+		let moreExist = _.find(that.state.moreList, menu => menu.serviceCode == newTab.serviceCode);
 
 		// 判断是否修改了URL而需要重新载入页面, 首页不处理
 		// if (newTab.serviceCode !== 'mywork') {
-			if (exist) {
-				// that.refreshMenu(newTab);
-				this.refreshTabList(newTab, newTab.serviceCode);
-			}else if (moreExist) {
-				// that.refreshMenu(newTab);
-				this.refreshMoreList(item, item.serviceCode);
-			}
+		if (exist) {
+			// that.refreshMenu(newTab);
+			this.refreshTabList(newTab, newTab.serviceCode);
+		}else if (moreExist) {
+			// that.refreshMenu(newTab);
+			this.refreshMoreList(item, item.serviceCode);
+		}
 		// }
 
 		exist = exist || moreExist;
@@ -143,12 +141,12 @@ class Container extends Component {
 		//隐藏iframe中的title样式,跨域实现不了
 		// document.getElementById("myframe");
 		// setTimeout(()=>{
-			// let x = $('.iframe-container .tab-content-item .frame')[0]
-			// var y=(x.contentWindow || x.contentDocument);
-			// if (y.document){
-			// 	y = y.document;
-			// }
-			// y.body.style.backgroundColor='#0000ff';
+		// let x = $('.iframe-container .tab-content-item .frame')[0]
+		// var y=(x.contentWindow || x.contentDocument);
+		// if (y.document){
+		// 	y = y.document;
+		// }
+		// y.body.style.backgroundColor='#0000ff';
 		// },200);
 	}
 
@@ -171,7 +169,7 @@ class Container extends Component {
 		let newTab = Object.assign({}, tab);
 		// newTab.accBook = GlobalTabsStore.getAccBook;
 
-		let j = findIndex(this.state.tabList, item => item.serviceCode == code);
+		let j = _.findIndex(this.state.tabList, item => item.serviceCode == code);
 		let jl = this.state.tabList.length;
 		let tl = [];
 		if (j == 0) {
@@ -190,7 +188,7 @@ class Container extends Component {
 		let newTab = Object.assign({}, tab);
 		// newTab.accBook = GlobalTabsStore.getAccBook;
 
-		let i = findIndex(this.state.moreList, item => item.serviceCode == code);
+		let i = _.findIndex(this.state.moreList, item => item.serviceCode == code);
 		let il = this.state.moreList.length;
 		let ml = [];
 		if (i == 0) {
@@ -207,14 +205,14 @@ class Container extends Component {
 
 // 账簿改变,刷新当前页, 有Item说明当前页数据改变, 没有只刷新账簿
 	refreshCurrent() {
-		let tab = find(this.state.tabList, menu => menu.serviceCode == this.state.currentCode);
+		let tab = _.find(this.state.tabList, menu => menu.serviceCode == this.state.currentCode);
 		if (tab) {
 			if (this.state.currentCode === 'addvoucher') {
 				tab.routerParams = '';
 			}
 			this.refreshTabList(tab, this.state.currentCode);
 		} else {
-			tab = find(this.state.moreList, menu => menu.serviceCode == this.state.currentCode);
+			tab = _.find(this.state.moreList, menu => menu.serviceCode == this.state.currentCode);
 			this.refreshMoreList(tab, this.state.currentCode);
 		}
 	}
@@ -231,7 +229,7 @@ class Container extends Component {
 		// 		newTab = _.find(this.state.moreList, menu => menu.serviceCode == this.state.currentCode);
 		// 	}
 		// 	// this.refs.acc.setValue(newTab.accBook);
-        //
+		//
 		// 	// //设置账簿状态
 		// 	// if (newTab.desc !== null && newTab.desc !== undefined && newTab.desc.accbook == true) {
 		// 	// 	GlobalTabsStore.isAccBook = true;
@@ -255,11 +253,11 @@ class Container extends Component {
 	removeItem(code) {
 		let that = this;
 		// let list = [for (item of this.state.tabList) item != name];
-		let index = findIndex(this.state.tabList, item => item.serviceCode == code);
+		let index = _.findIndex(this.state.tabList, item => item.serviceCode == code);
 
 		// let index = this.state.tabList.indexOf(item => );
 
-		let list = reject(this.state.tabList, {code});
+		let list = _.reject(this.state.tabList, {serviceCode});
 		if (list.length <= index) {
 			index = list.length - 1;
 			index < 0 ? index = 0 : null;
