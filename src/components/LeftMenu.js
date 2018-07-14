@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Menu,Icon } from 'tinper-bee';
-import { observer } from 'mobx-react/index';
+// import Menu from 'tinper-bee/Menu';
+// import Icon from 'tinper-bee/Icon';
 import { findPath } from '../utils/findPath';
 const { Item } = Menu;
 const SubMenu = Menu.SubMenu;
@@ -42,7 +43,6 @@ function makeMenus(menus, isTop, i) {
 }
 
 
-@observer
 export default class LeftMenu extends Component {
 
 	constructor(props) {

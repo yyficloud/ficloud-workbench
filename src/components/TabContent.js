@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Provider, observer } from 'mobx-react';
-import Config from '../config';
 var timer = null;
 @observer
 export default class TabContent extends Component {
@@ -47,7 +46,7 @@ export default class TabContent extends Component {
         //     item.routerParams = '';
         // }
 
-        const pstr = '?version=' + Config.VERSION + '&accbook=' + item.accBook + '&code=' + item.serviceCode + '&params=' + encodeURIComponent(JSON.stringify(item.params));
+        const pstr = '?version=' + '&accbook=' + item.accBook + '&code=' + item.serviceCode + '&params=' + encodeURIComponent(JSON.stringify(item.params));
         let uri = item.url?item.url:'';
         let hash = '/default';
         let uriArr = uri.split('#');

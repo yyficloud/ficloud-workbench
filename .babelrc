@@ -1,6 +1,6 @@
 {
   "ignore": ["node-modules/**", "src/index.umd.js"],
-  "presets": [ "env", "stage-0", "react", "stage-1", "flow"],
+  "presets": [ "env", "stage-0", "react"],
   "plugins": [
 	"transform-decorators-legacy","transform-class-properties","transform-runtime"
   ],

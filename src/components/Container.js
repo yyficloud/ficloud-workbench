@@ -1,16 +1,18 @@
 import React, {Component} from 'react';
 import {instanceOf} from 'prop-types';
 import {toJS} from 'mobx';
-import _ from 'lodash';
+import find from 'lodash/find';
+import findIndex from 'lodash/findIndex';
+import reject from 'lodash/reject';
 import {Provider, observer} from 'mobx-react';
-import {withCookies, Cookies} from 'react-cookie';
+import classNames from 'classnames';
 import LeftMenu from './LeftMenu';
 import TabContent from './TabContent.js';
 import TabHeader from './TabHeader.js';
 import TabHeaderMore from './TabHeaderMore.js';
 
 const propTypes = {
-	cookies: instanceOf(Cookies).isRequired,
+
 };
 var timer = null;
 
@@ -104,8 +106,8 @@ class Container extends Component {
 	initCurrent(newTab){
 		let that = this;
 		// 存在code就置为当前页面,不存在就增加
-		let exist = _.find(that.state.tabList, menu => menu.serviceCode == newTab.serviceCode);
-		let moreExist = _.find(that.state.moreList, menu => menu.serviceCode == newTab.serviceCode);
+		let exist = find(that.state.tabList, menu => menu.serviceCode == newTab.serviceCode);
+		let moreExist = find(that.state.moreList, menu => menu.serviceCode == newTab.serviceCode);
 
 		// 判断是否修改了URL而需要重新载入页面, 首页不处理
 		// if (newTab.serviceCode !== 'mywork') {
@@ -169,7 +171,7 @@ class Container extends Component {
 		let newTab = Object.assign({}, tab);
 		// newTab.accBook = GlobalTabsStore.getAccBook;
 
-		let j = _.findIndex(this.state.tabList, item => item.serviceCode == code);
+		let j = findIndex(this.state.tabList, item => item.serviceCode == code);
 		let jl = this.state.tabList.length;
 		let tl = [];
 		if (j == 0) {
@@ -188,7 +190,7 @@ class Container extends Component {
 		let newTab = Object.assign({}, tab);
 		// newTab.accBook = GlobalTabsStore.getAccBook;
 
-		let i = _.findIndex(this.state.moreList, item => item.serviceCode == code);
+		let i = findIndex(this.state.moreList, item => item.serviceCode == code);
 		let il = this.state.moreList.length;
 		let ml = [];
 		if (i == 0) {
@@ -205,14 +207,14 @@ class Container extends Component {
 
 // 账簿改变,刷新当前页, 有Item说明当前页数据改变, 没有只刷新账簿
 	refreshCurrent() {
-		let tab = _.find(this.state.tabList, menu => menu.serviceCode == this.state.currentCode);
+		let tab = find(this.state.tabList, menu => menu.serviceCode == this.state.currentCode);
 		if (tab) {
 			if (this.state.currentCode === 'addvoucher') {
 				tab.routerParams = '';
 			}
 			this.refreshTabList(tab, this.state.currentCode);
 		} else {
-			tab = _.find(this.state.moreList, menu => menu.serviceCode == this.state.currentCode);
+			tab = find(this.state.moreList, menu => menu.serviceCode == this.state.currentCode);
 			this.refreshMoreList(tab, this.state.currentCode);
 		}
 	}
@@ -253,11 +255,11 @@ class Container extends Component {
 	removeItem(code) {
 		let that = this;
 		// let list = [for (item of this.state.tabList) item != name];
-		let index = _.findIndex(this.state.tabList, item => item.serviceCode == code);
+		let index = findIndex(this.state.tabList, item => item.serviceCode == code);
 
 		// let index = this.state.tabList.indexOf(item => );
 
-		let list = _.reject(this.state.tabList, {serviceCode});
+		let list = reject(this.state.tabList, {code});
 		if (list.length <= index) {
 			index = list.length - 1;
 			index < 0 ? index = 0 : null;
@@ -298,8 +300,8 @@ class Container extends Component {
 	}
 
 	render() {
-		const {tabList, moreList} = this.state;
-		const {menuItems, current} = this.props;
+		const { tabList, moreList } = this.state;
+		const { menuItems, current, className } = this.props;
 		let moreTab =
 			(<TabHeaderMore
 				onActive={this.active}
@@ -308,13 +310,12 @@ class Container extends Component {
 				isShow={this.state.moreIsShow}
 			/>);
 
-		let currentItem = current;
 		return (
-			<div>
+			<div className={ classNames('ficloud-bench', { [`${className}`]: className })}>
 				{
 					//<TabAccBook ref='acc' onChange={this.accChange} />
 				}
-				<LeftMenu menus={this.props.menuItems} current={currentItem} onMenuClick={this.menuClick} ref="menu"/>
+				<LeftMenu menus={menuItems} current={current} onMenuClick={this.menuClick} ref="menu"/>
 				<div className="main-tab" style={{width: this.state.width}}>
 					{tabList.map(item => (<TabHeader
 						key={`tab_${item.serviceCode}`}
@@ -350,4 +351,4 @@ class Container extends Component {
 
 Container.propTypes = propTypes;
 
-export default withCookies(Container);
+export default Container;
