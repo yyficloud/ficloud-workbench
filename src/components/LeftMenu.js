@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { Menu,Icon } from 'tinper-bee';
-// import Menu from 'tinper-bee/Menu';
-// import Icon from 'tinper-bee/Icon';
+// import { Menu,Icon } from 'tinper-bee';
+import Menu from 'bee-menus';
+// import Icon from 'bee-icon';
 import { findPath } from '../utils/findPath';
 const { Item } = Menu;
 const SubMenu = Menu.SubMenu;
-
 //isTop:判断是否是一级菜单
 function makeMenus(menus, isTop, i) {
 	i++;
@@ -19,7 +18,7 @@ function makeMenus(menus, isTop, i) {
 					style={{ fontSize: '14px', background: 'red' }}
 					title={
 						<span className={`item_${i}`}>
-              <Icon type="forward2" />
+              {/*<Icon type="forward2" />*/}
 							{isTop ? <img src={menuItemIcon} className={'menuItem'} /> : null}
 							{name}
             </span>

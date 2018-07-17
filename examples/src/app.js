@@ -181,16 +181,128 @@ export default class App extends React.Component {
 							]
 						}
 					]
+				},{
+					'createTime':1531363982000,
+					'modifiedTime':1531363982000,
+					'ts':1531363982000,
+					'creator':'530b1b30-c7da-45e8-913f-a47cb5c0ea64',
+					'modifier':'530b1b30-c7da-45e8-913f-a47cb5c0ea64',
+					'tenantId':'vspcvrrj',
+					'menuItemId':'0e2b91c1-ac82-478c-a28d-b520086140de',
+					'menuItemName':'财务处理',
+					'menuItemCode':'yzbmenu003',
+					'menuItemIcon':'',
+					'parentId':null,
+					'menuBarId':'5353ee3c-b5ba-47c5-9402-8ba486119d4a',
+					'menuItemDefault':true,
+					'serviceId':'08140c71-2bde-4c67-a97b-72506578ea69',
+					'menuItemOrder':0,
+					'url':null,
+					'service':{
+						'createTime':1531363982000,
+						'modifiedTime':1530847644000,
+						'ts':1531363982000,
+						'creator':'530b1b30-c7da-45e8-913f-a47cb5c0ea64',
+						'tenantId':'vspcvrrj',
+						'serviceId':'08140c71-2bde-4c67-a97b-72506578ea69',
+						'title':'财务处理',
+						'serviceCode':'CWYFWYBZ00003',
+						'applicationId':'b32b0b8a-47f7-4c24-9413-aa72b80fadb0',
+						'enable':true,
+						'url':'',
+						'serviceIcon':'',
+						'capable':false,
+						'ykjId':1,
+						'level':0,
+						'teamMenbersUnuse':false,
+						'crossTenant':false,
+						'selected':false,
+						'simpleApplicationStatus':false,
+						'clientStatus':false,
+						'webStatus':true,
+						'phoneStatus':false,
+						'everyone':false,
+						'sysEveryone':false,
+						'phoneOrder':0,
+						'businessType':'mng',
+						'hasWidget':false,
+						'relationServices':[
+
+						],
+						'relationUsers':[
+
+						]
+					},
+					'serviceCode':'CWYFWYBZ00003',
+					'children':[
+						{
+							'createTime':1531363982000,
+							'modifiedTime':1531363982000,
+							'ts':1531363982000,
+							'creator':'530b1b30-c7da-45e8-913f-a47cb5c0ea64',
+							'modifier':'530b1b30-c7da-45e8-913f-a47cb5c0ea64',
+							'tenantId':'vspcvrrj',
+							'menuItemId':'091de39b-0824-44ca-8986-1aac8e3b91e9',
+							'menuItemName':'总账',
+							'menuItemCode':'PZCX0003',
+							'menuItemIcon':'',
+							'parentId':'0e2b91c1-ac82-478c-a28d-b520086140de',
+							'menuBarId':'5353ee3c-b5ba-47c5-9402-8ba486119d4a',
+							'menuItemDefault':false,
+							'serviceId':'08ad578f-3d07-42f3-87d0-1d0e93fdd0af',
+							'menuItemOrder':1,
+							'url':null,
+							'service':{
+								'createTime':1531363982000,
+								'modifiedTime':1530845625000,
+								'ts':1531363982000,
+								'creator':'530b1b30-c7da-45e8-913f-a47cb5c0ea64',
+								'tenantId':'vspcvrrj',
+								'serviceId':'08ad578f-3d07-42f3-87d0-1d0e93fdd0af',
+								'title':' 总账',
+								'serviceCode':'general',
+								'applicationId':'b32b0b8a-47f7-4c24-9413-aa72b80fadb0',
+								'enable':true,
+								'url':'http://yzb.yyssc.org/home_index.html#/account/general',
+								'serviceIcon':'',
+								'capable':false,
+								'ykjId':0,
+								'level':0,
+								'teamMenbersUnuse':false,
+								'crossTenant':false,
+								'selected':false,
+								'simpleApplicationStatus':false,
+								'clientStatus':false,
+								'webStatus':true,
+								'phoneStatus':false,
+								'everyone':false,
+								'sysEveryone':false,
+								'phoneOrder':0,
+								'businessType':'mng',
+								'hasWidget':false,
+								'relationServices':[
+
+								],
+								'relationUsers':[
+
+								]
+							},
+							'serviceCode':'general',
+							'children':[
+
+							]
+						}
+					]
 				}
 			],
 			current: {
-				menuItemId: '891de39b-0824-44ca-8986-1aac8e3b91e9',
-				title: '凭证查询',
+				menuItemId: '81ce9334-2c2d-4741-9b77-22549d360dc6',
+				title: '首页',
 				//服务编码，唯一确定一个service
-				serviceCode:'queryvoucher',
+				serviceCode:'mywork',
 				serviceId:'f8ad578f-3d07-42f3-87d0-1d0e93fdd0af',
 				//组件内部嵌套iframe的url，此url会带有参数，形如：http://xxx.xxx.xxx/xxx?serviceCode=serv_1，iframe内部即可使用此serviceCode参数来控制属性菜单的展示
-				url: 'http://yzb.yyssc.org/home_index.html#/voucher/list',
+				url: 'http://yzb.yyssc.org/home_index.html#/default',
 		}
 		};
 	};
@@ -207,8 +319,14 @@ export default class App extends React.Component {
 		const { menuItems,current } = this.state;
 		return (<div>
 			<div className={'workbench-title'}>
-				<h2>{current.title}</h2>
-				<p>{'面包屑>'+current.title}</p>
+				<div className={'lebra-navbar lebra-navbar-light src-workbench-pc-containers-header-index__lebraNavbar---42qm'}>
+					<div className={'lebra-navbar-left'}><span className="lebra-navbar-left-content"
+															   role="presentation">友账表侧边栏</span>
+					</div>
+				<div className={'lebra-navbar-title'}>{current.title}</div>
+					<div className={'lebra-navbar-right'}></div>
+				</div>
+
 			</div>
 			<FinanceCloud menuItems={menuItems}  current={current} updateCurrent={this.updateCurrent}/>
 			</div>);

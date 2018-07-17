@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {instanceOf} from 'prop-types';
 import {toJS} from 'mobx';
 import _ from 'lodash';
+import $ from 'jquery';
 import {Provider, observer} from 'mobx-react';
 import classNames from 'classnames';
 import LeftMenu from './LeftMenu';

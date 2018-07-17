@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import $ from 'jquery';
 import { Provider, observer } from 'mobx-react';
 var timer = null;
 @observer

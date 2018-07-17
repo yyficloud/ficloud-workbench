@@ -2,7 +2,7 @@ import babel from 'rollup-plugin-babel';
 import resolve from 'rollup-plugin-node-resolve';
 import uglify from 'rollup-plugin-uglify';
 import {minify} from 'uglify-es';
-
+import commonjs from 'rollup-plugin-commonjs';
 const name = 'FinanceCloud';
 const path = 'dist/ficloud-workbench';
 const globals = {
@@ -11,7 +11,9 @@ const globals = {
 	'react-dom': 'ReactDOM',
 	'react': 'React',
 	'lodash':'lodash',
-	'tinper-bee':'tinper-bee',
+	'jquery':'jquery',
+	'bee-menus':'Menu',
+	// 'tinper-bee':'TinperBee',
 };
 const external = Object.keys(globals);
 const babelOptions = (production) => {
@@ -35,7 +37,14 @@ export default [
 			format: 'es',
 		},
 		external: external,
-		plugins: [ babel(babelOptions(false))],
+		plugins: [ babel(babelOptions(false)),resolve(
+			{
+				jsnext: true,
+				main: true,
+				browser: true
+			}
+		),
+			commonjs()],
 	},
 	{
 		input: 'src/index.umd.js',
@@ -47,10 +56,10 @@ export default [
 		globals: globals,
 		external: external,
 		plugins: [ babel(babelOptions(false)), resolve({
-			// 将自定义选项传递给解析插件
-			customResolveOptions: {
-				moduleDirectory: 'node_modules'
-			}
+			jsnext: true,
+			main: true,
+			browser: true
+		}),commonjs({
 		})
 		],
 	},
@@ -64,10 +73,11 @@ export default [
 		globals: globals,
 		external: external,
 		plugins: [ babel(babelOptions(true)), resolve({
-			// 将自定义选项传递给解析插件
-			customResolveOptions: {
-				moduleDirectory: 'node_modules'
+				jsnext: true,
+				main: true,
+				browser: true
 			}
+		),commonjs({
 		}), uglify({}, minify)
 		],
 	},

@@ -1,4 +1,4 @@
-import WorkBench from './WorkBench';
+import FinanceCloud from './WorkBench';
 
-export default WorkBench;
+export default FinanceCloud;
 

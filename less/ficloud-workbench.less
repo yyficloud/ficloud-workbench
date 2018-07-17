@@ -72,6 +72,8 @@
 // z-index层级
 @navbarZ: 6000;
 
+@diworkTitleHeight:44px;
+
 // 状态色通用类 success warning error
 //.success { color: #5cb85c; }
 .success { color: @successColorLevel1; }  // 成功信息提示色通用类
@@ -94,7 +96,7 @@
 .main-tab {
   .pa;
   left: 200px;
-  top:0;
+  top:@diworkTitleHeight;
   .mt15;
   z-index: 6100;
   overflow: visible;
@@ -192,7 +194,7 @@
 
 .iframe-container {
   position: fixed;
-  top: 0;
+  top: @diworkTitleHeight;
   left: 200px;
   width: calc(~"100% - 200px");
 }
