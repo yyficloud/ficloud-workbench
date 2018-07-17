@@ -12,6 +12,7 @@ const globals = {
 	'react': 'React',
 	'lodash':'lodash',
 	'jquery':'jquery',
+	'localforage':'localforage',
 	'bee-menus':'Menu',
 	// 'tinper-bee':'TinperBee',
 };

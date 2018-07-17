@@ -1,14 +1,17 @@
-import React, {Component} from 'react';
-import {instanceOf} from 'prop-types';
-import {toJS} from 'mobx';
+import React, { Component } from 'react';
+import { instanceOf } from 'prop-types';
+import { toJS } from 'mobx';
 import _ from 'lodash';
 import $ from 'jquery';
-import {Provider, observer} from 'mobx-react';
+import { Provider, observer } from 'mobx-react';
 import classNames from 'classnames';
+import './../other/messenger';
+import { listen } from './../other/home.global';
 import LeftMenu from './LeftMenu';
 import TabContent from './TabContent.js';
 import TabHeader from './TabHeader.js';
 import TabHeaderMore from './TabHeaderMore.js';
+import TabAccBook from './TabAccBook';
 
 const propTypes = {
 	//cookies: instanceOf(Cookies).isRequired,
@@ -49,6 +52,7 @@ class Container extends Component {
 		this.handleResize = this.handleResize.bind(this);
 		this.initCurrent = this.initCurrent.bind(this);
 		this.menuClick = this.menuClick.bind(this);
+		this.messageCallback = this.messageCallback.bind(this);
 		this.active = this.active.bind(this);
 		this.closeAll = this.closeAll.bind(this);
 		this.removeItem = this.removeItem.bind(this);
@@ -70,10 +74,11 @@ class Container extends Component {
 
 		let windowWidth = $(window).width();
 		let width = windowWidth - 350;
-		that.setState({width});
+		that.setState({ width });
 
 		// 监听窗口大小改变事件
 		window.addEventListener('resize', this.handleResize);
+		listen(this.messageCallback);
 	}
 	componentWillReceiveProps(props){
 		let newTab = toJS(props.current);
@@ -85,7 +90,36 @@ class Container extends Component {
 	componentWillUnmount() {
 		window.removeEventListener('resize', this.handleResize);
 	}
+	messageCallback (msg) {
+		//这里分发消息, 目前只有打开菜单消息
+		// this.openMsgTab(msg);
+		console.log(msg);
+		//反序列化消息
+		try {
+			msg=JSON.parse(msg);
+		} catch(error) {
+			msg = { code: msg };
+		}
 
+		// let menu = {};
+		// if(!msg.isCheckList){
+		// 	// menu = this.props.tabsStore.getMenuItem(msg.code);
+		// }else{
+		// 	menu = JSON.parse(JSON.stringify(msg));
+		// }
+
+		// console.log(JSON.stringify(menu))
+		if (msg && msg.code) {
+			msg.routerParams = msg.routerParams || '';
+			msg.params = msg.params || {};
+			//调试主动切换账簿, 例如下,需要在params参数对象主动增加accbook属性.
+			//menu.params = {accbook:'9537C9CC-5D1B-41A0-B85E-8FF53906E235'};
+			this.menuClick(msg.code);
+		}
+	}
+	// openMsgTab (msg) {
+	//
+	// }
 	handleResize(e) {
 		let that = this;
 		if (typeof timer === 'number') {
@@ -94,7 +128,7 @@ class Container extends Component {
 		timer = setTimeout(() => {
 			let windowWidth = $(window).width();
 			let width = windowWidth - 350;
-			that.setState({width});
+			that.setState({ width });
 		}, 200);
 	}
 
@@ -122,11 +156,11 @@ class Container extends Component {
 		exist = exist || moreExist;
 		// console.log(exist);
 		if (exist) {
-			that.setState({currentCode: newTab.serviceCode});
+			that.setState({ currentCode: newTab.serviceCode });
 		} else if (that.state.tabList.length >= that.state.maxLength) {
-			that.setState({moreIsShow: true, moreList: [...that.state.moreList, newTab], currentCode: newTab.serviceCode});
+			that.setState({ moreIsShow: true, moreList: [...that.state.moreList, newTab], currentCode: newTab.serviceCode });
 		} else {
-			that.setState({tabList: [...that.state.tabList, newTab], currentCode: newTab.serviceCode});
+			that.setState({ tabList: [...that.state.tabList, newTab], currentCode: newTab.serviceCode });
 		}
 	}
 	/**
@@ -180,7 +214,7 @@ class Container extends Component {
 		} else {
 			tl = [...this.state.tabList.slice(0, j), newTab, ...this.state.tabList.slice(j + 1, jl)];
 		}
-		this.setState({tabList: tl, currentCode: newTab.serviceCode}, () => {
+		this.setState({ tabList: tl, currentCode: newTab.serviceCode }, () => {
 		});
 	}
 
@@ -200,7 +234,7 @@ class Container extends Component {
 			ml = [...this.state.moreList.slice(0, i), newTab, ...this.state.moreList.slice(i + 1, il)];
 		}
 
-		this.setState({moreIsShow: true, moreList: ml, currentCode: newTab.serviceCode}, () => {
+		this.setState({ moreIsShow: true, moreList: ml, currentCode: newTab.serviceCode }, () => {
 		});
 	}
 
@@ -258,13 +292,13 @@ class Container extends Component {
 
 		// let index = this.state.tabList.indexOf(item => );
 
-		let list = _.reject(this.state.tabList, {serviceCode});
+		let list = _.reject(this.state.tabList, { serviceCode });
 		if (list.length <= index) {
 			index = list.length - 1;
 			index < 0 ? index = 0 : null;
 		}
 		console.log(JSON.stringify(list));
-		this.setState({tabList: list}, () => {
+		this.setState({ tabList: list }, () => {
 			if (this.state.tabList.length >= index && this.state.currentCode == serviceCode) {
 				that.active(this.state.tabList[index].serviceCode);
 			}
@@ -281,7 +315,7 @@ class Container extends Component {
 			let newTab = [...this.state.tabList];
 			let moveItem = newMore.shift();
 			newTab.push(moveItem);
-			this.setState({tabList: [...newTab], moreList: [...newMore], moreIsShow: !(newMore.length <= 0)},
+			this.setState({ tabList: [...newTab], moreList: [...newMore], moreIsShow: !(newMore.length <= 0) },
 				() => {
 					this.removeItem(code);
 				});
@@ -312,10 +346,10 @@ class Container extends Component {
 		return (
 			<div className={ classNames('ficloud-bench', { [`${className}`]: className })}>
 				{
-					//<TabAccBook ref='acc' onChange={this.accChange} />
+					<TabAccBook ref="acc" onChange={this.accChange} />
 				}
 				<LeftMenu menus={menuItems} current={current} onMenuClick={this.menuClick} ref="menu"/>
-				<div className="main-tab" style={{width: this.state.width}}>
+				<div className="main-tab" style={{ width: this.state.width }}>
 					{tabList.map(item => (<TabHeader
 						key={`tab_${item.serviceCode}`}
 						item={item}

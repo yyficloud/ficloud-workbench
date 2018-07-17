@@ -24,7 +24,10 @@ module.exports = {
 				exclude: [/node_modules/],
 				use: [{
 					loader: 'babel-loader',
-					options: { presets: ['env'] },
+					options: { presets: [ 'env', 'stage-0', 'react'] ,
+						'plugins': [
+							'transform-decorators-legacy','transform-class-properties','transform-runtime'
+						], },
 				}],
 			},
 			{

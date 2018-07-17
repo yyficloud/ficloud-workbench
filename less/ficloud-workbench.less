@@ -89,7 +89,8 @@
 	color: @mainGreenHover;
   }
 }
-
+// 常用边框
+.b1-default { border: 1px solid @borderColor; }
 
 
 /* tabs首页多页签 */
@@ -197,4 +198,152 @@
   top: @diworkTitleHeight;
   left: 200px;
   width: calc(~"100% - 200px");
+}
+/* 账簿显示 通用 begin */
+.global-accbook {
+  z-index: 5998;
+  .clearfix;
+  .fr;
+  position: fixed;
+  .w300;
+  margin-top: 60px;
+  margin-left: 200px;
+  .form-control {
+	min-width: 138px;
+  }
+  div{
+	display: inline-block;
+  }
+  .ssc-input{
+	input{
+	  height: 32px;
+	  border: none;
+	}
+  }
+}
+// 公共账簿
+@media (min-width: 768px) {
+  .global-accbook {
+	margin-left: calc(~"50% - 330px");
+  }
+}
+@media (min-width: 1062px) {
+  .global-accbook {
+	margin-left: calc(~"50% - 440px");
+  }
+}
+@media (min-width: 1270px) {
+  .global-accbook {
+	margin-left: calc(~"50% - 530px");
+  }
+}
+@media (min-width: 1296px) {
+  .global-accbook {
+	margin-left: calc(~"50% - 540px");
+  }
+}
+/* 账簿显示 通用 end */
+
+/* 账簿弹出层 begin */
+.input-dropdown {
+  .b1-default;
+  .fff;
+}
+.input-accbook {
+  width:auto;
+  max-height: 480px;
+  min-width: 160px;
+  overflow: auto;
+  .search{
+	position: absolute;
+	padding-right: 1px;
+  }
+  .form-control{
+	display: block;
+	width: 100%;
+	height: 32px;
+	padding: 6px 12px;
+	line-height: 1.42857143;
+	border-radius: 0;
+	border: 1px solid @inputBorderColor;
+	border-top: 0;
+	border-left: 0;
+	border-right: 0;
+	.f12;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	&:focus {
+	  border-color: @inputBorderFocus;
+	  outline: 0;
+	  -webkit-box-shadow: none;
+	  box-shadow: none;
+	}
+  }
+  .myCls{
+	height: auto;
+	margin-top: 30px;
+	max-height: 450px;
+  }
+}
+/* 账簿弹出层 end */
+
+
+// 树结构
+.rc-tree {
+  .p15;
+  overflow: auto;
+  height: 450px;
+  .rc-tree-title {
+	.f12;
+	font-weight: normal;
+  }
+  .rc-tree-node-selected {
+	background-color: @mainGreenLight;
+	border:0;
+  }
+}
+.rc-tree li {
+  line-height: 30px;
+  .rc-tree-node-content-wrapper {
+	height: auto;
+	padding: 0 5px;
+  }
+}
+//.rc-tree li span.rc-tree-switcher {
+//  background-image: none;
+//}
+
+//.rc-tree li span.rc-tree-iconEle {  // 凭证模板 公式编辑器 #ssc-formula2-tab-单据字段
+//  .none;
+//}
+//.rc-tree-switcher_open,.rc-tree-switcher_close,.rc-tree-switcher-noop,
+//.rc-tree-roots_open,.rc-tree-roots_close,
+//.rc-tree-center_open,.rc-tree-center_close,.rc-tree-center_docu,
+//.rc-tree-bottom_open, .rc-tree-bottom_close, .rc-tree-bottom_docu{
+//  font-family: "iconfont" !important;
+//}
+.rc-tree-switcher::before {
+  color: @mainGreen;
+  .f14;
+}
+//.rc-tree-switcher_open::before,
+//.rc-tree-roots_open::before,
+//.rc-tree-center_open::before,
+//.rc-tree-bottom_open::before {
+//  content: "\e68d";
+//}
+//.rc-tree-switcher_close::before,
+//.rc-tree-roots_close::before,
+//.rc-tree-center_close::before,
+//.rc-tree-bottom_close::before {
+//  content: "\e68f";
+//}
+//.rc-tree-switcher-noop::before,
+//.rc-tree-center_docu::before,
+//.rc-tree-bottom_docu::before {
+//  content: "\e6ae";
+//}
+
+.rc-tree li.disabled >.rc-tree-node-content-wrapper {
+  color: @fontColorLevel4;
 }
