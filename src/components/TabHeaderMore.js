@@ -14,7 +14,7 @@ export default class TabHeaderMore extends Component {
 
     render() {
         let { isShow, currentCode, onActive, moreList } = this.props;
-        console.log(moreList);
+        // console.log(moreList);
         return (
             <div className="main-tab-more" style={{ display: isShow? 'block': 'none' }}>
                 <div className="btn-group">

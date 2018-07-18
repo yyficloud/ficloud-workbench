@@ -42,10 +42,10 @@ export default class TabContent extends Component {
             item.params = {};
         }
 
-        // //路由参数, 没有设置为空串
-        // if (typeof(item.routerParams) == 'undefined') {
-        //     item.routerParams = '';
-        // }
+        //路由参数, 没有设置为空串
+        if (typeof(item.routerParams) == 'undefined') {
+            item.routerParams = '';
+        }
 
         const pstr = '?version=' + '&accbook=' + item.accBook + '&code=' + item.serviceCode + '&params=' + encodeURIComponent(JSON.stringify(item.params));
         let uri = item.url?item.url:'';
@@ -57,10 +57,10 @@ export default class TabContent extends Component {
 			hash = uriArr[1];
 		}
         // const connStr = item.basePath.indexOf('?') >= 0 ? '&' : '?';
-        const url = uri +  pstr +'#'+ hash;
+        const url = uri +  pstr +'#'+ hash + item.routerParams;
 
         return (
-            <div className={active ? 'tab-content-item active': 'tab-content-item'} style={{ height: this.state.frameHeight }}>
+            <div key ={item.code} className={active ? 'tab-content-item active': 'tab-content-item'} style={{ height: this.state.frameHeight }}>
                 <iframe src={url} id={item.code} name={item.code} className="frame" />
             </div>
         );
