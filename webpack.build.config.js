@@ -94,14 +94,15 @@ module.exports = [{
 				amd: 'jquery',
 				root: '$'
 			}
-		},{
-			localforage: {
-				commonjs: 'localforage',
-				commonjs2: 'localforage',
-				amd: 'localforage',
-				root: 'localForage'
-			}
-		}
+		},
+		// {
+		// 	localforage: {
+		// 		commonjs: 'localforage',
+		// 		commonjs2: 'localforage',
+		// 		amd: 'localforage',
+		// 		root: 'localForage'
+		// 	}
+		// }
 	],
 	plugins: [
 		new webpack.DefinePlugin({
