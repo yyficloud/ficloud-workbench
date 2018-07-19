@@ -87,21 +87,21 @@ module.exports = [{
 				root: '_'
 			}
 		}
-		// ,{
-		// 	jquery: {
-		// 		commonjs: 'jquery',
-		// 		commonjs2: 'jquery',
-		// 		amd: 'jquery',
-		// 		root: '$'
-		// 	}
-		// },{
-		// 	localforage: {
-		// 		commonjs: 'localforage',
-		// 		commonjs2: 'localforage',
-		// 		amd: 'localforage',
-		// 		root: 'localforage'
-		// 	}
-		// }
+		,{
+			jquery: {
+				commonjs: 'jquery',
+				commonjs2: 'jquery',
+				amd: 'jquery',
+				root: '$'
+			}
+		},{
+			localforage: {
+				commonjs: 'localforage',
+				commonjs2: 'localforage',
+				amd: 'localforage',
+				root: 'localforage'
+			}
+		}
 	],
 	plugins: [
 		new webpack.DefinePlugin({
@@ -109,7 +109,6 @@ module.exports = [{
 				NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'production'),
 			}
 		}),
-		new ExtractTextPlugin('ficloud-workbench.css'),
 		new webpack.NamedModulesPlugin(),
 		new webpack.optimize.OccurrenceOrderPlugin(true),
 		new webpack.optimize.UglifyJsPlugin({
@@ -124,30 +123,4 @@ module.exports = [{
 		}),
 	]
 }
-// ,{
-// 	context: path.resolve(__dirname, 'less'),
-// 	entry: {
-// 		'ficloud-workbench': 'default.less'
-// 	},
-// 	output: {
-// 		filename: '[name].css'
-// 	},
-// 	module: {
-// 		loaders: [{
-// 			test: /\.css$/,
-// 			use: ExtractTextPlugin.extract({
-// 				fallback: 'style-loader',
-// 				use: ['css-loader', 'less-loader'],
-// 			})
-// 		},
-// 			{
-// 				test: /\.less$/,
-// 				use: ExtractTextPlugin.extract({
-// 					fallback: 'style-loader',
-// 					use: ['css-loader', 'less-loader'],
-// 				})
-// 			}]
-// 	},
-//
-// }
 ];
