@@ -1,7 +1,9 @@
-import React from 'react';
+import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 import invar from 'invariant';
 import Overlay from './Overlay';
+const POPUP_CLASS_NAME = 'tw-popup';
 
 var _strategies = { };
 
@@ -72,30 +74,35 @@ _strategies['right top'] = createStrategy(1, 0, 0, 0, 1, 0);
 _strategies['right'] = _strategies['right center'] = createStrategy(1, 0, 0.5, 0.5, 1, 0);
 _strategies['right bottom'] = createStrategy(1, 0, 1, 1, 1, 0);
 
-var Popup = React.createClass({
-  propTypes: {
-    strategy: React.PropTypes.oneOfType([
-      React.PropTypes.string,
-      React.PropTypes.func
-    ]),
-    children: React.PropTypes.node,
-    gap: React.PropTypes.number
-  },
+// var Popup = React.createClass({
+class Popup extends Component {
+	constructor(props){
+		super(props);
+	}
 
-  componentDidMount: function () {
+	static propTypes = {
+		strategy: PropTypes.oneOfType([
+			PropTypes.string,
+			PropTypes.func
+		]),
+		children: PropTypes.node,
+		gap: PropTypes.number
+	};
+
+  componentDidMount () {
     this.reposition();
     window.addEventListener('resize', this.reposition, true);
-  },
+  }
 
-  componentDidUpdate: function () {
+  componentDidUpdate () {
     this.reposition();
-  },
+  }
 
-  componentWillUnmount: function () {
+  componentWillUnmount () {
     window.removeEventListener('resize', this.reposition, true);
-  },
+  }
 
-  reposition: function () {
+  reposition () {
     var parent = ReactDOM.findDOMNode(this).parentNode;
     var child = ReactDOM.findDOMNode(this.refs.popup);
 
@@ -118,19 +125,18 @@ var Popup = React.createClass({
       invar(typeof strategy === 'function', 'Strategy must be a function.');
       strategy(parent, child, { gap: this.props.gap || 0 });
     }
-  },
+  }
 
-  render: function () {
+  render () {
     return (
       <Overlay>
-        <div className={Popup.POPUP_CLASS_NAME} ref="popup" style={{ visibility: 'hidden', position: 'fixed' }}>
+        <div className={POPUP_CLASS_NAME} ref="popup" style={{ visibility: 'hidden', position: 'fixed' }}>
           {this.props.children}
         </div>
       </Overlay>
     );
   }
-});
+};
 
-Popup.POPUP_CLASS_NAME = 'tw-popup';
 
 module.exports = Popup;

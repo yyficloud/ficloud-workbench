@@ -17,7 +17,7 @@ const DEFAULT_SCHEME = NODE_ENV === 'production'
   ? 'https' // 默认使用友报账服务器，这也是ssc30-admin一开始就为了这个产品开发的
   : 'http'; // 默认使用本地开发环境，使用swagger作为后端，而且默认使用友报账后端
 const DEFAULT_HOST_PORT = NODE_ENV === 'production'
-  ? 'ybz.yonyoucloud.com'
+  ? 'acc.diwork.com'
   : '172.20.4.220';
 const DEFAULT_PATH_PREFIX = NODE_ENV === 'production'
   ? '/ficloud'
