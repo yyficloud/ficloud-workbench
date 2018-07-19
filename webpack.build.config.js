@@ -99,7 +99,7 @@ module.exports = [{
 				commonjs: 'localforage',
 				commonjs2: 'localforage',
 				amd: 'localforage',
-				root: 'localforage'
+				root: 'localForage'
 			}
 		}
 	],

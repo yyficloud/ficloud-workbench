@@ -1,6 +1,6 @@
 import {toJS, observable,computed,action} from 'mobx';
 import $ from 'jquery'
-import localforage from "localforage";
+import localForage from "localforage";
 import {
 	getAccBookURL,
 	getAccBookDefaultURL
@@ -56,9 +56,9 @@ class AccbookStore{
 				if (data.success) {
 					that.accBookData = Object.assign(that.accBookData, data.data);
 					localStorage.setItem('accBookData', JSON.stringify(that.accBookData));
-					localforage
+					localForage
 						.setItem('accBookData', that.accBookData)
-						.then(() => localforage.getItem('accBookData'))
+						.then(() => localForage.getItem('accBookData'))
 						.then((value) => {
 							console.log('localStorage.accBookData', value);
 							// we got our value
