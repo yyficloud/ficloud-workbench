@@ -14,8 +14,8 @@
 const { NODE_ENV } = process.env;
 
 const DEFAULT_SCHEME = NODE_ENV === 'production'
-  ? 'https' // 默认使用友报账服务器，这也是ssc30-admin一开始就为了这个产品开发的
-  : 'http'; // 默认使用本地开发环境，使用swagger作为后端，而且默认使用友报账后端
+  ? 'https' // 默认使用友账表服务器
+  : 'http'; // 默认使用本地开发环境，使用swagger作为后端，而且默认使用友账表后端
 const DEFAULT_HOST_PORT = NODE_ENV === 'production'
   ? 'acc.diwork.com'
   : '172.20.4.220';
