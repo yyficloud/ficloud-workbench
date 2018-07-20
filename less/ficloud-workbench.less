@@ -93,12 +93,27 @@
 .b1-default { border: 1px solid @borderColor; }
 
 
+.ficloud-bench .u-menu-submenu-open.u-menu-submenu-inline > .u-menu-submenu-title i {
+  -webkit-transform: rotate(-90deg) scale(1.0);
+  transform: rotate(-90deg) scale(1.0);
+  display: inline-block;
+  height: auto;
+  position: relative;
+}
+.ficloud-bench img.menuItem{
+  width: 20px;
+  height: 20px;
+  color: rgba(135, 139, 148, 1);
+  font-size: 14px;
+  margin: -3px 8px 0 0;
+}
+
+
 /* tabs首页多页签 */
 .main-tab {
   .pa;
   left: 200px;
-  top:@diworkTitleHeight;
-  .mt15;
+  top:0;
   z-index: 6100;
   overflow: visible;
 }
@@ -197,7 +212,7 @@
 
 .iframe-container {
   position: fixed;
-  top: @diworkTitleHeight;
+  top: 79px;//44+35
   left: 200px;
   width: calc(~"100% - 200px");
 }
@@ -208,7 +223,7 @@
   .fr;
   position: fixed;
   .w300;
-  margin-top: 60px;
+  margin-top: 46px;
   margin-left: 200px;
   .form-control {
 	min-width: 138px;

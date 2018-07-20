@@ -341,7 +341,8 @@ export default class App extends React.Component {
 	};
 	render () {
 		const { menuItems,current } = this.state;
-		return (<div>
+		return (<div >
+			<div className={'header'}>
 			<div className={'workbench-title'}>
 				<div className={'lebra-navbar lebra-navbar-light src-workbench-pc-containers-header-index__lebraNavbar---42qm'}>
 					<div className={'lebra-navbar-left'}><span className="lebra-navbar-left-content"
@@ -352,7 +353,14 @@ export default class App extends React.Component {
 				</div>
 
 			</div>
-			<FinanceCloud menuItems={menuItems}  current={current} updateCurrent={this.updateCurrent}/>
+				<div className={'menu_work'}>{'面包屑：'+current.title}</div>
+			</div>
+			<div className={''}>
+				<div className={''}>
+					<FinanceCloud menuItems={menuItems}  current={current} updateCurrent={this.updateCurrent}/>
+				</div>
+			</div>
+
 			</div>);
 	}
 };

@@ -18,7 +18,7 @@ export default class TabContent extends Component {
       }
       timer = setTimeout(()=>{
         let clientHeight = $(window).height();
-        let height = clientHeight - 0;
+        let height = clientHeight - 100;
         this.setState({ frameHeight: height });
       },200);
     }
@@ -47,7 +47,7 @@ export default class TabContent extends Component {
             item.routerParams = '';
         }
 
-        const pstr = '?version=' + '&accbook=' + item.accBook + '&code=' + item.serviceCode + '&params=' + encodeURIComponent(JSON.stringify(item.params));
+        const pstr = 'version=' + '&accbook=' + item.accBook + '&code=' + item.serviceCode + '&params=' + encodeURIComponent(JSON.stringify(item.params));
         let uri = item.url?item.url:'';
         let hash = '/default';
         let uriArr = uri.split('#');
@@ -56,8 +56,8 @@ export default class TabContent extends Component {
         	uri=uriArr[0];
 			hash = uriArr[1];
 		}
-        // const connStr = item.basePath.indexOf('?') >= 0 ? '&' : '?';
-        const url = uri +  pstr +'#'+ hash + item.routerParams;
+		const connStr = uri.indexOf('?') >= 0 ? '&' : '?';
+        const url = uri + connStr + pstr +'#'+ hash + item.routerParams;
 
         return (
             <div key ={item.code} className={active ? 'tab-content-item active': 'tab-content-item'} style={{ height: this.state.frameHeight }}>

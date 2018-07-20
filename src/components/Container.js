@@ -37,7 +37,7 @@ class Container extends Component {
 				serviceCode: 'mywork',
 				title: '首页',
 				basePath: 'home_index.html#/default',
-				desc: {
+				extendDesc: {
 					accbook: true
 				}
 			}],
@@ -86,6 +86,13 @@ class Container extends Component {
 	}
 	componentWillReceiveProps(props){
 		let newTab = toJS(props.current);
+		if (!newTab.extendDesc) {
+			accbookStore.isAccBook = true;
+		} else {
+			let extendDesc = newTab.extendDesc;
+			extendDesc = JSON.parse(extendDesc);
+			accbookStore.isAccBook = extendDesc['accbook'];
+		}
 		if (newTab.serviceCode !== this.state.currentCode) {
 			//切换页签
 			this.changeOrOpenTab(newTab);
