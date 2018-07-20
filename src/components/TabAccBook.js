@@ -86,7 +86,7 @@ class TabAccbook extends React.Component {
     render() {
         const isAccBook = accbookStore.isAccBook;
         return (
-            <div style={{ display: isAccBook? 'inline-block': 'none' }} className={this.props.className ? this.props.className + ' global-accbook' : 'global-accbook'}  onMouseLeave={this.accHide}>
+            <div style={{ display: isAccBook? 'inline-block': 'none' }} className={this.props.className ? this.props.className + ' global-accbook' : 'global-accbook'} >
                 <span className="mr5">账簿：</span>
                 <InputRef placeholder={this.state.accbook&&this.state.accbook.name?this.state.accbook.name:''} ref="periodRef" onChanged={this.accChanged}>
                     <RefAccBook ref="innerAcc" default = {this.state.default} accBooks={this.state.accBooks}/>

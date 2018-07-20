@@ -32,16 +32,17 @@ module.exports = [{
 				test: /\.css$/,
 				use: ExtractTextPlugin.extract({
 					fallback: 'style-loader',
-					use: ['css-loader', 'less-loader'],
+					use: ['css-loader', 'less-loader', 'resolve-url-loader'],
 				})
 			},
 			{
 				test: /\.less$/,
 				use: ExtractTextPlugin.extract({
 					fallback: 'style-loader',
-					use: ['css-loader', 'less-loader'],
+					use: ['css-loader', 'less-loader','resolve-url-loader'],
 				})
-			}
+			},
+
 		],
 	},
 	resolve: {
