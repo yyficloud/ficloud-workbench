@@ -17,7 +17,7 @@ const DEFAULT_SCHEME = NODE_ENV === 'production'
   ? 'http' // 默认使用友账表服务器
   : 'http'; // 默认使用本地开发环境，使用swagger作为后端，而且默认使用友账表后端
 const DEFAULT_HOST_PORT = NODE_ENV === 'production'
-  ? '172.20.4.220'//acc.diwork.com
+  ? 'acctest.yyuap.com:8055'//acc.diwork.com
   : '172.20.4.220';
 const DEFAULT_PATH_PREFIX = NODE_ENV === 'production'
   ? '/ficloud'
