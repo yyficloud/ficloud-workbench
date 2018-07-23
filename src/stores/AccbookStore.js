@@ -51,6 +51,10 @@ class AccbookStore{
 			url: getAccBookURL + "?" + Date.now(),
 			dataType: 'json',
 			async: false,
+			crossDomain: true,
+			xhrFields: {
+				withCredentials: true
+			},
 			contentType: 'application/json',
 			success: (data) => {
 				if (data.success) {
@@ -84,6 +88,10 @@ class AccbookStore{
 			url: getAccBookDefaultURL + "?" + Date.now(),
 			dataType: 'json',
 			async: false,
+			xhrFields: {
+				withCredentials: true
+			},
+			crossDomain: true,
 			contentType: 'application/json',
 			success: (data) => {
 				let defaultAcc;
