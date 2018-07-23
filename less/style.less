@@ -1,13 +1,5 @@
 .sideBar {
-  width: 200px;
-  float: left;
-  background: #F9FAFB;
-  overflow-y: auto;
-  position: absolute;
-  left: 0px;
-  top: 0;
-  bottom: 0px;
-  right: 0px;
+
 }
 .menuItem{
   width:20px;
@@ -23,7 +15,7 @@
 .u-menu-inline .u-menu-item-selected, .u-menu-inline .u-menu-selected{
   color:#E14C46;
 }
-.u-menu-submenu-active.u-menu-submenu-inline .u-menu-submenu-title:after{
+.u-menu-submenu-active.u-menu-submenu-inline>.u-menu-submenu-title:after{
   color:#E14C46;
 }
 .sideMainMenu{
@@ -34,7 +26,7 @@
   border:none;
 }
 
-.sideBar :global(.u-menu-sub.u-menu-inline .u-menu-item){
+.sideBar :global(.u-menu-sub.u-menu-inline>.u-menu-item){
   height:30px;
   line-height: 30px;
   margin-left: 18px;
@@ -52,7 +44,7 @@
   background:#fff;
 }
 
-:global(.u-menu-submenu-inline   .u-menu-submenu-title:after){
+:global(.u-menu-submenu-inline > .u-menu-submenu-title:after){
   content: "\E964" !important;
   font-family: 'iconfont' !important;
 }
@@ -61,20 +53,20 @@
   text-align: center;
   margin-left: -1px;
 }
-.sideBar :global(.u-menu-submenu-open.u-menu-submenu-inline   .u-menu-submenu-title i){
+.sideBar :global(.u-menu-submenu-open.u-menu-submenu-inline > .u-menu-submenu-title i){
   -webkit-transform: rotate(-90deg) scale(1.0);
   transform: rotate(-90deg) scale(1.0);
   display: inline-block;
   height: auto;
   position: relative;
 }
-:global(:root .u-menu-submenu-inline   .u-menu-submenu-title:after){
+:global(:root .u-menu-submenu-inline > .u-menu-submenu-title:after){
   display: none;
 }
 /* :global(.u-menu-inline .u-menu-inline .u-menu-item-selected){
 	background:rgba(244,245,247,1) !important;
 } */
-.sideBar :global(.u-menu-submenu .u-menu){
+.sideBar :global(.u-menu-submenu>.u-menu){
   background: transparent;
 }
 
@@ -82,10 +74,11 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+  font-size: 14px;
 }
 
 :global(.item_2){
-  font-size: 12px;
+  font-size: 14px;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -98,11 +91,11 @@
   text-align:center;
 }
 :global(.item_3){
-  font-size: 12px;
+  font-size: 14px;
   margin-left: -2px !important;
 }
 :global(.item_4){
-  font-size: 12px;
+  font-size: 14px;
 }
 .last_item{
   margin-left: 6px;

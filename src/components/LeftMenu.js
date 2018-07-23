@@ -18,7 +18,7 @@ function makeMenus(menus, isTop, i) {
 					style={{ fontSize: '14px', background: 'red' }}
 					title={
 						<span className={`item_${i}`}>
-              <Icon type="uf-arrow-down" />
+              <Icon type="uf-arrow-right" />
 							{isTop ? <img src={menuItemIcon} className={'menuItem'} /> : null}
 							{name}
             </span>
