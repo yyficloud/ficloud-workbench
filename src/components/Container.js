@@ -28,23 +28,15 @@ class Container extends Component {
 		this.state = {
 			menuData: this.props.menuItems,
 			// 首页
-			homePage: 'mywork',
+			homePage: '',
 			// 最大显示页签数
-			maxLength: 10,
-			// 默认首页数据
-			defaultData: [{
-				id: 'mywork',
-				serviceCode: 'mywork',
-				title: '首页',
-				basePath: 'home_index.html#/default',
-				extendDesc: {
-					accbook: true
-				}
-			}],
+			maxLength: 8,
+			// 没有默认数据默认首页数据
+			defaultData: [],
 			// 页签列表数据
 			tabList: [],
 			// 当前页签
-			currentCode: this.props.current.serviceCode||'mywork',
+			currentCode: this.props.current.serviceCode,
 			// 更多页签数据
 			moreList: [],
 			// 是否显示更多页签
@@ -77,9 +69,10 @@ class Container extends Component {
 			});
 
 		let windowWidth = $(window).width();
-		let width = windowWidth - 350;
-		that.setState({ width });
-
+		let width = windowWidth - 250;
+		let tabLength = Math.floor(width/160);
+		that.setState({ width:width,
+			maxLength:tabLength });
 		// 监听窗口大小改变事件
 		window.addEventListener('resize', this.handleResize);
 		listen(this.messageCallback);
@@ -134,8 +127,17 @@ class Container extends Component {
 		}
 		timer = setTimeout(() => {
 			let windowWidth = $(window).width();
-			let width = windowWidth - 350;
-			that.setState({ width });
+			let width = windowWidth - 250;
+			let tabLength = Math.floor(width/160);
+			that.setState({ width:width,
+			maxLength:tabLength });
+			// 还需要重设tablist
+			// if(this.state.tabList.length>tabLength){
+			// 	let moreList = [this.state.moreList, ...this.state.tabList.slice(tabLength, this.state.tabList.length-tabLength)];
+			// 	let tabList = [...this.state.tabList.slice(0, tabLength)];
+			// 	this.setState({moreList:moreList,tabList:tabList,moreIsShow:true});
+            //
+			// }
 		}, 200);
 	}
 	/**
@@ -220,17 +222,6 @@ class Container extends Component {
 		});
 		// 记录点击历史
 		// this.tabsStore.recordmenu(serviceCode);
-
-		//隐藏iframe中的title样式,跨域实现不了
-		// document.getElementById("myframe");
-		// setTimeout(()=>{
-		// let x = $('.iframe-container .tab-content-item .frame')[0]
-		// var y=(x.contentWindow || x.contentDocument);
-		// if (y.document){
-		// 	y = y.document;
-		// }
-		// y.body.style.backgroundColor='#0000ff';
-		// },200);
 	}
 
 
@@ -307,7 +298,7 @@ class Container extends Component {
 	removeItem(code) {
 		let that = this;
 		//最后一个页签不能删除
-		if (this.state.tabList.length <= 1) return;
+		// if (this.state.tabList.length <= 1) return;
 		let index = _.findIndex(this.state.tabList, item => item.serviceCode == code);
 		let list = _.reject(this.state.tabList, { serviceCode: code });
 		if (list.length <= index) {

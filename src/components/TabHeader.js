@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Provider, observer } from 'mobx-react';
+import Icon from 'bee-icon';
 
 @observer
 export default class TabHeader extends Component {
@@ -20,7 +21,7 @@ export default class TabHeader extends Component {
         <div onClick={() => this.props.onActive(this.props.item.serviceCode)} className={this.props.active ? 'tab-title-item active': 'tab-title-item'} title={this.props.item.name}>
             {this.props.item.title}
         </div>
-		  <span  onClick={() => this.props.onRemove(this.props.item.serviceCode)} className={'glyphicon glyphicon-remove'} >×</span>
+		  <Icon type="uf-close" onClick={() => this.props.onRemove(this.props.item.serviceCode)}  />
       </div>
     );
   }
