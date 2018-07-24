@@ -67,12 +67,11 @@ class Container extends Component {
 			{
 				tabList: [...defMenu],
 			});
-
-		let windowWidth = $(window).width();
-		let width = windowWidth - 250;
-		let tabLength = Math.floor(width/160);
-		that.setState({ width:width,
-			maxLength:tabLength });
+		let {width,tabLength} = this.getWidth();
+		that.setState({
+			width: width,
+			maxLength: tabLength
+		});
 		// 监听窗口大小改变事件
 		window.addEventListener('resize', this.handleResize);
 		listen(this.messageCallback);
@@ -101,7 +100,7 @@ class Container extends Component {
 	messageCallback (msg) {
 		//这里分发消息, 目前只有打开菜单消息
 		// this.openMsgTab(msg);
-		console.log('othertabmsg',msg);
+		// console.log('othertabmsg',msg);
 		//反序列化消息
 		try {
 			msg=JSON.parse(msg);
@@ -126,19 +125,35 @@ class Container extends Component {
 			clearTimeout(timer);
 		}
 		timer = setTimeout(() => {
-			let windowWidth = $(window).width();
-			let width = windowWidth - 250;
-			let tabLength = Math.floor(width/160);
+			let {width,tabLength}=this.getWidth();
 			that.setState({ width:width,
 			maxLength:tabLength });
 			// 还需要重设tablist
-			// if(this.state.tabList.length>tabLength){
-			// 	let moreList = [this.state.moreList, ...this.state.tabList.slice(tabLength, this.state.tabList.length-tabLength)];
-			// 	let tabList = [...this.state.tabList.slice(0, tabLength)];
-			// 	this.setState({moreList:moreList,tabList:tabList,moreIsShow:true});
-            //
-			// }
+			let tabListLength = this.state.tabList.length;
+			let moreListLength = this.state.moreList.length;
+			if (tabListLength > tabLength) {
+				let moreList = _.concat(_.drop(this.state.tabList, tabLength), this.state.moreList);
+				let tabList = _.dropRight(this.state.tabList, tabListLength - tabLength);
+				this.setState({moreList:moreList,tabList:tabList,moreIsShow:true});
+			}else{
+				if (moreListLength > 0) {
+					let changeLength = tabLength - tabListLength >= moreListLength ? moreListLength : tabLength - tabListLength;
+					let tabList = _.concat(this.state.tabList, _.dropRight(this.state.moreList, moreListLength - changeLength));
+					let moreList = _.drop(this.state.moreList, changeLength);
+					this.setState({moreList:moreList,tabList:tabList,moreIsShow:moreList.length>0});
+				}
+			}
 		}, 200);
+	}
+
+	getWidth = () => {
+		let windowWidth = $(window).width();
+		let width = windowWidth - 230;//减去页面左侧菜单宽度
+		let tabLength = Math.floor(width / 160);
+		if (width % 160 < 19 ) {//更多条件的宽度是19&& this.state.moreList.length > 0
+			tabLength = tabLength - 1 > 0 ? tabLength - 1 : 0;
+		}
+		return{width:width,tabLength:tabLength};
 	}
 	/**
 	 * 设置当前选中的页签
@@ -167,7 +182,6 @@ class Container extends Component {
 	 * @param isMore 是否是更多页签中页签
 	 */
 	changeTab(newTab, isMore) {
-		console.log(this.state.param);
 		newTab = Object.assign(newTab, this.state.param);
 		let newState = { currentCode: newTab.serviceCode };
 		if (isMore) {
@@ -201,11 +215,8 @@ class Container extends Component {
 			newState['moreIsShow']=true;
 		}
 		newTab.accBook = accbookStore.getAccBook;
-		// let j = -1;
-		// let jl = this.state[tabField].length;
 		let tl = this.state[tabField];
 		tl.push(newTab);
-		// let tl = [...this.state[tabField].slice(0, j), newTab, ...this.state[tabField].slice(j + 1, jl)];
 		newState[tabField] = tl;
 		this.setState(newState, () => {
 		});
@@ -286,6 +297,7 @@ class Container extends Component {
 	closeAll() {
 		// 重置为首页并隐藏More菜单
 		let that = this;
+		accbookStore.isAccBook = false;
 		this.setState(
 			{
 				currentCode: that.state.homePage,
@@ -298,7 +310,9 @@ class Container extends Component {
 	removeItem(code) {
 		let that = this;
 		//最后一个页签不能删除
-		// if (this.state.tabList.length <= 1) return;
+		if (this.state.tabList.length <= 1) {
+			accbookStore.isAccBook = false;
+		}
 		let index = _.findIndex(this.state.tabList, item => item.serviceCode == code);
 		let list = _.reject(this.state.tabList, { serviceCode: code });
 		if (list.length <= index) {
