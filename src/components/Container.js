@@ -126,6 +126,9 @@ class Container extends Component {
 		}
 		timer = setTimeout(() => {
 			let {width,tabLength}=this.getWidth();
+			if (width === this.state.width) {
+				return;
+			}
 			that.setState({ width:width,
 			maxLength:tabLength });
 			// 还需要重设tablist

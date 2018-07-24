@@ -2,11 +2,10 @@ const webpack = require('webpack');
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 module.exports = [{
-	// devtool: 'cheap-module-source-map',
+	devtool: 'cheap-module-source-map',
 	context: path.resolve(__dirname, 'src'),
 	entry: {
 		index: 'index.js',
-		// 'ficloud-workbench': './../less/default.less',
 	},
 	output: {
 		libraryTarget: 'umd',
