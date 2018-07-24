@@ -1,6 +1,6 @@
 {
   "name": "ficloud-workbench",
-  "version": "0.1.12",
+  "version": "0.1.13",
   "private": false,
   "description": "ficloud workbench",
   "main": "dist/index.js",
