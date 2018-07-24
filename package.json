@@ -37,6 +37,7 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "babel-register": "^6.26.0",
+    "bee-dropdown": "^1.0.1",
     "bee-icon": "^1.0.4",
     "bee-menus": "^1.0.5",
     "chai": "^4.1.2",
