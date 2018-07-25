@@ -74,7 +74,6 @@ _strategies['right top'] = createStrategy(1, 0, 0, 0, 1, 0);
 _strategies['right'] = _strategies['right center'] = createStrategy(1, 0, 0.5, 0.5, 1, 0);
 _strategies['right bottom'] = createStrategy(1, 0, 1, 1, 1, 0);
 
-// var Popup = React.createClass({
 class Popup extends Component {
 	constructor(props){
 		super(props);
@@ -138,5 +137,6 @@ class Popup extends Component {
   }
 };
 
+export default Popup;
 
-module.exports = Popup;
+// module.exports = Popup;

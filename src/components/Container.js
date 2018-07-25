@@ -15,9 +15,6 @@ import TabAccBook from './TabAccBook';
 import AccbookStore from './../stores/AccbookStore';
 var accbookStore = AccbookStore;
 
-const propTypes = {
-	//cookies: instanceOf(Cookies).isRequired,
-};
 var timer = null;
 
 @observer
@@ -403,7 +400,5 @@ class Container extends Component {
 		);
 	}
 }
-
-Container.propTypes = propTypes;
 
 export default Container;

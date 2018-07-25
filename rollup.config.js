@@ -13,8 +13,7 @@ const globals = {
 	'lodash':'lodash',
 	'jquery':'jquery',
 	'localforage':'localforage',
-	'bee-menus':'Menu',
-	// 'tinper-bee':'TinperBee',
+	'react-onclickoutside':'OnClickOutside',
 };
 const external = Object.keys(globals);
 const babelOptions = (production) => {

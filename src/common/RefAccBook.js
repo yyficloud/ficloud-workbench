@@ -3,8 +3,9 @@
  */
 import React from 'react';
 import OnClickOutside from 'react-onclickoutside';
-import Tree, { TreeNode } from 'rc-tree';
+import Tree from 'rc-tree';
 import AccbookStore from './../stores/AccbookStore';
+const TreeNode = Tree.TreeNode;
 var accbookStore = AccbookStore;
 
 class RefAccBook extends React.Component {

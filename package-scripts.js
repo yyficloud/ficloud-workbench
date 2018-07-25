@@ -12,9 +12,9 @@ module.exports = {
 				rimraf('dist'),
 				rimraf('lib'),
 				concurrent.nps('build.css', 'build.cssmin'),
-				// concurrent.nps('build.rollup', 'build.babel')
+				concurrent.nps('build.rollup', 'build.babel')
 			),
-			// rollup: 'rollup --config',
+			rollup: 'rollup --config',
 			babel: 'babel src -d lib',
 			css: 'lessc less/default.less dist/ficloud-workbench.css',
 			cssmin: 'lessc --clean-css less/default.less dist/ficloud-workbench.min.css',
