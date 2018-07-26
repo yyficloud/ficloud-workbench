@@ -55,6 +55,8 @@ class Container extends Component {
 
 	componentDidMount() {
 		let that = this;
+		accbookStore.queryAllAcc();
+		accbookStore.queryDefaultAcc();
 		let { current } =this.props;
 		if(!current['accBook']){
 			current['accBook'] = accbookStore.getAccBook;

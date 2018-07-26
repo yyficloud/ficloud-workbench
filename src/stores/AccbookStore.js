@@ -8,8 +8,8 @@ import {
 
 class AccbookStore{
 	constructor() {
-		this.queryAllAcc();
-		this.queryDefaultAcc();
+		// this.queryAllAcc();
+		// this.queryDefaultAcc();
 	}
 	// 账簿
 	@observable accBookData = [];
