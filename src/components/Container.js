@@ -39,6 +39,7 @@ class Container extends Component {
 			// 是否显示更多页签
 			moreIsShow: false,
 			width: '',
+			showLeft:true,
 			param:undefined//存储url参数
 		};
 		this.handleResize = this.handleResize.bind(this);
@@ -55,21 +56,32 @@ class Container extends Component {
 
 	componentDidMount() {
 		let that = this;
-		accbookStore.queryAllAcc();
-		accbookStore.queryDefaultAcc();
-		let { current } =this.props;
-		if(!current['accBook']){
-			current['accBook'] = accbookStore.getAccBook;
-		}
-		let defMenu = Object.assign([], current?[current]:that.state.defaultData);
-		this.setState(
-			{
-				tabList: [...defMenu],
-			});
-		let {width,tabLength} = this.getWidth();
+		accbookStore.queryAllAcc(()=>{
+			let { current } =this.props;
+			if(!current['accBook']){
+				current['accBook'] = accbookStore.getAccBook;
+			}
+			let defMenu = Object.assign([], current?[current]:that.state.defaultData);
+			this.setState(
+				{
+					tabList: [...defMenu],
+				});
+		});
+		accbookStore.queryDefaultAcc(()=>{
+			let { current } =this.props;
+			if(!current['accBook']){
+				current['accBook'] = accbookStore.getAccBook;
+			}
+			let defMenu = Object.assign([], current?[current]:that.state.defaultData);
+			this.setState(
+				{
+					tabList: [...defMenu],
+				});
+		});
+		let {width,tabLength,height} = this.getWidth();
 		that.setState({
 			width: width,
-			maxLength: tabLength
+			maxLength: tabLength,height:height
 		});
 		// 监听窗口大小改变事件
 		window.addEventListener('resize', this.handleResize);
@@ -124,12 +136,13 @@ class Container extends Component {
 			clearTimeout(timer);
 		}
 		timer = setTimeout(() => {
-			let {width,tabLength}=this.getWidth();
+			let {width,tabLength,height}=this.getWidth();
+
+			that.setState({ width:width,
+			maxLength:tabLength ,height:height});
 			if (width === this.state.width) {
 				return;
 			}
-			that.setState({ width:width,
-			maxLength:tabLength });
 			// 还需要重设tablist
 			let tabListLength = this.state.tabList.length;
 			let moreListLength = this.state.moreList.length;
@@ -150,12 +163,13 @@ class Container extends Component {
 
 	getWidth = () => {
 		let windowWidth = $(window).width();
+		let windowHeight = window.innerHeight-86;//头的高度是86
 		let width = windowWidth - 230;//减去页面左侧菜单宽度
 		let tabLength = Math.floor(width / 160);
 		if (width % 160 < 19 ) {//更多条件的宽度是19&& this.state.moreList.length > 0
 			tabLength = tabLength - 1 > 0 ? tabLength - 1 : 0;
 		}
-		return{width:width,tabLength:tabLength};
+		return{width:width,tabLength:tabLength,height:windowHeight};
 	}
 	/**
 	 * 设置当前选中的页签
@@ -348,13 +362,17 @@ class Container extends Component {
 	accChange(value) {
 		// 改变账簿时候,把全局账簿变量修改(重构:重命名为当前账簿)
 		accbookStore.accBook = value;
-		// console.log(`accbook:${value}`);
 		setTimeout(this.refreshCurrent, 100);
 		// 刷新当前的Tab页
 	}
+	onToggle=()=>{
+		this.setState({showLeft:!this.state.showLeft});
+
+
+	}
 
 	render() {
-		const { tabList, moreList } = this.state;
+		const { tabList, moreList,height,showLeft } = this.state;
 		const { menuItems, current, className } = this.props;
 		let moreTab =
 			(<TabHeaderMore
@@ -367,10 +385,10 @@ class Container extends Component {
 		return (
 			<div className={ classNames('ficloud-bench', { [`${className}`]: className })}>
 				{
-					<TabAccBook ref="acc" onChange={this.accChange} />
+					<TabAccBook ref="acc" onChange={this.accChange} accbookStore={accbookStore} />
 				}
-				<LeftMenu menus={menuItems} current={current} onMenuClick={this.menuClick} ref="menu"/>
-				<div className="main-tab" style={{ width: this.state.width }}>
+				<LeftMenu menus={menuItems} current={current} onMenuClick={this.menuClick} onToggle={this.onToggle} ref="menu" showLeft={showLeft} height={height}/>
+				<div className={showLeft?'main-tab':'main-tab showLeft'} style={{ width: this.state.width }}>
 					{tabList.map((item,index) => (<TabHeader
 						key={`tab_${item.serviceCode}`}
 						item={item}
@@ -380,7 +398,7 @@ class Container extends Component {
 					/>))}
 					{moreTab}
 				</div>
-				<div className="iframe-container">
+				<div className={showLeft?'iframe-container':'iframe-container showLeft'}>
 					<div className="clear">
 						{tabList.map((item,index) => (<TabContent
 							key={`tabContent_${item.serviceCode+index}`}

@@ -42,7 +42,47 @@
 
 .ficloud-bench .sideBar {
   width: 200px;
+  overflow-y: scroll;
+  overflow-x:hidden;
   background-color: #fff;
+  float: left;
+  position: absolute;
+  top:0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  padding-top: 28px;
+  .sideBar-title{
+	position: fixed;
+	top: 86px;
+	width: 200px;
+	height: 38px;
+	padding: 9px 0 9px 25px;
+	border-radius: 0 3px 0 0;
+	background: #fff;
+	color: #666;
+	font-size: 14px;
+	z-index: 6000;
+	border-bottom: 1px solid #ddd;
+	border-top: 1px solid #ddd;
+
+	.uf{
+	  cursor: pointer;
+	  margin: 3px 15px 0 0;
+	  font-size: 12px;
+	  position: absolute;
+	  right: 0;
+	  &:hover{
+		color:@diworkRed;
+	  }
+	}
+	&.showLeft{
+	  cursor: pointer;
+	  width: 42px;
+	  top: 94px;
+	  border: 1px solid #ddd;
+	}
+  }
   .uf{
 	color: #555;
 	width: 20px;
@@ -50,6 +90,13 @@
 	font-variant: normal;
 	text-transform: none;
 	line-height: 1;
+  }
+  &.showLeft{
+	height: 0;
+	padding-top: 0;
+	.u-menu{
+	  display: none;
+	}
   }
 }
 .ficloud-bench .u-menu-submenu-open.u-menu-submenu-inline > .u-menu-submenu-title i {
@@ -75,6 +122,9 @@
   bottom:0;
   z-index: 6100;
   overflow: visible;
+  &.showLeft{
+	left:0
+  }
 }
 
 .main-tab-more {
@@ -193,6 +243,10 @@
   top: 79px;//44+35
   left: 210px;
   width: calc(~"100% - 210px");
+  &.showLeft{
+	left:0;
+	width: 100%;
+  }
 }
 /* 账簿显示 通用 begin */
 .global-accbook {

@@ -106,13 +106,23 @@ export default class LeftMenu extends Component {
 			selectedKeys,
 		};
 	}
-
+	onToggle=()=>{
+		this.props.onToggle();
+	}
 	render() {
-		const { menus } = this.props;
+		const { menus,height,showLeft } = this.props;
 		const { openKeys, selectedKeys } = this.state;
 		const isTop = true;//标识是否是一级菜单
 		return (
-			<div className={'sideBar'} >
+			<div className={showLeft ? 'sideBar' : 'sideBar showLeft'}>
+				<section onClick={!showLeft?this.onToggle:undefined}
+					className={showLeft?'sideBar-title':'sideBar-title showLeft'} >
+					{showLeft?'导航':''}
+					{
+						showLeft?<Icon type={'uf-close'} title="隐藏菜单" onClick={this.onToggle}/>:
+							<Icon type={'uf-navmenu'} title="显示菜单"/>
+					}
+				</section>
 				<Menu
 					onClick={this.handleClick}
 					style={{ width: '100%' }}

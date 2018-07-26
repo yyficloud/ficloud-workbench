@@ -13,7 +13,7 @@ class AccbookStore{
 	}
 	// 账簿
 	@observable accBookData = [];
-	@observable defaultAcc = '';
+	@observable accBook = '';
 	@observable isAccBook = true;
 	@computed get getAllAcc() {
 		return this.accBookData;
@@ -21,6 +21,48 @@ class AccbookStore{
 	// 获取账簿, 所有使用者通过这个接口调用
 	@computed get getAccBook() {
 		return this.accBook;
+	}
+	//账簿树
+	@computed get getAccBookTree() {
+		var resultRoot=[];
+		let root = this.accBookData
+		root.map((val)=>{val.children=null;});
+		for ( var i = 0; i < root.length; i++){
+			var ri = root[i];
+			if (ri.parentOrg == ''||ri.parentOrg == null||(!this.isInArray(root,ri))){
+				resultRoot.push (ri);
+			}else{
+				for ( let j = 0; j < root.length; j++){
+					let rj = root[j];
+					if (rj.pk_org_id == ri.parentOrg)
+					{
+						rj.children = !rj.children ? [] : rj.children;
+						rj.children.push (ri);
+						break;
+					}
+				}
+			}
+		}
+		return resultRoot;
+	}
+	@computed get getAccBookObj() {
+		let obj,
+			index = 0;
+		const targetData = this.getAllAcc.find((prod, i) => {
+			if (prod.id == this.accBook) {
+				index = i;
+				return true;
+			}
+			return false;
+		});
+		if (targetData) {
+			obj = {
+				id: targetData.id,
+				name: targetData.name,
+				code: targetData.code
+			};
+		}
+		return obj;
 	}
 	@action
 	getDefaultAccObj(id) {
@@ -50,7 +92,7 @@ class AccbookStore{
 			type: 'GET',
 			url: getAccBookURL + "?" + Date.now(),
 			dataType: 'json',
-			async: false,
+			// async: false,
 			crossDomain: true,
 			xhrFields: {
 				withCredentials: true
@@ -59,6 +101,7 @@ class AccbookStore{
 			success: (data) => {
 				if (data.success) {
 					that.accBookData = Object.assign(that.accBookData, data.data);
+					that.accBook = data.data[0] && data.data[0].id ? that.accBookData[0].id : ''
 					localStorage.setItem('accBookData', JSON.stringify(that.accBookData));
 					localForage
 						.setItem('accBookData', that.accBookData)
@@ -69,11 +112,20 @@ class AccbookStore{
 						}).catch((err) => {
 						// we got an error
 					});
+					if(typeof callback ==='function' ){
+						callback()
+					}
 				} else {
+					if(typeof callback ==='function' ){
+						callback()
+					}
 					// this.showError(!data.message ? "查询失败" : data.message);
 				}
 			},
 			error: (xhr, status, err) => {
+				if(typeof callback ==='function' ){
+					callback()
+				}
 				// this.showError(`数据请求失败,错误信息:${err.toString()}`);
 			}
 		});
@@ -87,7 +139,7 @@ class AccbookStore{
 			type: 'GET',
 			url: getAccBookDefaultURL + "?" + Date.now(),
 			dataType: 'json',
-			async: false,
+			// async: false,
 			xhrFields: {
 				withCredentials: true
 			},
@@ -106,15 +158,27 @@ class AccbookStore{
 						defaultAcc = data.data.id;
 					}
 				}
-				that.accBook = defaultAcc || (that.accBookData[0] && that.accBookData[0].id ? that.accBookData[0].id : '');
-				console.log(`params default acc:${that.accBookDefault}`);
+				if(defaultAcc){
+					that.accBook = defaultAcc ;
+					if(typeof callback === 'function'){
+						callback()
+					}
+				}
 			},
 			error: (xhr, status, err) => {
 				// this.showError(`数据请求失败,错误信息:${err.toString()}`);
 			}
 		});
 	}
-
+	@action
+	isInArray(arrays,current){
+		const isIn = arrays.find((prod, i) => {
+			if (prod.pk_org_id === current.parentOrg) {
+				return true;
+			}
+			return false;
+		});
+		return isIn;
+	}
 }
-// export default AccbookStore
 export default new AccbookStore();
