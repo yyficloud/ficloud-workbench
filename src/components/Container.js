@@ -385,7 +385,7 @@ class Container extends Component {
 		return (
 			<div className={ classNames('ficloud-bench', { [`${className}`]: className })}>
 				{
-					<TabAccBook ref="acc" onChange={this.accChange} accbookStore={accbookStore} />
+					<TabAccBook ref="acc" onChange={this.accChange} accbookStore={accbookStore} className={showLeft?'':'showLeft'}/>
 				}
 				<LeftMenu menus={menuItems} current={current} onMenuClick={this.menuClick} onToggle={this.onToggle} ref="menu" showLeft={showLeft} height={height}/>
 				<div className={showLeft?'main-tab':'main-tab showLeft'} style={{ width: this.state.width }}>
