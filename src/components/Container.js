@@ -38,7 +38,7 @@ class Container extends Component {
 			moreList: [],
 			// 是否显示更多页签
 			moreIsShow: false,
-			width: '',
+			width: '1200',
 			showLeft:true,
 			param:undefined//存储url参数
 		};
@@ -56,32 +56,32 @@ class Container extends Component {
 
 	componentDidMount() {
 		let that = this;
+		let {width,tabLength,height} = this.getWidth();
+		that.setState({
+			width: width,
+			maxLength: tabLength,height:height
+		});
 		accbookStore.queryAllAcc(()=>{
-			let { current } =this.props;
+			let { current } =that.props;
 			if(!current['accBook']){
 				current['accBook'] = accbookStore.getAccBook;
 			}
 			let defMenu = Object.assign([], current?[current]:that.state.defaultData);
-			this.setState(
+			that.setState(
 				{
 					tabList: [...defMenu],
 				});
 		});
 		accbookStore.queryDefaultAcc(()=>{
-			let { current } =this.props;
+			let { current } =that.props;
 			if(!current['accBook']){
 				current['accBook'] = accbookStore.getAccBook;
 			}
 			let defMenu = Object.assign([], current?[current]:that.state.defaultData);
-			this.setState(
+			that.setState(
 				{
 					tabList: [...defMenu],
 				});
-		});
-		let {width,tabLength,height} = this.getWidth();
-		that.setState({
-			width: width,
-			maxLength: tabLength,height:height
 		});
 		// 监听窗口大小改变事件
 		window.addEventListener('resize', this.handleResize);
@@ -256,13 +256,15 @@ class Container extends Component {
 	refreshCurrent() {
 		let tab = _.find(this.state.tabList, menu => menu.serviceCode == this.state.currentCode);
 		if (tab) {
-			if (this.state.currentCode === 'addvoucher') {
-				tab.routerParams = '';
-			}
+			// if (this.state.currentCode === 'addvoucher') {
+			// 	tab.routerParams = '';
+			// }
 			this.refreshTabList(tab, this.state.currentCode);
 		} else {
 			tab = _.find(this.state.moreList, menu => menu.serviceCode == this.state.currentCode);
-			this.refreshMoreList(tab, this.state.currentCode);
+			if(tab){
+				this.refreshMoreList(tab, this.state.currentCode);
+			}
 		}
 	}
 	//刷新TabList
