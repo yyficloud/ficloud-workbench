@@ -38,7 +38,7 @@ class Container extends Component {
 			moreList: [],
 			// 是否显示更多页签
 			moreIsShow: false,
-			width: '1200',
+			width: 1200,
 			showLeft:true,
 			param:undefined//存储url参数
 		};
@@ -56,13 +56,27 @@ class Container extends Component {
 
 	componentDidMount() {
 		let that = this;
+		let { current } =that.props;
 		let {width,tabLength,height} = this.getWidth();
 		that.setState({
 			width: width,
 			maxLength: tabLength,height:height
 		});
+		if (!current.extendDesc) {
+			accbookStore.isAccBook = true;
+		} else {
+			let extendDesc = current.extendDesc;
+			if(extendDesc.indexOf(extendDesc)>-1){
+				extendDesc = extendDesc.replace(/&quot;/g, '"');
+			}
+			try {
+				extendDesc = JSON.parse(extendDesc);
+				accbookStore.isAccBook = extendDesc['accbook'];
+			} catch(e) {
+				console.log(e);
+			}
+		}
 		accbookStore.queryAllAcc(()=>{
-			let { current } =that.props;
 			if(!current['accBook']){
 				current['accBook'] = accbookStore.getAccBook;
 			}
@@ -73,7 +87,6 @@ class Container extends Component {
 				});
 		});
 		accbookStore.queryDefaultAcc(()=>{
-			let { current } =that.props;
 			if(!current['accBook']){
 				current['accBook'] = accbookStore.getAccBook;
 			}
@@ -89,12 +102,27 @@ class Container extends Component {
 	}
 	componentWillReceiveProps(props){
 		let newTab = toJS(props.current);
+		// if (!newTab.extendDesc) {
+		// 	accbookStore.isAccBook = true;
+		// } else {
+		// 	let extendDesc = newTab.extendDesc;
+		// 	console.log(extendDesc)
+		// 	extendDesc = JSON.parse(extendDesc);
+		// 	accbookStore.isAccBook = extendDesc['accbook'];
+		// }
 		if (!newTab.extendDesc) {
 			accbookStore.isAccBook = true;
 		} else {
 			let extendDesc = newTab.extendDesc;
-			extendDesc = JSON.parse(extendDesc);
-			accbookStore.isAccBook = extendDesc['accbook'];
+			if (extendDesc.indexOf(extendDesc) > -1) {
+				extendDesc = extendDesc.replace(/&quot;/g, '"');
+			}
+			try {
+				extendDesc = JSON.parse(extendDesc);
+				accbookStore.isAccBook = extendDesc['accbook'];
+			} catch(e) {
+				console.log(e);
+			}
 		}
 		if (newTab.serviceCode !== this.state.currentCode) {
 			//切换页签
