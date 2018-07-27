@@ -80,21 +80,25 @@ class Container extends Component {
 			if(!current['accBook']){
 				current['accBook'] = accbookStore.getAccBook;
 			}
-			let defMenu = Object.assign([], current?[current]:that.state.defaultData);
-			that.setState(
-				{
-					tabList: [...defMenu],
-				});
+			if(current&&current.serviceCode){
+				let tabList = [current];
+				that.setState(
+					{
+						tabList
+					});
+			}
 		});
 		accbookStore.queryDefaultAcc(()=>{
 			if(!current['accBook']){
 				current['accBook'] = accbookStore.getAccBook;
 			}
-			let defMenu = Object.assign([], current?[current]:that.state.defaultData);
+			if(current&&current.serviceCode){
+			let tabList = [current];
 			that.setState(
 				{
-					tabList: [...defMenu],
+					tabList
 				});
+			}
 		});
 		// 监听窗口大小改变事件
 		window.addEventListener('resize', this.handleResize);
@@ -102,14 +106,6 @@ class Container extends Component {
 	}
 	componentWillReceiveProps(props){
 		let newTab = toJS(props.current);
-		// if (!newTab.extendDesc) {
-		// 	accbookStore.isAccBook = true;
-		// } else {
-		// 	let extendDesc = newTab.extendDesc;
-		// 	console.log(extendDesc)
-		// 	extendDesc = JSON.parse(extendDesc);
-		// 	accbookStore.isAccBook = extendDesc['accbook'];
-		// }
 		if (!newTab.extendDesc) {
 			accbookStore.isAccBook = true;
 		} else {
@@ -124,12 +120,14 @@ class Container extends Component {
 				console.log(e);
 			}
 		}
-		if (newTab.serviceCode !== this.state.currentCode) {
-			//切换页签
-			this.changeOrOpenTab(newTab);
-		}else{
-			//刷新当前页签
-			this.refreshCurrent(newTab);
+		if(newTab.serviceCode){
+			if (newTab.serviceCode !== this.state.currentCode) {
+				//切换页签
+				this.changeOrOpenTab(newTab);
+			}else{
+				//刷新当前页签
+				this.refreshCurrent(newTab);
+			}
 		}
 	}
 
@@ -251,6 +249,9 @@ class Container extends Component {
 	 * @param newTab
 	 */
 	openTab(newTab){
+		if(!newTab.serviceCode){
+			return;
+		}
 		newTab= Object.assign(newTab,this.state.param);
 		let tabField = 'tabList';
 		let newState={ currentCode: newTab.serviceCode };
