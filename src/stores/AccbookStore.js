@@ -14,7 +14,7 @@ class AccbookStore{
 	// 账簿
 	@observable accBookData = [];
 	@observable accBook = '';
-	@observable isAccBook = true;
+	@observable isAccBook = false;
 	@computed get getAllAcc() {
 		return this.accBookData;
 	}

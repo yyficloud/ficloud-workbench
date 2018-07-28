@@ -62,12 +62,13 @@ class Container extends Component {
 			width: width,
 			maxLength: tabLength,height:height
 		});
+		// console.log(current.extendDesc);
 		if (!current.extendDesc) {
-			accbookStore.isAccBook = true;
+			accbookStore.isAccBook = false;
 		} else {
 			let extendDesc = current.extendDesc;
 			if(extendDesc.indexOf(extendDesc)>-1){
-				extendDesc = extendDesc.replace(/&quot;/g, '"');
+				extendDesc = extendDesc.replace(/\\&quot;/g, '"');
 			}
 			try {
 				extendDesc = JSON.parse(extendDesc);
