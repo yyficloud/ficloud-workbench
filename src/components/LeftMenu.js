@@ -29,7 +29,7 @@ function makeMenus(menus, isTop, i) {
 		} else {
 			result.push(
 				<Item key={id} style={isTop ? { fontSize: '14px' } : null}>
-          <span className={`item_${i} ${'last_item'}`}>
+          <span className={`item_${i} ${'last_item'}`} title={name}>
             {isTop ? <img src={menuItemIcon} className={'menuItem'} /> : null}
 			  {name}
           </span>
