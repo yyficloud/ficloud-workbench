@@ -52,6 +52,7 @@ class Container extends Component {
 		this.remove = this.remove.bind(this);
 		this.refreshCurrent = this.refreshCurrent.bind(this);
 		this.accChange = this.accChange.bind(this);
+		this.formartAccbook = this.formartAccbook.bind(this);
 	}
 
 	componentDidMount() {
@@ -63,20 +64,7 @@ class Container extends Component {
 			maxLength: tabLength,height:height
 		});
 		// console.log(current.extendDesc);
-		if (!current.extendDesc) {
-			accbookStore.isAccBook = false;
-		} else {
-			let extendDesc = current.extendDesc;
-			if(extendDesc.indexOf(extendDesc)>-1){
-				extendDesc = extendDesc.replace(/\\&quot;/g, '"');
-			}
-			try {
-				extendDesc = JSON.parse(extendDesc);
-				accbookStore.isAccBook = extendDesc['accbook'];
-			} catch(e) {
-				console.log(e);
-			}
-		}
+		this.formartAccbook(current);
 		accbookStore.queryAllAcc(()=>{
 			if(!current['accBook']){
 				current['accBook'] = accbookStore.getAccBook;
@@ -107,20 +95,7 @@ class Container extends Component {
 	}
 	componentWillReceiveProps(props){
 		let newTab = toJS(props.current);
-		if (!newTab.extendDesc) {
-			accbookStore.isAccBook = true;
-		} else {
-			let extendDesc = newTab.extendDesc;
-			if (extendDesc.indexOf(extendDesc) > -1) {
-				extendDesc = extendDesc.replace(/&quot;/g, '"');
-			}
-			try {
-				extendDesc = JSON.parse(extendDesc);
-				accbookStore.isAccBook = extendDesc['accbook'];
-			} catch(e) {
-				console.log(e);
-			}
-		}
+		this.formartAccbook(newTab);
 		if(newTab.serviceCode){
 			if (newTab.serviceCode !== this.state.currentCode) {
 				//切换页签
@@ -128,6 +103,22 @@ class Container extends Component {
 			}else{
 				//刷新当前页签
 				this.refreshCurrent(newTab);
+			}
+		}
+	}
+	formartAccbook=(current)=>{
+		if (!current.extendDesc) {
+			accbookStore.isAccBook = false;
+		} else {
+			let extendDesc = current.extendDesc;
+			if(extendDesc.indexOf(extendDesc)>-1){
+				extendDesc = extendDesc.replace(/\\&quot;/g, '"');
+			}
+			try {
+				extendDesc = JSON.parse(extendDesc);
+				accbookStore.isAccBook = extendDesc['accbook'];
+			} catch(e) {
+				console.log(e);
 			}
 		}
 	}
