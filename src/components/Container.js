@@ -341,9 +341,10 @@ class Container extends Component {
 			{
 				currentCode: that.state.homePage,
 				moreIsShow: false,
-				tabList: [...that.state.defaultData],
+				tabList: [],
 				moreList: [],
 			});
+		// this.menuClick('');//如果关闭所有，会设置为默认服务,所以暂时不设置
 	}
 
 	removeItem(code) {
@@ -361,7 +362,11 @@ class Container extends Component {
 		// console.log(JSON.stringify(list));
 		this.setState({ tabList: list }, () => {
 			if (this.state.tabList.length >= index && this.state.currentCode == code) {
-				that.active(this.state.tabList[index].serviceCode);
+				if(this.state.tabList.length > 0){
+					that.active(this.state.tabList[index].serviceCode);
+				}else{
+					// that.active('');
+				}
 			}
 		});
 	}
