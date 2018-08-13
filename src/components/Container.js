@@ -58,6 +58,9 @@ class Container extends Component {
 	componentDidMount() {
 		let that = this;
 		let { current } =that.props;
+		if (this.props.env){
+			accbookStore.outEnvironment = this.props.env;
+		}
 		let {width,tabLength,height} = this.getWidth();
 		that.setState({
 			width: width,

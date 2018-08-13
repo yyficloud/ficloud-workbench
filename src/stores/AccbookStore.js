@@ -15,6 +15,7 @@ class AccbookStore{
 	@observable accBookData = [];
 	@observable accBook = '';
 	@observable isAccBook = false;
+	@observable outEnvironment = process.env.NODE_ENV;
 	@computed get getAllAcc() {
 		return this.accBookData;
 	}
@@ -90,7 +91,7 @@ class AccbookStore{
 		let that = this;
 		$.ajax({
 			type: 'GET',
-			url: getAccBookURL + "?" + Date.now(),
+			url: getAccBookURL(this.outEnvironment) + "?" + Date.now(),
 			dataType: 'json',
 			// async: false,
 			crossDomain: true,
@@ -137,7 +138,7 @@ class AccbookStore{
 		let that = this;
 		$.ajax({
 			type: 'GET',
-			url: getAccBookDefaultURL + "?" + Date.now(),
+			url: getAccBookDefaultURL(this.outEnvironment) + "?" + Date.now(),
 			dataType: 'json',
 			// async: false,
 			xhrFields: {
