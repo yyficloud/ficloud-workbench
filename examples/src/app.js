@@ -2596,8 +2596,8 @@ export default class App extends React.Component {
 				serviceCode: 'stock',
 				serviceId: '77be5619-aac8-4381-97ca-d338c8400141',
 				//组件内部嵌套iframe的url，此url会带有参数，形如：http://xxx.xxx.xxx/xxx?serviceCode=serv_1，iframe内部即可使用此serviceCode参数来控制属性菜单的展示
-				url: 'http://yzb.yyssc.org/home_index.html#/stock',
-				extendDesc:'{\\&quot;accbook\\&quot;:false}'
+				url: 'http://127.0.0.1:4001/home_index.html#/voucher/edit',
+				extendDesc:'{\\&quot;accbook\\&quot;:true}'
 			}
 		};
 	};

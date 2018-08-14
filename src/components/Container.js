@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import { instanceOf } from 'prop-types';
 import { toJS } from 'mobx';
 import _ from 'lodash';
-import $ from 'jquery';
 import { Provider, observer } from 'mobx-react';
 import classNames from 'classnames';
 import './../other/messenger';
@@ -183,7 +181,7 @@ class Container extends Component {
 	}
 
 	getWidth = () => {
-		let windowWidth = $(window).width();
+		let windowWidth = window.innerWidth;
 		let windowHeight = window.innerHeight-86;//头的高度是86
 		let width = windowWidth - 230;//减去页面左侧菜单宽度
 		let tabLength = Math.floor(width / 160);

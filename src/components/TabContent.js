@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import $ from 'jquery';
 import { Provider, observer } from 'mobx-react';
 var timer = null;
 @observer
@@ -17,7 +16,7 @@ export default class TabContent extends Component {
         clearTimeout(timer);
       }
       timer = setTimeout(()=>{
-        let clientHeight = $(window).height();
+        let clientHeight = window.innerHeight;
         let height = clientHeight - 100;
         this.setState({ frameHeight: height });
       },200);

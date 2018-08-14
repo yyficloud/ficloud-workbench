@@ -1,7 +1,7 @@
 module.exports = {
 	dev: {
 		G_SCHEME: 'http',
-		G_HOST_PORT: '172.20.4.220',
+		G_HOST_PORT: '172.20.4.220',//https://acc.yonyoucloud.com/
 		G_PATH_PREFIX: '/ficloud',
 	},
 	development: {
