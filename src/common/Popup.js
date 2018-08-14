@@ -102,8 +102,14 @@ class Popup extends Component {
   }
 
   reposition () {
-    var parent = ReactDOM.findDOMNode(this).parentNode;
-    var child = ReactDOM.findDOMNode(this.refs.popup);
+  	try{
+  		if(this==window){
+  			return;
+		}
+		var parent = ReactDOM.findDOMNode(this).parentNode;
+		var child = ReactDOM.findDOMNode(this.refs.popup);
+	}catch (e) {
+	}
 
     if (parent && child) {
       var strategy;
