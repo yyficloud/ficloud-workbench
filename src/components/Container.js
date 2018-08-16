@@ -111,9 +111,12 @@ class Container extends Component {
 		if (!current.extendDesc) {
 			accbookStore.isAccBook = false;
 		} else {
-			let extendDesc = current.extendDesc;
-			if(extendDesc.indexOf(extendDesc)>-1){
-				extendDesc = extendDesc.replace(/\\&quot;/g, '"');
+			let extendDesc =current.extendDesc;
+			if(extendDesc.indexOf('\\')>-1){
+				extendDesc = extendDesc.replace(/\\/g, '');
+			}
+			if(extendDesc.indexOf('&quot;')>-1){
+				extendDesc = extendDesc.replace(/&quot;/g, '"');
 			}
 			try {
 				extendDesc = JSON.parse(extendDesc);
