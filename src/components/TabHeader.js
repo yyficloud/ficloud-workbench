@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import { Provider, observer } from 'mobx-react';
 import Icon from 'bee-icon';
 
-@observer
 export default class TabHeader extends Component {
   constructor(props) {
     super(props);

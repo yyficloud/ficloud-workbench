@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
-import { Provider, observer } from 'mobx-react';
-import Menu from 'bee-menus';
 import Icon from 'bee-icon';
 import Dropdown from 'bee-dropdown';
-const { Item } = Menu;
 
-@observer
 export default class TabHeaderMore extends Component {
     constructor(props) {
         super(props);

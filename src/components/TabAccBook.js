@@ -5,11 +5,9 @@
  *  账簿切换组件
  */
 import React from 'react';
-import { observer } from 'mobx-react';
 import InputRef from './../common/InputRef';
 import RefAccBook from './../common/RefAccBook';
 
-@observer
 class TabAccbook extends React.Component {
     constructor(props) {
         super(props);

@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { toJS } from 'mobx';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
+import * as actionAccbook from '../actions/actionAccbook';
 import _ from 'lodash';
-import { Provider, observer } from 'mobx-react';
+// import { Provider, observer } from 'mobx-react';
 import classNames from 'classnames';
 import './../other/messenger';
 import { listen } from './../other/home.global';
@@ -9,17 +11,16 @@ import LeftMenu from './LeftMenu';
 import TabContent from './TabContent.js';
 import TabHeader from './TabHeader.js';
 import TabHeaderMore from './TabHeaderMore.js';
-import TabAccBook from './TabAccBook';
-import AccbookStore from './../stores/AccbookStore';
-var accbookStore = AccbookStore;
+// import TabAccBook from './TabAccBook';
+// import AccbookStore from './../stores/AccbookStore';
+// var accbookStore = AccbookStore;
 
 var timer = null;
 
-@observer
+// @observer
 class Container extends Component {
 	constructor(props) {
 		super(props);
-
 		this.state = {
 			menuData: this.props.menuItems,
 			// 首页
@@ -57,7 +58,8 @@ class Container extends Component {
 		let that = this;
 		let { current } =that.props;
 		if (this.props.env){
-			accbookStore.outEnvironment = this.props.env;
+			debugger;
+			this.props.outEnvironment = this.props.env;
 		}
 		let {width,tabLength,height} = this.getWidth();
 		that.setState({
@@ -66,7 +68,7 @@ class Container extends Component {
 		});
 		// console.log(current.extendDesc);
 		this.formartAccbook(current);
-		accbookStore.queryAllAcc(()=>{
+		this.props.queryAllAcc(()=>{
 			if(!current['accBook']){
 				current['accBook'] = accbookStore.getAccBook;
 			}
@@ -78,7 +80,7 @@ class Container extends Component {
 					});
 			}
 		});
-		accbookStore.queryDefaultAcc(()=>{
+		this.props.queryDefaultAcc(()=>{
 			if(!current['accBook']){
 				current['accBook'] = accbookStore.getAccBook;
 			}
@@ -414,7 +416,7 @@ class Container extends Component {
 		return (
 			<div className={ classNames('ficloud-bench', { [`${className}`]: className })}>
 				{
-					<TabAccBook ref="acc" onChange={this.accChange} accbookStore={accbookStore} className={showLeft?'':'showLeft'}/>
+					//<TabAccBook ref="acc" onChange={this.accChange} accbookStore={accbookStore} className={showLeft?'':'showLeft'}/>
 				}
 				<LeftMenu menus={menuItems} current={current} onMenuClick={this.menuClick} onToggle={this.onToggle} ref="menu" showLeft={showLeft} height={height}/>
 				<div className={showLeft?'main-tab':'main-tab showLeft'} style={{ width: this.state.width }}>
@@ -450,4 +452,17 @@ class Container extends Component {
 	}
 }
 
-export default Container;
+// export default Container;
+
+//影射Store的State到App的Props, 这里用做数据
+function mapStateToProps(state) {
+	return state.accbook;
+}
+
+//影射Store的dispath到App的Props,这里用做操作(事件)
+function mapDispatchToProps(dispatch) {
+	return bindActionCreators(actionAccbook, dispatch);
+}
+
+//练接是中间组件react-redux功能,用于把React的Props, State, Event和Redux的关联
+export default connect(mapStateToProps, mapDispatchToProps)(Container);

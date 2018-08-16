@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-// import { Menu,Icon } from 'tinper-bee';
 import Menu from 'bee-menus';
 import Icon from 'bee-icon';
 import { findPath } from '../utils/findPath';

@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import { Provider, observer } from 'mobx-react';
 var timer = null;
-@observer
 export default class TabContent extends Component {
     constructor(props) {
         super(props);
