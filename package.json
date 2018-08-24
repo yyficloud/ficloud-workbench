@@ -13,8 +13,7 @@
   },
   "dependencies": {
     "classnames": "^2.2.4",
-    "mobx": "^3.1.9",
-    "mobx-react": "^4.1.8",
+    "promise-polyfill": "^8.1.0",
     "prop-types": "^15.6.0"
   },
   "devDependencies": {
@@ -67,6 +66,7 @@
     "nyc": "^11.1.0",
     "rc-tree": "^1.4.7",
     "react": "^15.5.0",
+    "react-addons-update": "^15.6.2",
     "react-dom": "^15.5.0",
     "react-gravatar": "^2.4.5",
     "react-highlight-words": "^0.8.1",

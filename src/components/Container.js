@@ -233,10 +233,8 @@ class Container extends Component {
 		}
 		// reset accbook
 		if (!newTab['accBook']) {
-			this.refs.acc.setValue(this.props.accBook);
 		} else if (this.props.accBook !== newTab.accBook) {
-			this.props.accBook = newTab.accBook;
-			this.refs.acc.setValue(newTab.accBook);
+			// this.props.getAccBookObj(newTab.accBook,this.props.accBookData);
 		}
 	}
 	/**
@@ -462,6 +460,7 @@ class Container extends Component {
 const mapStateToProps = state => ({ ...state.accbook,
 	accbook: state.accbook,
 	accBookTree: state.accbook.accBookTree,
+	accBookData: state.accbook.accBookData,
 	accBook: state.accbook.accBook,
 	accBookObj:state.accbook.accBookObj,
 });

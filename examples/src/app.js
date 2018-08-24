@@ -6702,7 +6702,7 @@ export default class App extends React.Component {
 			</div>
 			<div className={''}>
 				<div className={''}>
-					<FinanceCloud menuItems={menuItems} current={current} updateCurrent={this.updateCurrent}/>
+					<FinanceCloud menuItems={menuItems} current={{...current, extendDesc: current.ext1}} updateCurrent={this.updateCurrent}/>
 				</div>
 			</div>
 

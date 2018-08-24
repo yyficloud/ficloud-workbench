@@ -28,10 +28,15 @@ export default function accbook(state = initAccbookState, action) {
 				accBookObj: action.data,
 			};
 		case LOAD_DEFAULTACCBOOK:
-			return { ...state,
-				accBook: action.data.accBook,
-				accBookObj: action.data.accBookObj,
-			};
+			// return { ...state,
+			// 	accBook: action.data.accBook,
+			// 	accBookObj: action.data.accBookObj,
+			// };
+			return update(state, {
+					accBook: {$set: action.data.accBook},
+					accBookObj: {$set: action.data.accBookObj}
+				}
+			);
 		case UPDATE_DEFAULTACCBOOK:
 			return update(state, {
 				accBook: {$set: action.data.accBook},

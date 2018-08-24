@@ -4,9 +4,7 @@
 import React from 'react';
 import OnClickOutside from 'react-onclickoutside';
 import Tree from 'rc-tree';
-import AccbookStore from './../stores/AccbookStore';
 const TreeNode = Tree.TreeNode;
-var accbookStore = AccbookStore;
 
 class RefAccBook extends React.Component {
   constructor(props) {
@@ -28,8 +26,8 @@ class RefAccBook extends React.Component {
   componentWillReceiveProps(nextProps) {
       if (nextProps.show == 'none') {
           if (nextProps.default != this.state.selected) {
-              let dObj = accbookStore.getDefaultAccObj(nextProps.default);
-              this.props.onText(dObj ? dObj.name: '');
+              // let dObj = accbookStore.getDefaultAccObj(nextProps.default);
+              // this.props.onText(dObj ? dObj.name: '');
               this.setState({ selected: nextProps.default });
           }
       }
