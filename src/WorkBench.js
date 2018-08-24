@@ -1,24 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { createStore, applyMiddleware } from 'redux';
+import Promise from 'promise-polyfill';
 import { Provider } from 'react-redux';
-import thunk from 'redux-thunk';
-import { createLogger } from 'redux-logger';
-import reducer from './reducers';
+import { configureStore } from './store/configureStore';
 import Container from './components/Container';
 /**
  * WorkBench控件
  */
-
-const middleware = [ thunk ];
-if (process.env.NODE_ENV !== 'production') {
-	middleware.push(createLogger());
+// IE11
+if (!window.Promise) {
+	window.Promise = Promise;
 }
-
-const store = createStore(
-	reducer,
-	applyMiddleware(...middleware)
-);
+const store = configureStore();
 
 class FinanceCloud extends React.Component {
 	constructor(props) {

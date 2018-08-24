@@ -2,13 +2,13 @@ import {
 	getAccBookURL,
 	getAccBookDefaultURL
 } from './../utils/utils.urls';
-
+import * as types from '../constants/ActionTypes';
 /**
  * Fetch API credentials 选项
  * - false 不往Fetch API中添加credentials选项
  * - same-origin 在请求中添加Cookie
  */
-const FETCH_CREDENTIALS_OPTION = 'same-origin';
+const FETCH_CREDENTIALS_OPTION = 'include';
 
 /** 配置Fetch API的credentials参数 */
 function appendCredentials(opts) {
@@ -18,25 +18,24 @@ function appendCredentials(opts) {
 	return opts;
 }
 
-export function queryAllAcc(callback) {
-	let that = this;
+export function queryAllAcc(outEnvironment,callback) {
+	return (dispatch) => {
 	const opts = {
 		method: 'GET',
 		headers: {
 			'Content-type': 'application/json'
 		},
 		mode: 'cors',
-		// body: JSON.stringify()
 	};
 	appendCredentials(opts);
 
-	const url = getAccBookURL(this.outEnvironment) + '?' + Date.now();
+	const url = getAccBookURL(outEnvironment) + '?' + Date.now();
 	return fetch(url, opts)
 		.then(response => response.json()).then((data) => {
 			if (data.success) {
-				that.accBookData = Object.assign(that.accBookData, data.data);
-				that.accBook = data.data[0] && data.data[0].id ? that.accBookData[0].id : '';
-				localStorage.setItem('accBookData', JSON.stringify(that.accBookData));
+				dispatch(getAccBookTree(data.data));
+				dispatch(returnAccBookData(data.data));
+				localStorage.setItem('accBookData', JSON.stringify(data.data));
 				if(typeof callback ==='function' ){
 					callback();
 				}
@@ -51,69 +50,86 @@ export function queryAllAcc(callback) {
 				callback();
 			}
 		});
-}
-export function queryDefaultAcc(callback) { // eslint-disable-line class-methods-use-this
-	let that = this;
-	const opts = {
-		method: 'GET',
-		headers: {
-			'Content-type': 'application/json'
-		},
-		mode: 'cors',
-		// body: JSON.stringify()
 	};
-	appendCredentials(opts);
+}
+export function queryDefaultAcc(outEnvironment,callback) { // eslint-disable-line class-methods-use-this
+	return (dispatch) => {
+		const opts = {
+			method: 'GET',
+			headers: {
+				'Content-type': 'application/json'
+			},
+			mode: 'cors',
+		};
+		appendCredentials(opts);
 
-	const url = getAccBookDefaultURL(this.outEnvironment) + '?' + Date.now();
-	return fetch(url, opts)
-		.then(response => response.json()).then((data) => {
-			let defaultAcc;
-			if (data.data != null && data.data.id) {
-				let target = this.accBookData.find((prod, i) => {
-					if (prod.id === data.data.id) {
-						return true;
-					}
-					return false;
-				});
-				if (target) {
+		const url = getAccBookDefaultURL(outEnvironment) + '?' + Date.now();
+		return fetch(url, opts)
+			.then(response => response.json()).then((data) => {
+				let defaultAcc;
+				if (data.data != null && data.data.id) {
 					defaultAcc = data.data.id;
 				}
-			}
-			if(defaultAcc){
-				that.accBook = defaultAcc ;
-				if(typeof callback === 'function'){
+				if (defaultAcc) {
+					dispatch(returnAccBook(defaultAcc));
+					if (typeof callback === 'function') {
+						callback();
+					}
+				}
+			})
+			.catch((err) => {
+				if (typeof callback === 'function') {
 					callback();
 				}
-			}
-		})
-		.catch((err) => {
-			if(typeof callback ==='function' ){
-				callback();
-			}
-		});
+			});
+	};
 }
 
 
-export function getAccBookObj(id) {
-	let obj,
-		index = 0;
-	const targetData = this.getAllAcc.find((prod, i) => {
-		if (prod.id == id||this.accBook) {
-			index = i;
-			return true;
+// export function getAccBookObj(id,accbookData) {
+// 	let obj,
+// 		index = 0;
+// 	const targetData = accbookData.find((prod, i) => {
+// 		if (prod.id == id||this.accBook) {
+// 			index = i;
+// 			return true;
+// 		}
+// 		return false;
+// 	});
+// 	if (targetData) {
+// 		obj = {
+// 			id: targetData.id,
+// 			name: targetData.name,
+// 			code: targetData.code
+// 		};
+// 	}
+// 	// return obj;
+// 	return {
+// 		type: types.UPDATE_ACCBOOKOBJ,
+// 		data: obj
+// 	};
+// }
+function returnAccBook(data){
+	return {
+		type: types.LOAD_DEFAULTACCBOOK,
+		data: {
+			accBook: data.id,
+			accBookObj:data
 		}
-		return false;
-	});
-	if (targetData) {
-		obj = {
-			id: targetData.id,
-			name: targetData.name,
-			code: targetData.code
-		};
-	}
-	return obj;
+	};
 }
-export function getAccBookTree(root) {
+function returnAccBookData(data){
+	let accBookObj = data && data.length > 0 && data[0] ? data[0] : null;
+	return {
+		type: types.LOAD_ACCBOOKDATA,
+		data: {
+			accBookData:data,
+			accBookObj:accBookObj,
+			accBook: accBookObj && accBookObj.id ? accBookObj.id : ''
+		}
+	};
+}
+function getAccBookTree(root) {
 	var resultRoot=[];
 	root.map((val)=>{val.children=null;});
 	for ( var i = 0; i < root.length; i++){
@@ -132,7 +148,11 @@ export function getAccBookTree(root) {
 			}
 		}
 	}
-	return resultRoot;
+	// return resultRoot;
+	return {
+		type: types.LOAD_ACCBOOKTREE,
+		data: resultRoot
+	};
 }
 function isInArray(arrays,current){
 	const isIn = arrays.find((prod, i) => {
@@ -143,3 +163,13 @@ function isInArray(arrays,current){
 	});
 	return isIn;
 }
+
+export const updateAccbook = data => dispatch => (
+	dispatch({
+		type: types.UPDATE_DEFAULTACCBOOK,
+		data:{
+			accBook:data.id,
+			accBookObj:data
+		}
+	})
+);

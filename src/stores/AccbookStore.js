@@ -9,7 +9,7 @@ import {
  * - false 不往Fetch API中添加credentials选项
  * - same-origin 在请求中添加Cookie
  */
-const FETCH_CREDENTIALS_OPTION = 'same-origin';
+const FETCH_CREDENTIALS_OPTION = 'include';
 
 /** 配置Fetch API的credentials参数 */
 function appendCredentials(opts) {

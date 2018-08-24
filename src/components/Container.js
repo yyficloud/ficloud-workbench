@@ -11,7 +11,7 @@ import LeftMenu from './LeftMenu';
 import TabContent from './TabContent.js';
 import TabHeader from './TabHeader.js';
 import TabHeaderMore from './TabHeaderMore.js';
-// import TabAccBook from './TabAccBook';
+import TabAccBook from './TabAccBook';
 // import AccbookStore from './../stores/AccbookStore';
 // var accbookStore = AccbookStore;
 
@@ -22,6 +22,7 @@ class Container extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			isAccBook:false,
 			menuData: this.props.menuItems,
 			// 首页
 			homePage: '',
@@ -57,10 +58,6 @@ class Container extends Component {
 	componentDidMount() {
 		let that = this;
 		let { current } =that.props;
-		if (this.props.env){
-			debugger;
-			this.props.outEnvironment = this.props.env;
-		}
 		let {width,tabLength,height} = this.getWidth();
 		that.setState({
 			width: width,
@@ -68,9 +65,9 @@ class Container extends Component {
 		});
 		// console.log(current.extendDesc);
 		this.formartAccbook(current);
-		this.props.queryAllAcc(()=>{
+		this.props.queryAllAcc(this.props.env,()=>{
 			if(!current['accBook']){
-				current['accBook'] = accbookStore.getAccBook;
+				current['accBook'] = this.props.accBook;
 			}
 			if(current&&current.serviceCode){
 				let tabList = [current];
@@ -80,9 +77,9 @@ class Container extends Component {
 					});
 			}
 		});
-		this.props.queryDefaultAcc(()=>{
+		this.props.queryDefaultAcc(this.props.env,()=>{
 			if(!current['accBook']){
-				current['accBook'] = accbookStore.getAccBook;
+				current['accBook'] = this.props.accBook;
 			}
 			if(current&&current.serviceCode){
 			let tabList = [current];
@@ -97,7 +94,7 @@ class Container extends Component {
 		listen(this.messageCallback);
 	}
 	componentWillReceiveProps(props){
-		let newTab = toJS(props.current);
+		let newTab = props.current;
 		this.formartAccbook(newTab);
 		if(newTab.serviceCode){
 			if (newTab.serviceCode !== this.state.currentCode) {
@@ -111,15 +108,18 @@ class Container extends Component {
 	}
 	formartAccbook=(current)=>{
 		if (!current.extendDesc) {
-			accbookStore.isAccBook = false;
+			this.setState({isAccBook:false});
 		} else {
-			let extendDesc = current.extendDesc;
-			if(extendDesc.indexOf(extendDesc)>-1){
-				extendDesc = extendDesc.replace(/\\&quot;/g, '"');
+			let extendDesc =current.extendDesc;
+			if(extendDesc.indexOf('\\')>-1){
+				extendDesc = extendDesc.replace(/\\/g, '');
+			}
+			if(extendDesc.indexOf('&quot;')>-1){
+				extendDesc = extendDesc.replace(/&quot;/g, '"');
 			}
 			try {
 				extendDesc = JSON.parse(extendDesc);
-				accbookStore.isAccBook = extendDesc['accbook'];
+				this.setState({isAccBook:extendDesc['accbook']});
 			} catch(e) {
 				console.log(e);
 			}
@@ -228,14 +228,14 @@ class Container extends Component {
 		});
 		//如果有路由参数,证明是页面内部跳转,不需要重设账簿
 		if (this.state.param) {
-			newTab.accBook = accbookStore.getAccBook;
+			newTab.accBook = this.props.accBook;
 			return true;
 		}
 		// reset accbook
 		if (!newTab['accBook']) {
-			this.refs.acc.setValue(accbookStore.getAccBook);
-		} else if (accbookStore.getAccBook !== newTab.accBook) {
-			accbookStore.accBook = newTab.accBook;
+			this.refs.acc.setValue(this.props.accBook);
+		} else if (this.props.accBook !== newTab.accBook) {
+			this.props.accBook = newTab.accBook;
 			this.refs.acc.setValue(newTab.accBook);
 		}
 	}
@@ -254,7 +254,7 @@ class Container extends Component {
 			tabField = 'moreList';
 			newState['moreIsShow']=true;
 		}
-		newTab.accBook = accbookStore.getAccBook;
+		newTab.accBook = this.props.accBook;
 		let tl = this.state[tabField];
 		tl.push(newTab);
 		newState[tabField] = tl;
@@ -294,7 +294,7 @@ class Container extends Component {
 	//刷新TabList
 	refreshTabList(tab, code) {
 		let newTab = Object.assign({}, tab);
-		newTab.accBook = accbookStore.getAccBook;
+		newTab.accBook = this.props.accBook;
 
 		let j = _.findIndex(this.state.tabList, item => item.serviceCode == code);
 		let jl = this.state.tabList.length;
@@ -313,7 +313,7 @@ class Container extends Component {
 	//刷新MoreList
 	refreshMoreList(tab, code) {
 		let newTab = Object.assign({}, tab);
-		newTab.accBook = accbookStore.getAccBook;
+		newTab.accBook = this.props.accBook;
 
 		let i = _.findIndex(this.state.moreList, item => item.serviceCode == code);
 		let il = this.state.moreList.length;
@@ -339,9 +339,9 @@ class Container extends Component {
 	closeAll() {
 		// 重置为首页并隐藏More菜单
 		let that = this;
-		accbookStore.isAccBook = false;
 		this.setState(
 			{
+				isAccBook:false,
 				currentCode: that.state.homePage,
 				moreIsShow: false,
 				tabList: [],
@@ -354,7 +354,8 @@ class Container extends Component {
 		let that = this;
 		//最后一个页签不能删除
 		if (this.state.tabList.length <= 1) {
-			accbookStore.isAccBook = false;
+			// this.props.isAccBook = false;
+			this.setState({isAccBook:false});
 		}
 		let index = _.findIndex(this.state.tabList, item => item.serviceCode == code);
 		let list = _.reject(this.state.tabList, { serviceCode: code });
@@ -392,7 +393,7 @@ class Container extends Component {
 
 	accChange(value) {
 		// 改变账簿时候,把全局账簿变量修改(重构:重命名为当前账簿)
-		accbookStore.accBook = value;
+		this.props.updateAccbook(value);
 		setTimeout(this.refreshCurrent, 100);
 		// 刷新当前的Tab页
 	}
@@ -416,7 +417,7 @@ class Container extends Component {
 		return (
 			<div className={ classNames('ficloud-bench', { [`${className}`]: className })}>
 				{
-					//<TabAccBook ref="acc" onChange={this.accChange} accbookStore={accbookStore} className={showLeft?'':'showLeft'}/>
+					<TabAccBook ref="acc" onChange={this.accChange} accBookObj={this.props.accBookObj} isAccBook={this.state.isAccBook} accBookData ={this.props.accBookTree} accBook={this.props.accBook} className={showLeft?'':'showLeft'}/>
 				}
 				<LeftMenu menus={menuItems} current={current} onMenuClick={this.menuClick} onToggle={this.onToggle} ref="menu" showLeft={showLeft} height={height}/>
 				<div className={showLeft?'main-tab':'main-tab showLeft'} style={{ width: this.state.width }}>
@@ -455,10 +456,15 @@ class Container extends Component {
 // export default Container;
 
 //影射Store的State到App的Props, 这里用做数据
-function mapStateToProps(state) {
-	return state.accbook;
-}
-
+// function mapStateToProps(state) {
+// 	return state.accbook;
+// }
+const mapStateToProps = state => ({ ...state.accbook,
+	accbook: state.accbook,
+	accBookTree: state.accbook.accBookTree,
+	accBook: state.accbook.accBook,
+	accBookObj:state.accbook.accBookObj,
+});
 //影射Store的dispath到App的Props,这里用做操作(事件)
 function mapDispatchToProps(dispatch) {
 	return bindActionCreators(actionAccbook, dispatch);
