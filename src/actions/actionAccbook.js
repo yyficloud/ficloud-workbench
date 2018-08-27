@@ -89,28 +89,29 @@ export function queryDefaultAcc(outEnvironment,callback) { // eslint-disable-lin
 export function getAccBookObj(id,accbookData) {
 	return (dispatch) => {
 		let obj,
-		index = 0;
-	const targetData = accbookData.find((prod, i) => {
-		if (prod.id == id||this.accBook) {
-			index = i;
-			return true;
-		}
-		return false;
-	});
-	if (targetData) {
-		obj = {
-			id: targetData.id,
-			name: targetData.name,
-			code: targetData.code
-		};
-	}
-	return dispatch({
-			type: types.UPDATE_DEFAULTACCBOOK,
-			data: {
-				accBookObj:obj,
-				accBook:id
+			index = 0;
+		const targetData = accbookData.find((prod, i) => {
+			if (prod.id === id) {
+				index = i;
+				return true;
 			}
+			return false;
 		});
+		if (targetData) {
+			obj = {
+				id: targetData.id,
+				name: targetData.name,
+				code: targetData.code
+			};
+		}
+		dispatch(returnAccBook(obj));
+		// return {
+		// 		type: types.LOAD_DEFAULTACCBOOK,
+		// 		data: {
+		// 			accBookObj:obj,
+		// 			accBook:id
+		// 		}
+		// 	};
 	};
 }
 function returnAccBook(data){

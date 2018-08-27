@@ -59,7 +59,7 @@ class InputRef extends React.Component {
         return (
             <div onClick={this.toggle}>
                 <div className="ssc-input">
-                    <input readOnly="readonly" placeholder={this.props.placeholder} value={this.state.text} title={this.state.text}/>
+                    <input readOnly="readonly" placeholder={this.props.placeholder} value={this.props.placeholder} title={this.props.placeholder}/>
                 </div>
                 <Popup strategy={this.props.strategy} gap={0}>
                     <div style={{ display: this.state.show, width: this.props.width }}

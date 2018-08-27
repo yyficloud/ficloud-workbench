@@ -30,11 +30,11 @@ class TabAccbook extends React.Component {
     }
 
     render() {
-        const {isAccBook,accBookData,accBookObj,accBook} = this.props;
+        const {isAccBook,accBookData,accBookObj,accBook,accBookName} = this.props;
         return (
             <div style={{ display: isAccBook? 'inline-block': 'none' }} className={this.props.className ? this.props.className + ' global-accbook' : 'global-accbook'} >
                 <span className="mr5">账簿：</span>
-                <InputRef placeholder={accBookObj&&accBookObj.name?accBookObj.name:''} ref="periodRef" onChanged={this.accChanged}>
+                <InputRef placeholder={accBookName} ref="periodRef" onChanged={this.accChanged}>
                     <RefAccBook ref="innerAcc" default = {accBook} accBooks={accBookData}/>
                 </InputRef>
             </div>

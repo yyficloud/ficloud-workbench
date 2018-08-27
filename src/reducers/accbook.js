@@ -5,6 +5,7 @@ const initAccbookState = {
 	accBookData:[],
 	accBookTree:[],
 	accBook:'',
+	accBookName:'',
 	accBookObj:null,
 };
 export default function accbook(state = initAccbookState, action) {
@@ -17,6 +18,7 @@ export default function accbook(state = initAccbookState, action) {
 			return { ...state,
 				accBookData: action.data.accBookData,
 				accBook: action.data.accBook,
+				accBookName:action.data.accBookObj.name,
 				accBookObj: action.data.accBookObj,
 			};
 		case LOAD_ACCBOOKTREE:
@@ -26,21 +28,24 @@ export default function accbook(state = initAccbookState, action) {
 		case UPDATE_ACCBOOKOBJ:
 			return { ...state,
 				accBookObj: action.data,
+				accBookName:action.data.name,
 			};
 		case LOAD_DEFAULTACCBOOK:
-			// return { ...state,
-			// 	accBook: action.data.accBook,
-			// 	accBookObj: action.data.accBookObj,
-			// };
-			return update(state, {
-					accBook: {$set: action.data.accBook},
-					accBookObj: {$set: action.data.accBookObj}
-				}
-			);
+			return { ...state,
+				accBook: action.data.accBook,
+				accBookObj: action.data.accBookObj,
+				accBookName:action.data.accBookObj.name,
+			};
+			// return update(state, {
+			// 		accBook: {$set: action.data.accBook},
+			// 		accBookObj: {$set: action.data.accBookObj}
+			// 	}
+			// );
 		case UPDATE_DEFAULTACCBOOK:
 			return update(state, {
 				accBook: {$set: action.data.accBook},
-				accBookObj: {$set: action.data.accBookObj}
+				accBookObj: {$set: action.data.accBookObj},
+				accBookName:{$set: action.data.accBookObj.name}
 				}
 			);
 	}

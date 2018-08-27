@@ -234,7 +234,7 @@ class Container extends Component {
 		// reset accbook
 		if (!newTab['accBook']) {
 		} else if (this.props.accBook !== newTab.accBook) {
-			// this.props.getAccBookObj(newTab.accBook,this.props.accBookData);
+			this.props.getAccBookObj(newTab.accBook,this.props.accBookData);
 		}
 	}
 	/**
@@ -415,7 +415,7 @@ class Container extends Component {
 		return (
 			<div className={ classNames('ficloud-bench', { [`${className}`]: className })}>
 				{
-					<TabAccBook ref="acc" onChange={this.accChange} accBookObj={this.props.accBookObj} isAccBook={this.state.isAccBook} accBookData ={this.props.accBookTree} accBook={this.props.accBook} className={showLeft?'':'showLeft'}/>
+					<TabAccBook ref="acc" onChange={this.accChange} accBookName={this.props.accBookName} accBookObj={this.props.accBookObj} isAccBook={this.state.isAccBook} accBookData ={this.props.accBookTree} accBook={this.props.accBook} className={showLeft?'':'showLeft'}/>
 				}
 				<LeftMenu menus={menuItems} current={current} onMenuClick={this.menuClick} onToggle={this.onToggle} ref="menu" showLeft={showLeft} height={height}/>
 				<div className={showLeft?'main-tab':'main-tab showLeft'} style={{ width: this.state.width }}>
@@ -463,6 +463,7 @@ const mapStateToProps = state => ({ ...state.accbook,
 	accBookData: state.accbook.accBookData,
 	accBook: state.accbook.accBook,
 	accBookObj:state.accbook.accBookObj,
+	accBookName:state.accbook.accBookName
 });
 //影射Store的dispath到App的Props,这里用做操作(事件)
 function mapDispatchToProps(dispatch) {
