@@ -234,10 +234,10 @@ class Container extends Component {
 		}
 		// reset accbook
 		if (!newTab['accBook']) {
-			this.refs.acc.setValue(accbookStore.getAccBook);
+			// this.refs.acc.setValue(accbookStore.getAccBook);
 		} else if (accbookStore.getAccBook !== newTab.accBook) {
 			accbookStore.accBook = newTab.accBook;
-			this.refs.acc.setValue(newTab.accBook);
+			// this.refs.acc.setValue(newTab.accBook);
 		}
 	}
 	/**
