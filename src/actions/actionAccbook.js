@@ -35,10 +35,10 @@ export function queryAllAcc(outEnvironment,callback) {
 			if (data.success) {
 				dispatch(getAccBookTree(data.data));
 				dispatch(returnAccBookData(data.data));
-				localStorage.setItem('accBookData', JSON.stringify(data.data));
-				if(typeof callback ==='function' ){
-					callback();
-				}
+				// localStorage.setItem('accBookData', JSON.stringify(data.data));
+				// if(typeof callback ==='function' ){
+				// 	callback();
+				// }
 			} else {
 				if(typeof callback ==='function' ){
 					callback();
@@ -46,6 +46,7 @@ export function queryAllAcc(outEnvironment,callback) {
 			}
 		})
 		.catch((err) => {
+			console.log(err);
 			if(typeof callback ==='function' ){
 				callback();
 			}
@@ -134,39 +135,50 @@ function returnAccBookData(data){
 		}
 	};
 }
-function getAccBookTree(root) {
-	var resultRoot=[];
-	root.map((val)=>{val.children=null;});
-	for ( var i = 0; i < root.length; i++){
-		var ri = root[i];
-		if (ri.parentOrg == ''||ri.parentOrg == null||(!this.isInArray(root,ri))){
-			resultRoot.push (ri);
-		}else{
-			for ( let j = 0; j < root.length; j++){
-				let rj = root[j];
-				if (rj.pk_org_id == ri.parentOrg)
-				{
-					rj.children = !rj.children ? [] : rj.children;
-					rj.children.push (ri);
-					break;
-				}
-			}
-		}
-	}
-	// return resultRoot;
+function returnAccBookTree(resultRoot){
 	return {
 		type: types.LOAD_ACCBOOKTREE,
 		data: resultRoot
 	};
 }
-function isInArray(arrays,current){
-	const isIn = arrays.find((prod, i) => {
-		if (prod.pk_org_id === current.parentOrg) {
-			return true;
+
+function getAccBookTree(root) {
+	return (dispatch) => {
+		var resultRoot = [];
+		function isInArray(arrays, current) {
+			const isIn = arrays.find((prod, i) => {
+				if (prod.pk_org_id === current.parentOrg) {
+					return true;
+				}
+				return false;
+			});
+			return isIn;
 		}
-		return false;
-	});
-	return isIn;
+
+		root.map((val) => {
+			val.children = null;
+		});
+		for (var i = 0; i < root.length; i++) {
+			var ri = root[i];
+			if (ri.parentOrg == '' || ri.parentOrg == null || isInArray(root, ri)) {
+				resultRoot.push(ri);
+			} else {
+				for (let j = 0; j < root.length; j++) {
+					let rj = root[j];
+					if (rj.pk_org_id == ri.parentOrg) {
+						rj.children = !rj.children ? [] : rj.children;
+						rj.children.push(ri);
+						break;
+					}
+				}
+			}
+		}
+		dispatch(returnAccBookTree(resultRoot));
+		// return {
+		// 	type: types.LOAD_ACCBOOKTREE,
+		// 	data: resultRoot
+		// };
+	};
 }
 
 export const updateAccbook = data => dispatch => (

@@ -89,8 +89,11 @@ class Container extends Component {
 		window.addEventListener('resize', this.handleResize);
 		listen(this.messageCallback);
 	}
-	componentWillReceiveProps(props){
-		let newTab = props.current;
+	componentWillReceiveProps(nextProps){
+		let newTab = nextProps.current;
+		if (nextProps.accBook && newTab.accBook !== nextProps.accBook) {
+			newTab.accBook = nextProps.accBook;
+		}
 		this.formartAccbook(newTab);
 		if(newTab.serviceCode){
 			if (newTab.serviceCode !== this.state.currentCode) {
@@ -271,25 +274,27 @@ class Container extends Component {
 
 
 // 账簿改变,刷新当前页
-	refreshCurrent() {
+	refreshCurrent(accBook) {
 		let tab = _.find(this.state.tabList, menu => menu.serviceCode == this.state.currentCode);
 		if (tab) {
 			// if (this.state.currentCode === 'addvoucher') {
 			// 	tab.routerParams = '';
 			// }
-			this.refreshTabList(tab, this.state.currentCode);
+			this.refreshTabList(tab, this.state.currentCode,accBook);
 		} else {
 			tab = _.find(this.state.moreList, menu => menu.serviceCode == this.state.currentCode);
 			if(tab){
-				this.refreshMoreList(tab, this.state.currentCode);
+				this.refreshMoreList(tab, this.state.currentCode,accBook);
 			}
 		}
 	}
 	//刷新TabList
-	refreshTabList(tab, code) {
+	refreshTabList(tab, code,accBook) {
 		let newTab = Object.assign({}, tab);
-		newTab.accBook = this.props.accBook;
-
+		if (typeof accBook === 'string'){
+			newTab.accBook = accBook || this.props.accBook;
+		}
+			//|| this.props.accBook;
 		let j = _.findIndex(this.state.tabList, item => item.serviceCode == code);
 		let jl = this.state.tabList.length;
 		let tl = [];
@@ -305,9 +310,9 @@ class Container extends Component {
 	}
 
 	//刷新MoreList
-	refreshMoreList(tab, code) {
+	refreshMoreList(tab, code,accBook) {
 		let newTab = Object.assign({}, tab);
-		newTab.accBook = this.props.accBook;
+		newTab.accBook = accBook || this.props.accBook;
 
 		let i = _.findIndex(this.state.moreList, item => item.serviceCode == code);
 		let il = this.state.moreList.length;
@@ -388,7 +393,7 @@ class Container extends Component {
 	accChange(value) {
 		// 改变账簿时候,把全局账簿变量修改(重构:重命名为当前账簿)
 		this.props.updateAccbook(value);
-		setTimeout(this.refreshCurrent, 100);
+		setTimeout(this.refreshCurrent(value && value.id ? value.id : ''), 100);
 		// 刷新当前的Tab页
 	}
 	onToggle=()=>{

@@ -16,7 +16,16 @@ var Config = require('./config');
 // scheme:[//[user:password@]host[:port]][/]path[?query][#fragment]
 const makeURL = (path,env) => {
 	const outEnvironment = Config[env || 'dev'];
-	let { G_SCHEME, G_HOST_PORT, G_PATH_PREFIX } = outEnvironment;
+	let G_SCHEME, G_HOST_PORT, G_PATH_PREFIX;
+	if (!outEnvironment) {
+		G_SCHEME = 'https';
+		G_HOST_PORT = 'acc.diwork.com';
+		G_PATH_PREFIX = '/ficloud';
+	} else {
+		G_SCHEME = outEnvironment.G_SCHEME;
+		G_HOST_PORT = outEnvironment.G_HOST_PORT;
+		G_PATH_PREFIX = outEnvironment.G_PATH_PREFIX;
+	}
 	return `${G_SCHEME}://${G_HOST_PORT}${G_PATH_PREFIX}${path}`;
 };
 
@@ -25,9 +34,9 @@ export const getAccBookURL = env => makeURL('/accbook/refallbooks',env);
 export const getAccBookDefaultURL= env => makeURL('/user/defaultaccbook',env);
 
 class UrlConfig {
-    constructor() {
+	constructor() {
 
-    }
+	}
 }
 
 export default new UrlConfig();

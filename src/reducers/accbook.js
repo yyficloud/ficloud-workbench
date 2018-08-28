@@ -48,5 +48,11 @@ export default function accbook(state = initAccbookState, action) {
 				accBookName:{$set: action.data.accBookObj.name}
 				}
 			);
+		// case UPDATE_DEFAULTACCBOOK:
+		// 	return { ...state,
+		// 		accBook: action.data.accBook,
+		// 		accBookObj: action.data.accBookObj,
+		// 		accBookName:action.data.accBookObj.name,
+		// 	};
 	}
 }
