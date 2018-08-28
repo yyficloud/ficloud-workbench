@@ -3,7 +3,6 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import * as actionAccbook from '../actions/actionAccbook';
 import _ from 'lodash';
-// import { Provider, observer } from 'mobx-react';
 import classNames from 'classnames';
 import './../other/messenger';
 import { listen } from './../other/home.global';
@@ -12,12 +11,9 @@ import TabContent from './TabContent.js';
 import TabHeader from './TabHeader.js';
 import TabHeaderMore from './TabHeaderMore.js';
 import TabAccBook from './TabAccBook';
-// import AccbookStore from './../stores/AccbookStore';
-// var accbookStore = AccbookStore;
 
 var timer = null;
 
-// @observer
 class Container extends Component {
 	constructor(props) {
 		super(props);

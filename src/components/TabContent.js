@@ -46,15 +46,20 @@ export default class TabContent extends Component {
 
         const pstr = 'version=' + '&accbook=' + item.accBook + '&code=' + item.serviceCode + '&params=' + encodeURIComponent(JSON.stringify(item.params));
         let uri = item.url?item.url:'';
-        let hash = '/default';
-        let uriArr = uri.split('#');
+		let url = uri;
+		if (uri) {
+			let hash = '/default';
+			let uriArr = uri.split('#');
 
-		if(uriArr.length>=1){
-        	uri=uriArr[0];
-			hash = uriArr[1];
+			if (uriArr.length >= 1) {
+				uri = uriArr[0];
+				hash = uriArr[1];
+			}
+			const connStr = uri.indexOf('?') >= 0 ? '&' : '?';
+			url = uri + connStr + pstr + '#' + hash + item.routerParams;
+		} else {
+			url='404';
 		}
-		const connStr = uri.indexOf('?') >= 0 ? '&' : '?';
-        const url = uri + connStr + pstr +'#'+ hash + item.routerParams;
 
         return (
             <div key ={item.code} className={active ? 'tab-content-item active': 'tab-content-item'} style={{ height: this.state.frameHeight }}>
