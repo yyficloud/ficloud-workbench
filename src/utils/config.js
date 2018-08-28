@@ -10,7 +10,7 @@ module.exports = {
 		G_PATH_PREFIX: '/ficloud',
 	},
 	daily: {
-		G_SCHEME: 'htts',
+		G_SCHEME: 'https',
 		G_HOST_PORT: 'acc-daily.yyuap.com',
 		G_PATH_PREFIX: '/ficloud',
 	},
