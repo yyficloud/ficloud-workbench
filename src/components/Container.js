@@ -95,7 +95,7 @@ class Container extends Component {
 		listen(this.messageCallback);
 	}
 	componentWillReceiveProps(props){
-		let newTab = toJS(props.current);
+		let newTab = props.current;
 		this.formartAccbook(newTab);
 		if(newTab.serviceCode){
 			if (newTab.serviceCode !== this.state.currentCode) {
@@ -200,8 +200,8 @@ class Container extends Component {
 	changeOrOpenTab(newTab){
 		let that = this;
 		// 存在code就置为当前页面,不存在就增加
-		let exist = _.find(that.state.tabList, menu => menu.serviceCode == newTab.serviceCode);
-		let moreExist = _.find(that.state.moreList, menu => menu.serviceCode == newTab.serviceCode);
+		let exist = _.find(that.state.tabList, menu => menu.serviceCode === newTab.serviceCode);
+		let moreExist = _.find(that.state.moreList, menu => menu.serviceCode === newTab.serviceCode);
 
 		if (exist) {
 			// 判断是否有路由参数
@@ -425,7 +425,7 @@ class Container extends Component {
 						key={`tab_${item.serviceCode}`}
 						item={item}
 						onActive={this.active}
-						active={this.state.currentCode == item.serviceCode}
+						active={this.state.currentCode === item.serviceCode}
 						onRemove={this.remove}
 					/>))}
 					{moreTab}
@@ -436,14 +436,14 @@ class Container extends Component {
 							key={`tabContent_${item.serviceCode+index}`}
 							item={item}
 							onActive={this.active}
-							active={this.state.currentCode == item.serviceCode}
+							active={this.state.currentCode === item.serviceCode}
 							onRemove={this.remove}
 						/>))}
 						{moreList.map((item,index) => (<TabContent
 							key={`tabContentMore_${item.serviceCode+index}`}
 							item={item}
 							onActive={this.active}
-							active={this.state.currentCode == item.serviceCode}
+							active={this.state.currentCode === item.serviceCode}
 							onRemove={this.remove}
 						/>))}
 					</div>

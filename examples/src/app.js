@@ -6664,13 +6664,13 @@ export default class App extends React.Component {
 				}
 			],
 			current: {
-				menuItemId: '3f4179be-09ee-4ff2-b608-fb8a65421ada',
-				title: '固定资产维护',
+				menuItemId: '83aae795-a45d-4e22-a554-766e0fba9679',
+				title: '事项明细',
 				//服务编码，唯一确定一个service
-				serviceCode: 'fixedasset',
-				serviceId: '0f417493-a7f0-48e3-9b8f-a0982c00b52e',
+				serviceCode: 'hsfwsxmx',
+				serviceId: '7e82e08c-168a-4472-93b3-885aa31b37c2',
 				//组件内部嵌套iframe的url，此url会带有参数，形如：http://xxx.xxx.xxx/xxx?serviceCode=serv_1，iframe内部即可使用此serviceCode参数来控制属性菜单的展示
-				url: 'http://127.0.0.1:4001/home_index.html#/voucher/edit',
+				url: 'https://acc.diwork.com/home_index.html#/publicquery',
 				extendDesc:'{&quot;accbook&quot;:true}'////'{\\\"accbook\\\":true}'"{\\\"accbook\\\":true}""{&quot;accbook&quot;:true}"
 			}
 		};
