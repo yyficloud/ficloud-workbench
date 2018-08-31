@@ -384,8 +384,8 @@ class Container extends Component {
 		let that = this;
 		//最后一个页签不能删除
 		if (this.state.tabList.length <= 1) {
-			// accbookStore.isAccBook = false;
-			return;
+			accbookStore.isAccBook = false;
+			// return;
 		}
 		let index = _.findIndex(this.state.tabList, item => item.serviceCode == code);
 		let list = _.reject(this.state.tabList, { serviceCode: code });
