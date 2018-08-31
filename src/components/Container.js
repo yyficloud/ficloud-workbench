@@ -220,7 +220,9 @@ class Container extends Component {
 	 * @param isMore 是否是更多页签中页签
 	 */
 	changeTab(newTab, isMore) {
-		newTab = Object.assign(newTab, this.state.param);
+		if(this.state.param){
+			newTab = Object.assign(newTab, this.state.param);
+		}
 		let newState = { currentCode: newTab.serviceCode };
 		if (isMore) {
 			newState['moreIsShow'] = true;
@@ -234,10 +236,8 @@ class Container extends Component {
 		}
 		// reset accbook
 		if (!newTab['accBook']) {
-			// this.refs.acc.setValue(accbookStore.getAccBook);
 		} else if (accbookStore.getAccBook !== newTab.accBook) {
 			accbookStore.accBook = newTab.accBook;
-			// this.refs.acc.setValue(newTab.accBook);
 		}
 	}
 	/**
