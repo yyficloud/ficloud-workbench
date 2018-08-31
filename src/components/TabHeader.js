@@ -15,13 +15,13 @@ export default class TabHeader extends Component {
   }
 
   render() {
-
+  	let {index} = this.props;
     return (
       <div className="tab-header">
         <div onClick={() => this.props.onActive(this.props.item.serviceCode)} className={this.props.active ? 'tab-title-item active': 'tab-title-item'} title={this.props.item.name}>
             {this.props.item.title}
         </div>
-		  <Icon type="uf-close" onClick={() => this.props.onRemove(this.props.item.serviceCode)}  />
+		  {index === 0 ? '' : <Icon type="uf-close" onClick={() => this.props.onRemove(this.props.item.serviceCode)}/>}
       </div>
     );
   }

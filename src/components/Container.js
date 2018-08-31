@@ -94,8 +94,8 @@ class Container extends Component {
 		window.addEventListener('resize', this.handleResize);
 		listen(this.messageCallback);
 	}
-	componentWillReceiveProps(props){
-		let newTab = props.current;
+	componentWillReceiveProps(nextProps){
+		let newTab = nextProps.current;
 		this.formartAccbook(newTab);
 		if(newTab.serviceCode){
 			if (newTab.serviceCode !== this.state.currentCode) {
@@ -278,15 +278,15 @@ class Container extends Component {
 
 
 // 账簿改变,刷新当前页
-	refreshCurrent() {
+	refreshCurrent(newTab) {
 		let tab = _.find(this.state.tabList, menu => menu.serviceCode == this.state.currentCode);
 		if (tab) {
-			// if (this.state.currentCode === 'addvoucher') {
-			// 	tab.routerParams = '';
-			// }
+			if(newTab){
+				tab = newTab;
+			}
 			this.refreshTabList(tab, this.state.currentCode);
 		} else {
-			tab = _.find(this.state.moreList, menu => menu.serviceCode == this.state.currentCode);
+			tab = newTab || _.find(this.state.moreList, menu => menu.serviceCode == this.state.currentCode);
 			if(tab){
 				this.refreshMoreList(tab, this.state.currentCode);
 			}
@@ -355,7 +355,8 @@ class Container extends Component {
 		let that = this;
 		//最后一个页签不能删除
 		if (this.state.tabList.length <= 1) {
-			accbookStore.isAccBook = false;
+			// accbookStore.isAccBook = false;
+			return;
 		}
 		let index = _.findIndex(this.state.tabList, item => item.serviceCode == code);
 		let list = _.reject(this.state.tabList, { serviceCode: code });
@@ -424,6 +425,7 @@ class Container extends Component {
 					{tabList.map((item,index) => (<TabHeader
 						key={`tab_${item.serviceCode}`}
 						item={item}
+						index={index}
 						onActive={this.active}
 						active={this.state.currentCode === item.serviceCode}
 						onRemove={this.remove}
