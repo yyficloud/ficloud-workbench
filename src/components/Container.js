@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { toJS } from 'mobx';
 import _ from 'lodash';
 import { Provider, observer } from 'mobx-react';
 import classNames from 'classnames';
@@ -11,6 +10,7 @@ import TabHeader from './TabHeader.js';
 import TabHeaderMore from './TabHeaderMore.js';
 import TabAccBook from './TabAccBook';
 import AccbookStore from './../stores/AccbookStore';
+// import {findPath} from '../utils/findPath';
 var accbookStore = AccbookStore;
 
 var timer = null;
@@ -51,6 +51,7 @@ class Container extends Component {
 		this.refreshCurrent = this.refreshCurrent.bind(this);
 		this.accChange = this.accChange.bind(this);
 		this.formartAccbook = this.formartAccbook.bind(this);
+		this.loadCurrent = this.loadCurrent.bind(this);
 	}
 
 	componentDidMount() {
@@ -95,6 +96,8 @@ class Container extends Component {
 		listen(this.messageCallback);
 	}
 	componentWillReceiveProps(nextProps){
+		// let newTab = nextProps.current;
+		// this.loadCurrent(newTab);
 		let newTab = nextProps.current;
 		this.formartAccbook(newTab);
 		if(newTab.serviceCode){
@@ -106,6 +109,27 @@ class Container extends Component {
 				this.refreshCurrent(newTab);
 			}
 		}
+	}
+
+	loadCurrent = (serviceCode) => {
+		// const menuPath = findPath(this.props.menuItems, 'children', 'serviceCode', serviceCode);
+		// let newTab = menuPath.slice(-1)[0];
+		// if (newTab) {
+		// 	newTab = Object.assign(newTab, newTab.service);
+		// 	newTab['extendDesc'] = newTab.ext1;
+		// } else {
+		// 	return;
+		// }
+		// this.formartAccbook(newTab);
+		// if(newTab.serviceCode){
+		// 	if (newTab.serviceCode !== this.state.currentCode) {
+		// 		//切换页签
+		// 		this.changeOrOpenTab(newTab);
+		// 	}else{
+		// 		//刷新当前页签
+		// 		this.refreshCurrent(newTab);
+		// 	}
+		// }
 	}
 	formartAccbook=(current)=>{
 		if (!current.extendDesc) {
@@ -149,6 +173,7 @@ class Container extends Component {
 			//设置一个值存参数
 			this.setState({ param:msg },()=>{
 				this.props.updateCurrent(msg.code);
+				// this.loadCurrent(msg.code);
 			});
 		}
 	}
@@ -227,8 +252,6 @@ class Container extends Component {
 		if (isMore) {
 			newState['moreIsShow'] = true;
 		}
-		this.setState(newState, () => {
-		});
 		//如果有路由参数,证明是页面内部跳转,不需要重设账簿
 		if (this.state.param) {
 			newTab.accBook = accbookStore.getAccBook;
@@ -239,6 +262,7 @@ class Container extends Component {
 		} else if (accbookStore.getAccBook !== newTab.accBook) {
 			accbookStore.accBook = newTab.accBook;
 		}
+		this.setState(newState);
 	}
 	/**
 	 * 打开新页签
@@ -248,7 +272,10 @@ class Container extends Component {
 		if(!newTab.serviceCode){
 			return;
 		}
-		newTab= Object.assign(newTab,this.state.param);
+		if(this.state.param){
+			newTab = Object.assign(newTab, this.state.param);
+		}
+		// newTab= Object.assign(newTab,this.state.param);
 		let tabField = 'tabList';
 		let newState={ currentCode: newTab.serviceCode };
 		if(this.state.tabList.length >= this.state.maxLength){
@@ -271,14 +298,16 @@ class Container extends Component {
 	menuClick(serviceCode,item) {
 		this.setState({ param:undefined },()=>{
 			this.props.updateCurrent(serviceCode);
+			// this.loadCurrent(serviceCode);
 		});
-		// 记录点击历史
-		// this.tabsStore.recordmenu(serviceCode);
 	}
 
 
 // 账簿改变,刷新当前页
 	refreshCurrent(newTab) {
+		if(this.state.param){
+			newTab = Object.assign(newTab, this.state.param);
+		}
 		let tab = _.find(this.state.tabList, menu => menu.serviceCode == this.state.currentCode);
 		if (tab) {
 			if(newTab){
@@ -365,15 +394,19 @@ class Container extends Component {
 			index < 0 ? index = 0 : null;
 		}
 		// console.log(JSON.stringify(list));
-		this.setState({ tabList: list }, () => {
-			if (this.state.tabList.length >= index && this.state.currentCode == code) {
-				if(this.state.tabList.length > 0){
-					that.active(this.state.tabList[index].serviceCode);
-				}else{
-					// that.active('');
-				}
-			}
-		});
+		this.setState({ tabList: list });
+		if (list.length > 0 && list.length >= index && this.state.currentCode === code) {
+			that.active(list[index].serviceCode);
+		}
+		// this.setState({ tabList: list }, () => {
+		// 	if (this.state.tabList.length >= index && this.state.currentCode == code) {
+		// 		if(this.state.tabList.length > 0){
+		// 			that.active(this.state.tabList[index].serviceCode);
+		// 		}else{
+		// 			// that.active('');
+		// 		}
+		// 	}
+		// });
 	}
 
 	remove(code) {
