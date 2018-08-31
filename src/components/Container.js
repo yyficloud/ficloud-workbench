@@ -10,7 +10,7 @@ import TabHeader from './TabHeader.js';
 import TabHeaderMore from './TabHeaderMore.js';
 import TabAccBook from './TabAccBook';
 import AccbookStore from './../stores/AccbookStore';
-// import {findPath} from '../utils/findPath';
+import { findPath } from '../utils/findPath';
 var accbookStore = AccbookStore;
 
 var timer = null;
@@ -60,66 +60,46 @@ class Container extends Component {
 		if (this.props.env){
 			accbookStore.outEnvironment = this.props.env;
 		}
-		let {width,tabLength,height} = this.getWidth();
+		let { width,tabLength,height } = this.getWidth();
 		that.setState({
 			width: width,
 			maxLength: tabLength,height:height
 		});
 		// console.log(current.extendDesc);
-		this.formartAccbook(current);
+		// this.formartAccbook(current);
+		if(current&&current.serviceCode){
+			this.loadCurrent(current.serviceCode);
+		}
 		accbookStore.queryAllAcc(()=>{
 			if(!current['accBook']){
 				current['accBook'] = accbookStore.getAccBook;
 			}
-			if(current&&current.serviceCode){
-				let tabList = [current];
-				that.setState(
-					{
-						tabList
-					});
-			}
+			this.loadCurrent(current.serviceCode,true);
 		});
 		accbookStore.queryDefaultAcc(()=>{
 			if(!current['accBook']){
 				current['accBook'] = accbookStore.getAccBook;
 			}
-			if(current&&current.serviceCode){
-			let tabList = [current];
-			that.setState(
-				{
-					tabList
-				});
-			}
+			// if (current && current.serviceCode) {
+			// let tabList = [current];
+			// that.setState(
+			// 	{
+			// 		tabList
+			// 	});
+			this.loadCurrent(current.serviceCode,true);
+			// }
 		});
 		// 监听窗口大小改变事件
 		window.addEventListener('resize', this.handleResize);
 		listen(this.messageCallback);
 	}
 	componentWillReceiveProps(nextProps){
-		// let newTab = nextProps.current;
-		// this.loadCurrent(newTab);
-		let newTab = nextProps.current;
-		this.formartAccbook(newTab);
-		if(newTab.serviceCode){
-			if (newTab.serviceCode !== this.state.currentCode) {
-				//切换页签
-				this.changeOrOpenTab(newTab);
-			}else{
-				//刷新当前页签
-				this.refreshCurrent(newTab);
-			}
+		if ((!this.props.current.serviceCode)) {
+			let newTab = nextProps.current;
+			this.setState({ currentCode: newTab.serviceCode });
+			// this.loadCurrent(newTab.serviceCode);
 		}
-	}
-
-	loadCurrent = (serviceCode) => {
-		// const menuPath = findPath(this.props.menuItems, 'children', 'serviceCode', serviceCode);
-		// let newTab = menuPath.slice(-1)[0];
-		// if (newTab) {
-		// 	newTab = Object.assign(newTab, newTab.service);
-		// 	newTab['extendDesc'] = newTab.ext1;
-		// } else {
-		// 	return;
-		// }
+		// let newTab = nextProps.current;
 		// this.formartAccbook(newTab);
 		// if(newTab.serviceCode){
 		// 	if (newTab.serviceCode !== this.state.currentCode) {
@@ -130,6 +110,34 @@ class Container extends Component {
 		// 		this.refreshCurrent(newTab);
 		// 	}
 		// }
+	}
+
+	loadCurrent = (serviceCode,needAccBook) => {
+		if (needAccBook) {
+			serviceCode = this.state.currentCode;
+		}
+		const menuPath = findPath(this.props.menuItems, 'children', 'serviceCode', serviceCode);
+		let newTab = menuPath.slice(-1)[0];
+		if (newTab) {
+			newTab = Object.assign(newTab, newTab.service);
+			if(needAccBook){
+				newTab['accBook'] = accbookStore.getAccBook;
+			}
+			newTab['extendDesc'] = newTab.ext1;
+			newTab['title'] = newTab.serviceName;
+		} else {
+			return;
+		}
+		this.formartAccbook(newTab);
+		if(newTab.serviceCode){
+			if (newTab.serviceCode !== this.state.currentCode || needAccBook) {
+				//切换页签
+				this.changeOrOpenTab(newTab);
+			}else{
+				//刷新当前页签
+				this.refreshCurrent(newTab);
+			}
+		}
 	}
 	formartAccbook=(current)=>{
 		if (!current.extendDesc) {
@@ -173,7 +181,7 @@ class Container extends Component {
 			//设置一个值存参数
 			this.setState({ param:msg },()=>{
 				this.props.updateCurrent(msg.code);
-				// this.loadCurrent(msg.code);
+				this.loadCurrent(msg.code);
 			});
 		}
 	}
@@ -183,10 +191,10 @@ class Container extends Component {
 			clearTimeout(timer);
 		}
 		timer = setTimeout(() => {
-			let {width,tabLength,height}=this.getWidth();
+			let { width,tabLength,height }=this.getWidth();
 
 			that.setState({ width:width,
-			maxLength:tabLength ,height:height});
+				maxLength:tabLength ,height:height });
 			if (width === this.state.width) {
 				return;
 			}
@@ -196,13 +204,13 @@ class Container extends Component {
 			if (tabListLength > tabLength) {
 				let moreList = _.concat(_.drop(this.state.tabList, tabLength), this.state.moreList);
 				let tabList = _.dropRight(this.state.tabList, tabListLength - tabLength);
-				this.setState({moreList:moreList,tabList:tabList,moreIsShow:true});
+				this.setState({ moreList:moreList,tabList:tabList,moreIsShow:true });
 			}else{
 				if (moreListLength > 0) {
 					let changeLength = tabLength - tabListLength >= moreListLength ? moreListLength : tabLength - tabListLength;
 					let tabList = _.concat(this.state.tabList, _.dropRight(this.state.moreList, moreListLength - changeLength));
 					let moreList = _.drop(this.state.moreList, changeLength);
-					this.setState({moreList:moreList,tabList:tabList,moreIsShow:moreList.length>0});
+					this.setState({ moreList:moreList,tabList:tabList,moreIsShow:moreList.length>0 });
 				}
 			}
 		}, 200);
@@ -216,7 +224,7 @@ class Container extends Component {
 		if (width % 160 < 19 ) {//更多条件的宽度是19&& this.state.moreList.length > 0
 			tabLength = tabLength - 1 > 0 ? tabLength - 1 : 0;
 		}
-		return{width:width,tabLength:tabLength,height:windowHeight};
+		return{ width:width,tabLength:tabLength,height:windowHeight };
 	}
 	/**
 	 * 设置当前选中的页签
@@ -252,6 +260,7 @@ class Container extends Component {
 		if (isMore) {
 			newState['moreIsShow'] = true;
 		}
+		this.setState(newState);
 		//如果有路由参数,证明是页面内部跳转,不需要重设账簿
 		if (this.state.param) {
 			newTab.accBook = accbookStore.getAccBook;
@@ -262,7 +271,7 @@ class Container extends Component {
 		} else if (accbookStore.getAccBook !== newTab.accBook) {
 			accbookStore.accBook = newTab.accBook;
 		}
-		this.setState(newState);
+
 	}
 	/**
 	 * 打开新页签
@@ -297,6 +306,7 @@ class Container extends Component {
 	menuClick(serviceCode,item) {
 		this.setState({ param:undefined },()=>{
 			this.props.updateCurrent(serviceCode);
+			setTimeout(this.loadCurrent(serviceCode),100);
 			// this.loadCurrent(serviceCode);
 		});
 	}
@@ -434,7 +444,7 @@ class Container extends Component {
 		// 刷新当前的Tab页
 	}
 	onToggle=()=>{
-		this.setState({showLeft:!this.state.showLeft});
+		this.setState({ showLeft:!this.state.showLeft });
 
 
 	}
