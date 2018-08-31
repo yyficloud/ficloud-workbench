@@ -275,7 +275,6 @@ class Container extends Component {
 		if(this.state.param){
 			newTab = Object.assign(newTab, this.state.param);
 		}
-		// newTab= Object.assign(newTab,this.state.param);
 		let tabField = 'tabList';
 		let newState={ currentCode: newTab.serviceCode };
 		if(this.state.tabList.length >= this.state.maxLength){
@@ -305,18 +304,21 @@ class Container extends Component {
 
 // 账簿改变,刷新当前页
 	refreshCurrent(newTab) {
-		if(this.state.param){
-			newTab = Object.assign(newTab, this.state.param);
-		}
+		// if(this.state.param){
+		// 	newTab = Object.assign(newTab, this.state.param);
+		// }
 		let tab = _.find(this.state.tabList, menu => menu.serviceCode == this.state.currentCode);
 		if (tab) {
-			if(newTab){
-				tab = newTab;
+			if (newTab) {
+				tab['url'] = newTab.url;
 			}
 			this.refreshTabList(tab, this.state.currentCode);
 		} else {
-			tab = newTab || _.find(this.state.moreList, menu => menu.serviceCode == this.state.currentCode);
+			tab = _.find(this.state.moreList, menu => menu.serviceCode == this.state.currentCode);
 			if(tab){
+				if (newTab) {
+					tab['url'] = newTab.url;
+				}
 				this.refreshMoreList(tab, this.state.currentCode);
 			}
 		}
