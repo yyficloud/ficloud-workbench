@@ -3246,7 +3246,7 @@ export default class App extends React.Component {
 						'businessType':'mng',
 						'businessTypeInt':0,
 						'openNewTab':false,
-						'ext1':'{"accbook":false}',
+						'ext1':'{"accbook":false,"isshow":true}',
 						'ext2':'',
 						'ext3':'',
 						'ext4':'',
@@ -3353,7 +3353,7 @@ export default class App extends React.Component {
 								'businessType':'mng',
 								'businessTypeInt':0,
 								'openNewTab':false,
-								'ext1':'{"accbook":true}',
+								'ext1':'{"accbook":true,"isshow":false}',
 								'ext2':'',
 								'ext3':'',
 								'ext4':'',
@@ -6671,7 +6671,7 @@ export default class App extends React.Component {
 				serviceId: '7e82e08c-168a-4472-93b3-885aa31b37c2',
 				//组件内部嵌套iframe的url，此url会带有参数，形如：http://xxx.xxx.xxx/xxx?serviceCode=serv_1，iframe内部即可使用此serviceCode参数来控制属性菜单的展示
 				url: 'https://acc.diwork.com/home_index.html#/publicquery',
-				extendDesc:'{&quot;accbook&quot;:true}'////'{\\\"accbook\\\":true}'"{\\\"accbook\\\":true}""{&quot;accbook&quot;:true}"
+				extendDesc:'{&quot;accbook&quot;:true,"isshow":true}'////'{\\\"accbook\\\":true}'"{\\\"accbook\\\":true}""{&quot;accbook&quot;:true}"
 			}
 		};
 	};
