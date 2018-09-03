@@ -45,8 +45,8 @@ export default class TabContent extends Component {
         if (typeof(item.routerParams) == 'undefined') {
             item.routerParams = '';
         }
-
-		const pstr = 'version=' + process.env.NODE_VERSION || 'develop' + '&accbook=' + item.accBook + '&code=' + item.serviceCode + '&params=' + encodeURIComponent(JSON.stringify(item.params));
+		const version = process.env.NODE_VERSION || 'develop';
+		const pstr = 'version=' + version + '&accbook=' + item.accBook + '&code=' + item.serviceCode + '&params=' + encodeURIComponent(JSON.stringify(item.params));
         let uri = item.url?item.url:'';
         let hash = '/default';
         let uriArr = uri.split('#');
