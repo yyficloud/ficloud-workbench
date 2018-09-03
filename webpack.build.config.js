@@ -94,7 +94,7 @@ module.exports = [{
 		new webpack.DefinePlugin({
 			'process.env': {
 				NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'production'),
-				NODE_VERSION: packageJSON.version,
+				NODE_VERSION: JSON.stringify(packageJSON.version),
 			}
 		}),
 		new webpack.NamedModulesPlugin(),
