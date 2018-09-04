@@ -5219,6 +5219,84 @@ export default class App extends React.Component {
 							'serviceCode':null,
 							'children':[
 								{
+									'createTime':1536025549000,
+									'modifiedTime':1536025549000,
+									'ts':1536025549000,
+									'creator':'6e3e49a2-aa13-4ed5-ad4b-557bd6d0e7a8',
+									'modifier':'6e3e49a2-aa13-4ed5-ad4b-557bd6d0e7a8',
+									'tenantId':'e2ck4yez',
+									'menuItemId':'73c902fc-afdd-4bd9-ba08-af2dbb5be164',
+									'menuItemName':'应收单',
+									'menuItemNameExt0':null,
+									'menuItemNameExt1':null,
+									'menuItemNameExt2':null,
+									'menuItemNameExt3':null,
+									'menuItemNameExt4':null,
+									'menuItemNameExt5':null,
+									'menuItemNameExt6':null,
+									'menuItemCode':'YSGLYSDCARD',
+									'menuItemIcon':'',
+									'parentId':'ec69bf4d-613e-49b7-8cf2-29a5896f57ea',
+									'menuBarId':'2e036056-fb63-481e-a1cf-5748ecf794e3',
+									'menuItemDefault':false,
+									'serviceId':'e6ace6fa-0e5c-4c06-a854-e30e890d0093',
+									'menuItemOrder':0,
+									'url':null,
+									'service':{
+										'createTime':1536025549000,
+										'modifiedTime':1535953991000,
+										'ts':1536025549000,
+										'creator':'6e3e49a2-aa13-4ed5-ad4b-557bd6d0e7a8',
+										'modifier':'null',
+										'tenantId':'e2ck4yez',
+										'serviceId':'e6ace6fa-0e5c-4c06-a854-e30e890d0093',
+										'serviceName':'应收查询卡片',
+										'serviceCode':'ar_keep',
+										'applicationId':'2d2fd957-3ac2-4f3a-8297-6f7c5630fb80',
+										'enable':true,
+										'url':'https://acc-daily.yyuap.com/home_index.html#/chhs/ar/search',
+										'serviceIcon':'https://file-cdn.yonyoucloud.com/workapplation/default.svg',
+										'capable':false,
+										'ykjId':0,
+										'level':0,
+										'teamMenbersUnuse':false,
+										'crossTenant':false,
+										'selected':false,
+										'simpleApplicationStatus':false,
+										'clientStatus':false,
+										'webStatus':true,
+										'phoneStatus':false,
+										'everyone':false,
+										'strategy':'',
+										'sysEveryone':false,
+										'phoneOrder':0,
+										'businessTypeInt':0,
+										'openNewTab':false,
+										'ext1':'{"accbook":false,"isshow":false}',
+										'ext2':'',
+										'ext3':'',
+										'ext4':'',
+										'ext5':'',
+										'ext6':'',
+										'ext7':'',
+										'ext8':'',
+										'ext9':'',
+										'ext10':'',
+										'nccEnable':false,
+										'hasWidget':false,
+										'relationServices':[
+
+										],
+										'relationUsers':[
+
+										],
+										'realBusinessType':'000'
+									},
+									'serviceCode':'ar_keep',
+									'children':[
+
+									]
+								},{
 									'createTime':1534494075000,
 									'modifiedTime':1534494075000,
 									'ts':1534494075000,
@@ -6702,7 +6780,7 @@ export default class App extends React.Component {
 			</div>
 			<div className={''}>
 				<div className={''}>
-					<FinanceCloud menuItems={menuItems} current={{...current, extendDesc: current.ext1}} updateCurrent={this.updateCurrent}/>
+					<FinanceCloud menuItems={menuItems} current={{ ...current, extendDesc: current.ext1 }} updateCurrent={this.updateCurrent} env={'daily'}/>
 				</div>
 			</div>
 

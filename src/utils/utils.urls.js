@@ -14,7 +14,7 @@ var Config = require('./config');
 
 // 为输入的相对路径组装完整的URL
 // scheme:[//[user:password@]host[:port]][/]path[?query][#fragment]
-const makeURL = (path,env) => {
+const makeURL = (path,env,needPrefix) => {
 	const outEnvironment = Config[env || 'dev'];
 	let G_SCHEME, G_HOST_PORT, G_PATH_PREFIX;
 	if (!outEnvironment) {
@@ -26,13 +26,15 @@ const makeURL = (path,env) => {
 		G_HOST_PORT = outEnvironment.G_HOST_PORT;
 		G_PATH_PREFIX = outEnvironment.G_PATH_PREFIX;
 	}
+	if (needPrefix === false) {
+		return `${G_SCHEME}://${G_HOST_PORT}`;
+	}
 	return `${G_SCHEME}://${G_HOST_PORT}${G_PATH_PREFIX}${path}`;
 };
-
 // 账簿 查询接口
 export const getAccBookURL = env => makeURL('/accbook/refallbooks',env);
 export const getAccBookDefaultURL= env => makeURL('/user/defaultaccbook',env);
-
+export const getDefaultURL = env => makeURL('',env,false);
 class UrlConfig {
     constructor() {
 

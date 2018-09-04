@@ -1,7 +1,8 @@
 import {toJS, observable,computed,action} from 'mobx';
 import {
 	getAccBookURL,
-	getAccBookDefaultURL
+	getAccBookDefaultURL,
+	getDefaultURL
 } from './../utils/utils.urls';
 
 /**
@@ -175,6 +176,11 @@ class AccbookStore{
 					callback()
 				}
 			});
+	}
+	// 查询默认账簿数据
+	@action
+	getDefaultUrl() { // eslint-disable-line class-methods-use-this
+		return getDefaultURL(this.outEnvironment);
 	}
 	// @action
 	// queryDefaultAcc2(callback) {

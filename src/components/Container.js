@@ -22,6 +22,7 @@ class Container extends Component {
 
 		this.state = {
 			menuData: this.props.menuItems,
+			homeUrl:'',
 			// 首页
 			homePage: '',
 			// 最大显示页签数
@@ -59,6 +60,8 @@ class Container extends Component {
 		let { current } =that.props;
 		if (this.props.env){
 			accbookStore.outEnvironment = this.props.env;
+			let url = accbookStore.getDefaultUrl() + '/home_index.html';
+			this.setState({homeUrl:url});
 		}
 		let { width,tabLength,height } = this.getWidth();
 		that.setState({
@@ -446,7 +449,6 @@ class Container extends Component {
 	onToggle=()=>{
 		this.setState({ showLeft:!this.state.showLeft });
 
-
 	}
 
 	render() {
@@ -480,6 +482,7 @@ class Container extends Component {
 				<div className={showLeft?'iframe-container':'iframe-container showLeft'}>
 					<div className="clear">
 						{tabList.map((item,index) => (<TabContent
+							homeUrl = {this.state.homeUrl}
 							key={`tabContent_${item.serviceCode+index}`}
 							item={item}
 							onActive={this.active}
@@ -487,6 +490,7 @@ class Container extends Component {
 							onRemove={this.remove}
 						/>))}
 						{moreList.map((item,index) => (<TabContent
+							homeUrl = {this.state.homeUrl}
 							key={`tabContentMore_${item.serviceCode+index}`}
 							item={item}
 							onActive={this.active}

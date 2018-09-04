@@ -34,7 +34,7 @@ export default class TabContent extends Component {
     }
 
     render() {
-        const { active, item } = this.props;
+        const { homeUrl,active, item } = this.props;
 
         //地址参数, 没有设置为空对象
         if (typeof(item.params) == 'undefined') {
@@ -52,7 +52,7 @@ export default class TabContent extends Component {
         let uriArr = uri.split('#');
 
 		if(uriArr.length>=1){
-        	uri=uriArr[0];
+			uri = uriArr[0] || homeUrl;
 			hash = uriArr[1];
 		}
 		const connStr = uri.indexOf('?') >= 0 ? '&' : '?';
