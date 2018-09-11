@@ -118,6 +118,11 @@ class Container extends Component {
 	loadCurrent = (serviceCode,needAccBook) => {
 		if (needAccBook) {
 			serviceCode = this.state.currentCode;
+			// if(this.state.currentCode.indexOf('_keep')>0){
+			// 	serviceCode = this.state.currentCode.replace('_keep', '');
+			// }else{
+			// 	serviceCode = this.state.currentCode;
+			// }
 		}
 		const menuPath = findPath(this.props.menuItems, 'children', 'serviceCode', serviceCode);
 		let newTab = menuPath.slice(-1)[0];
