@@ -6,9 +6,31 @@ const { Item } = Menu;
 const SubMenu = Menu.SubMenu;
 //isTop:判断是否是一级菜单
 function makeMenus(menus, isTop, i) {
+	function formartIsshow (service) {
+		if (!service) {
+			return true;
+		}
+		let extendDesc = service.ext1;
+		if (!extendDesc) {
+			return true;
+		}
+		if (extendDesc.indexOf('\\') > -1) {
+			extendDesc = extendDesc.replace(/\\/g, '');
+		}
+		if (extendDesc.indexOf('&quot;') > -1) {
+			extendDesc = extendDesc.replace(/&quot;/g, '"');
+		}
+		try {
+			extendDesc = JSON.parse(extendDesc);
+			return extendDesc['isshow'];
+		} catch (e) {
+			console.log(e);
+			return true;
+		}
+	}
 	i++;
 	let result = [];
-	menus.forEach(({ children, menuItemId: id, menuItemIcon, menuItemName: name }) => {
+	menus.forEach(({ children, menuItemId: id, menuItemIcon, menuItemName: name,service: service}) => {
 		if (children && children.length) {
 			result.push(
 				<SubMenu
@@ -26,15 +48,18 @@ function makeMenus(menus, isTop, i) {
 				</SubMenu>
 			);
 		} else {
-			result.push(
-				<Item key={id} style={isTop ? { fontSize: '14px' } : null}>
+			let isShow = formartIsshow(service);
+			if (isShow !== false) {
+				result.push(
+					<Item key={id} style={isTop ? { fontSize: '14px' } : null}>
           <span className={`item_${i} ${'last_item'}`} title={name}>
             {isTop ? <img src={menuItemIcon} className={'menuItem'} /> : null}
 			  {name}
           </span>
 
-				</Item>
-			);
+					</Item>
+				);
+			}
 		}
 	});
 	return result;

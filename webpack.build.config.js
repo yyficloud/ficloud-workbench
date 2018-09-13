@@ -1,6 +1,8 @@
 const webpack = require('webpack');
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+// 获取版本
+const packageJSON = require('./package.json');
 module.exports = [{
 	devtool: 'cheap-module-source-map',
 	context: path.resolve(__dirname, 'src'),
@@ -92,6 +94,7 @@ module.exports = [{
 		new webpack.DefinePlugin({
 			'process.env': {
 				NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'production'),
+				NODE_VERSION: JSON.stringify(packageJSON.version),
 			}
 		}),
 		new webpack.NamedModulesPlugin(),

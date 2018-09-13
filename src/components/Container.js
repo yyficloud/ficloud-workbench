@@ -11,15 +11,18 @@ import TabContent from './TabContent.js';
 import TabHeader from './TabHeader.js';
 import TabHeaderMore from './TabHeaderMore.js';
 import TabAccBook from './TabAccBook';
+import { findPath } from '../utils/findPath';
 
 var timer = null;
 
 class Container extends Component {
 	constructor(props) {
 		super(props);
+
 		this.state = {
 			isAccBook:false,
 			menuData: this.props.menuItems,
+			homeUrl:'',
 			// 首页
 			homePage: '',
 			// 最大显示页签数
@@ -49,54 +52,96 @@ class Container extends Component {
 		this.refreshCurrent = this.refreshCurrent.bind(this);
 		this.accChange = this.accChange.bind(this);
 		this.formartAccbook = this.formartAccbook.bind(this);
+		this.loadCurrent = this.loadCurrent.bind(this);
 	}
 
 	componentDidMount() {
 		let that = this;
 		let { current } =that.props;
-		let {width,tabLength,height} = this.getWidth();
+		if (this.props.env){
+			accbookStore.outEnvironment = this.props.env;
+			let url = accbookStore.getDefaultUrl() + '/home_index.html';
+			this.setState({homeUrl:url});
+		}
+		let { width,tabLength,height } = this.getWidth();
 		that.setState({
 			width: width,
 			maxLength: tabLength,height:height
 		});
 		// console.log(current.extendDesc);
-		this.formartAccbook(current);
+		// this.formartAccbook(current);
+		if(current&&current.serviceCode){
+			this.loadCurrent(current.serviceCode);
+		}
 		this.props.queryAllAcc(this.props.env,()=>{
 			if(!current['accBook']){
 				current['accBook'] = this.props.accBook;
 			}
-			if(current&&current.serviceCode){
-				let tabList = [current];
-				that.setState(
-					{
-						tabList
-					});
-			}
+			this.loadCurrent(current.serviceCode,true);
 		});
 		this.props.queryDefaultAcc(this.props.env,()=>{
 			if(!current['accBook']){
 				current['accBook'] = this.props.accBook;
 			}
-			if(current&&current.serviceCode){
-			let tabList = [current];
-			that.setState(
-				{
-					tabList
-				});
-			}
+			// if (current && current.serviceCode) {
+			// let tabList = [current];
+			// that.setState(
+			// 	{
+			// 		tabList
+			// 	});
+			this.loadCurrent(current.serviceCode,true);
+			// }
 		});
 		// 监听窗口大小改变事件
 		window.addEventListener('resize', this.handleResize);
 		listen(this.messageCallback);
 	}
 	componentWillReceiveProps(nextProps){
-		let newTab = nextProps.current;
-		if (nextProps.accBook && newTab.accBook !== nextProps.accBook) {
-			newTab.accBook = nextProps.accBook;
+		if ((!this.props.current.serviceCode)) {
+			let newTab = nextProps.current;
+			if (nextProps.accBook && newTab.accBook !== nextProps.accBook) {
+				newTab.accBook = nextProps.accBook;
+			}
+			this.setState({ currentCode: newTab.serviceCode });
+			// this.loadCurrent(newTab.serviceCode);
+		}
+		// let newTab = nextProps.current;
+		// this.formartAccbook(newTab);
+		// if(newTab.serviceCode){
+		// 	if (newTab.serviceCode !== this.state.currentCode) {
+		// 		//切换页签
+		// 		this.changeOrOpenTab(newTab);
+		// 	}else{
+		// 		//刷新当前页签
+		// 		this.refreshCurrent(newTab);
+		// 	}
+		// }
+	}
+
+	loadCurrent = (serviceCode,needAccBook) => {
+		if (needAccBook) {
+			serviceCode = this.state.currentCode;
+			// if(this.state.currentCode.indexOf('_keep')>0){
+			// 	serviceCode = this.state.currentCode.replace('_keep', '');
+			// }else{
+			// 	serviceCode = this.state.currentCode;
+			// }
+		}
+		const menuPath = findPath(this.props.menuItems, 'children', 'serviceCode', serviceCode);
+		let newTab = menuPath.slice(-1)[0];
+		if (newTab) {
+			newTab = Object.assign(newTab, newTab.service);
+			if(needAccBook){
+				newTab['accBook'] = accbookStore.getAccBook;
+			}
+			newTab['extendDesc'] = newTab.ext1;
+			newTab['title'] = newTab.serviceName;
+		} else {
+			return;
 		}
 		this.formartAccbook(newTab);
 		if(newTab.serviceCode){
-			if (newTab.serviceCode !== this.state.currentCode) {
+			if (newTab.serviceCode !== this.state.currentCode || needAccBook) {
 				//切换页签
 				this.changeOrOpenTab(newTab);
 			}else{
@@ -147,6 +192,7 @@ class Container extends Component {
 			//设置一个值存参数
 			this.setState({ param:msg },()=>{
 				this.props.updateCurrent(msg.code);
+				this.loadCurrent(msg.code);
 			});
 		}
 	}
@@ -156,10 +202,10 @@ class Container extends Component {
 			clearTimeout(timer);
 		}
 		timer = setTimeout(() => {
-			let {width,tabLength,height}=this.getWidth();
+			let { width,tabLength,height }=this.getWidth();
 
 			that.setState({ width:width,
-			maxLength:tabLength ,height:height});
+				maxLength:tabLength ,height:height });
 			if (width === this.state.width) {
 				return;
 			}
@@ -169,13 +215,13 @@ class Container extends Component {
 			if (tabListLength > tabLength) {
 				let moreList = _.concat(_.drop(this.state.tabList, tabLength), this.state.moreList);
 				let tabList = _.dropRight(this.state.tabList, tabListLength - tabLength);
-				this.setState({moreList:moreList,tabList:tabList,moreIsShow:true});
+				this.setState({ moreList:moreList,tabList:tabList,moreIsShow:true });
 			}else{
 				if (moreListLength > 0) {
 					let changeLength = tabLength - tabListLength >= moreListLength ? moreListLength : tabLength - tabListLength;
 					let tabList = _.concat(this.state.tabList, _.dropRight(this.state.moreList, moreListLength - changeLength));
 					let moreList = _.drop(this.state.moreList, changeLength);
-					this.setState({moreList:moreList,tabList:tabList,moreIsShow:moreList.length>0});
+					this.setState({ moreList:moreList,tabList:tabList,moreIsShow:moreList.length>0 });
 				}
 			}
 		}, 200);
@@ -189,7 +235,7 @@ class Container extends Component {
 		if (width % 160 < 19 ) {//更多条件的宽度是19&& this.state.moreList.length > 0
 			tabLength = tabLength - 1 > 0 ? tabLength - 1 : 0;
 		}
-		return{width:width,tabLength:tabLength,height:windowHeight};
+		return{ width:width,tabLength:tabLength,height:windowHeight };
 	}
 	/**
 	 * 设置当前选中的页签
@@ -198,8 +244,8 @@ class Container extends Component {
 	changeOrOpenTab(newTab){
 		let that = this;
 		// 存在code就置为当前页面,不存在就增加
-		let exist = _.find(that.state.tabList, menu => menu.serviceCode == newTab.serviceCode);
-		let moreExist = _.find(that.state.moreList, menu => menu.serviceCode == newTab.serviceCode);
+		let exist = _.find(that.state.tabList, menu => menu.serviceCode === newTab.serviceCode);
+		let moreExist = _.find(that.state.moreList, menu => menu.serviceCode === newTab.serviceCode);
 
 		if (exist) {
 			// 判断是否有路由参数
@@ -218,13 +264,14 @@ class Container extends Component {
 	 * @param isMore 是否是更多页签中页签
 	 */
 	changeTab(newTab, isMore) {
-		newTab = Object.assign(newTab, this.state.param);
+		if(this.state.param){
+			newTab = Object.assign(newTab, this.state.param);
+		}
 		let newState = { currentCode: newTab.serviceCode };
 		if (isMore) {
 			newState['moreIsShow'] = true;
 		}
-		this.setState(newState, () => {
-		});
+		this.setState(newState);
 		//如果有路由参数,证明是页面内部跳转,不需要重设账簿
 		if (this.state.param) {
 			newTab.accBook = this.props.accBook;
@@ -234,7 +281,9 @@ class Container extends Component {
 		if (!newTab['accBook']) {
 		} else if (this.props.accBook !== newTab.accBook) {
 			this.props.getAccBookObj(newTab.accBook,this.props.accBookData);
+			// accbookStore.accBook = newTab.accBook;
 		}
+
 	}
 	/**
 	 * 打开新页签
@@ -244,7 +293,9 @@ class Container extends Component {
 		if(!newTab.serviceCode){
 			return;
 		}
-		newTab= Object.assign(newTab,this.state.param);
+		if(this.state.param){
+			newTab = Object.assign(newTab, this.state.param);
+		}
 		let tabField = 'tabList';
 		let newState={ currentCode: newTab.serviceCode };
 		if(this.state.tabList.length >= this.state.maxLength){
@@ -267,34 +318,40 @@ class Container extends Component {
 	menuClick(serviceCode,item) {
 		this.setState({ param:undefined },()=>{
 			this.props.updateCurrent(serviceCode);
+			setTimeout(this.loadCurrent(serviceCode),100);
+			// this.loadCurrent(serviceCode);
 		});
-		// 记录点击历史
-		// this.tabsStore.recordmenu(serviceCode);
 	}
 
 
 // 账簿改变,刷新当前页
-	refreshCurrent(accBook) {
+	refreshCurrent(newTab) {
+		// if(this.state.param){
+		// 	newTab = Object.assign(newTab, this.state.param);
+		// }
 		let tab = _.find(this.state.tabList, menu => menu.serviceCode == this.state.currentCode);
 		if (tab) {
-			// if (this.state.currentCode === 'addvoucher') {
-			// 	tab.routerParams = '';
-			// }
-			this.refreshTabList(tab, this.state.currentCode,accBook);
+			if (newTab) {
+				tab['url'] = newTab.url;
+			}
+			this.refreshTabList(tab, this.state.currentCode);
 		} else {
 			tab = _.find(this.state.moreList, menu => menu.serviceCode == this.state.currentCode);
 			if(tab){
-				this.refreshMoreList(tab, this.state.currentCode,accBook);
+				if (newTab) {
+					tab['url'] = newTab.url;
+				}
+				this.refreshMoreList(tab, this.state.currentCode);
 			}
 		}
 	}
 	//刷新TabList
 	refreshTabList(tab, code,accBook) {
 		let newTab = Object.assign({}, tab);
+		// newTab.accBook = accbookStore.getAccBook;
 		if (typeof accBook === 'string'){
 			newTab.accBook = accBook || this.props.accBook;
 		}
-			//|| this.props.accBook;
 		let j = _.findIndex(this.state.tabList, item => item.serviceCode == code);
 		let jl = this.state.tabList.length;
 		let tl = [];
@@ -363,15 +420,19 @@ class Container extends Component {
 			index < 0 ? index = 0 : null;
 		}
 		// console.log(JSON.stringify(list));
-		this.setState({ tabList: list }, () => {
-			if (this.state.tabList.length >= index && this.state.currentCode == code) {
-				if(this.state.tabList.length > 0){
-					that.active(this.state.tabList[index].serviceCode);
-				}else{
-					// that.active('');
-				}
-			}
-		});
+		this.setState({ tabList: list });
+		if (list.length > 0 && list.length >= index && this.state.currentCode === code) {
+			that.active(list[index].serviceCode);
+		}
+		// this.setState({ tabList: list }, () => {
+		// 	if (this.state.tabList.length >= index && this.state.currentCode == code) {
+		// 		if(this.state.tabList.length > 0){
+		// 			that.active(this.state.tabList[index].serviceCode);
+		// 		}else{
+		// 			// that.active('');
+		// 		}
+		// 	}
+		// });
 	}
 
 	remove(code) {
@@ -397,8 +458,7 @@ class Container extends Component {
 		// 刷新当前的Tab页
 	}
 	onToggle=()=>{
-		this.setState({showLeft:!this.state.showLeft});
-
+		this.setState({ showLeft:!this.state.showLeft });
 
 	}
 
@@ -423,8 +483,9 @@ class Container extends Component {
 					{tabList.map((item,index) => (<TabHeader
 						key={`tab_${item.serviceCode}`}
 						item={item}
+						index={index}
 						onActive={this.active}
-						active={this.state.currentCode == item.serviceCode}
+						active={this.state.currentCode === item.serviceCode}
 						onRemove={this.remove}
 					/>))}
 					{moreTab}
@@ -432,17 +493,19 @@ class Container extends Component {
 				<div className={showLeft?'iframe-container':'iframe-container showLeft'}>
 					<div className="clear">
 						{tabList.map((item,index) => (<TabContent
+							homeUrl = {this.state.homeUrl}
 							key={`tabContent_${item.serviceCode+index}`}
 							item={item}
 							onActive={this.active}
-							active={this.state.currentCode == item.serviceCode}
+							active={this.state.currentCode === item.serviceCode}
 							onRemove={this.remove}
 						/>))}
 						{moreList.map((item,index) => (<TabContent
+							homeUrl = {this.state.homeUrl}
 							key={`tabContentMore_${item.serviceCode+index}`}
 							item={item}
 							onActive={this.active}
-							active={this.state.currentCode == item.serviceCode}
+							active={this.state.currentCode === item.serviceCode}
 							onRemove={this.remove}
 						/>))}
 					</div>

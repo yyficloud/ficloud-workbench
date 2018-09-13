@@ -3246,7 +3246,7 @@ export default class App extends React.Component {
 						'businessType':'mng',
 						'businessTypeInt':0,
 						'openNewTab':false,
-						'ext1':'{"accbook":false}',
+						'ext1':'{"accbook":false,"isshow":true}',
 						'ext2':'',
 						'ext3':'',
 						'ext4':'',
@@ -3353,7 +3353,7 @@ export default class App extends React.Component {
 								'businessType':'mng',
 								'businessTypeInt':0,
 								'openNewTab':false,
-								'ext1':'{"accbook":true}',
+								'ext1':'{"accbook":true,"isshow":false}',
 								'ext2':'',
 								'ext3':'',
 								'ext4':'',
@@ -5219,6 +5219,84 @@ export default class App extends React.Component {
 							'serviceCode':null,
 							'children':[
 								{
+									'createTime':1536025549000,
+									'modifiedTime':1536025549000,
+									'ts':1536025549000,
+									'creator':'6e3e49a2-aa13-4ed5-ad4b-557bd6d0e7a8',
+									'modifier':'6e3e49a2-aa13-4ed5-ad4b-557bd6d0e7a8',
+									'tenantId':'e2ck4yez',
+									'menuItemId':'73c902fc-afdd-4bd9-ba08-af2dbb5be164',
+									'menuItemName':'应收单',
+									'menuItemNameExt0':null,
+									'menuItemNameExt1':null,
+									'menuItemNameExt2':null,
+									'menuItemNameExt3':null,
+									'menuItemNameExt4':null,
+									'menuItemNameExt5':null,
+									'menuItemNameExt6':null,
+									'menuItemCode':'YSGLYSDCARD',
+									'menuItemIcon':'',
+									'parentId':'ec69bf4d-613e-49b7-8cf2-29a5896f57ea',
+									'menuBarId':'2e036056-fb63-481e-a1cf-5748ecf794e3',
+									'menuItemDefault':false,
+									'serviceId':'e6ace6fa-0e5c-4c06-a854-e30e890d0093',
+									'menuItemOrder':0,
+									'url':null,
+									'service':{
+										'createTime':1536025549000,
+										'modifiedTime':1535953991000,
+										'ts':1536025549000,
+										'creator':'6e3e49a2-aa13-4ed5-ad4b-557bd6d0e7a8',
+										'modifier':'null',
+										'tenantId':'e2ck4yez',
+										'serviceId':'e6ace6fa-0e5c-4c06-a854-e30e890d0093',
+										'serviceName':'应收查询卡片',
+										'serviceCode':'ar_keep',
+										'applicationId':'2d2fd957-3ac2-4f3a-8297-6f7c5630fb80',
+										'enable':true,
+										'url':'https://acc-daily.yyuap.com/home_index.html#/chhs/ar/search',
+										'serviceIcon':'https://file-cdn.yonyoucloud.com/workapplation/default.svg',
+										'capable':false,
+										'ykjId':0,
+										'level':0,
+										'teamMenbersUnuse':false,
+										'crossTenant':false,
+										'selected':false,
+										'simpleApplicationStatus':false,
+										'clientStatus':false,
+										'webStatus':true,
+										'phoneStatus':false,
+										'everyone':false,
+										'strategy':'',
+										'sysEveryone':false,
+										'phoneOrder':0,
+										'businessTypeInt':0,
+										'openNewTab':false,
+										'ext1':'{"accbook":false,"isshow":false}',
+										'ext2':'',
+										'ext3':'',
+										'ext4':'',
+										'ext5':'',
+										'ext6':'',
+										'ext7':'',
+										'ext8':'',
+										'ext9':'',
+										'ext10':'',
+										'nccEnable':false,
+										'hasWidget':false,
+										'relationServices':[
+
+										],
+										'relationUsers':[
+
+										],
+										'realBusinessType':'000'
+									},
+									'serviceCode':'ar_keep',
+									'children':[
+
+									]
+								},{
 									'createTime':1534494075000,
 									'modifiedTime':1534494075000,
 									'ts':1534494075000,
@@ -6662,16 +6740,16 @@ export default class App extends React.Component {
 						}
 					]
 				}
-				],
+			],
 			current: {
-				menuItemId: '3f4179be-09ee-4ff2-b608-fb8a65421ada',
-				title: '固定资产维护',
+				menuItemId: '83aae795-a45d-4e22-a554-766e0fba9679',
+				title: '事项明细',
 				//服务编码，唯一确定一个service
-				serviceCode: 'fixedasset',
-				serviceId: '0f417493-a7f0-48e3-9b8f-a0982c00b52e',
+				serviceCode: 'hsfwsxmx',
+				serviceId: '7e82e08c-168a-4472-93b3-885aa31b37c2',
 				//组件内部嵌套iframe的url，此url会带有参数，形如：http://xxx.xxx.xxx/xxx?serviceCode=serv_1，iframe内部即可使用此serviceCode参数来控制属性菜单的展示
-				url: 'http://127.0.0.1:4001/home_index.html#/voucher/edit',
-				extendDesc:'{&quot;accbook&quot;:true}'////'{\\\"accbook\\\":true}'"{\\\"accbook\\\":true}""{&quot;accbook&quot;:true}"
+				url: 'https://acc.diwork.com/home_index.html#/publicquery',
+				extendDesc:'{&quot;accbook&quot;:true,"isshow":true}'////'{\\\"accbook\\\":true}'"{\\\"accbook\\\":true}""{&quot;accbook&quot;:true}"
 			}
 		};
 	};
@@ -6681,32 +6759,32 @@ export default class App extends React.Component {
 		if(current){
 			current=Object.assign(current,current.service);
 			current.title = current.serviceName;
-		this.setState({ current });
+			this.setState({ current });
 		}
 	};
 	render (){
 		const { menuItems,current } = this.state;
 		return (<div >
 			<div className={'header'}>
-			<div className={'workbench-title'}>
-				<div className={'lebra-navbar lebra-navbar-light src-workbench-pc-containers-header-index__lebraNavbar---42qm'}>
-					<div className={'lebra-navbar-left'}><span className="lebra-navbar-left-content"
-															   role="presentation">友账表侧边栏</span>
+				<div className={'workbench-title'}>
+					<div className={'lebra-navbar lebra-navbar-light src-workbench-pc-containers-header-index__lebraNavbar---42qm'}>
+						<div className={'lebra-navbar-left'}><span className="lebra-navbar-left-content"
+																   role="presentation">友账表侧边栏</span>
+						</div>
+						<div className={'lebra-navbar-title'}>{current.title}</div>
+						<div className={'lebra-navbar-right'} />
 					</div>
-				<div className={'lebra-navbar-title'}>{current.title}</div>
-					<div className={'lebra-navbar-right'} />
-				</div>
 
-			</div>
+				</div>
 				<div className={'menu_work'}>{'面包屑：'+current.title}</div>
 			</div>
 			<div className={''}>
 				<div className={''}>
-					<FinanceCloud menuItems={menuItems} current={{...current, extendDesc: current.ext1}} updateCurrent={this.updateCurrent}/>
+					<FinanceCloud menuItems={menuItems} current={{ ...current, extendDesc: current.ext1 }} updateCurrent={this.updateCurrent} env={'daily'}/>
 				</div>
 			</div>
 
-			</div>);
+		</div>);
 	}
 };
 ReactDOM.render(

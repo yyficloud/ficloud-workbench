@@ -32,7 +32,7 @@ export default class TabContent extends Component {
     }
 
     render() {
-        const { active, item } = this.props;
+        const { homeUrl,active, item } = this.props;
 
         //地址参数, 没有设置为空对象
         if (typeof(item.params) == 'undefined') {
@@ -43,23 +43,18 @@ export default class TabContent extends Component {
         if (typeof(item.routerParams) == 'undefined') {
             item.routerParams = '';
         }
-
-        const pstr = 'version=' + '&accbook=' + item.accBook + '&code=' + item.serviceCode + '&params=' + encodeURIComponent(JSON.stringify(item.params));
+		const version = process.env.NODE_VERSION || 'develop';
+		const pstr = 'version=' + version + '&serviceCode=' + item.serviceCode+ '&accbook=' + item.accBook + '&code=' + item.serviceCode + '&params=' + encodeURIComponent(JSON.stringify(item.params));
         let uri = item.url?item.url:'';
-		let url = uri;
-		if (uri) {
-			let hash = '/default';
-			let uriArr = uri.split('#');
+        let hash = '/default';
+        let uriArr = uri.split('#');
 
-			if (uriArr.length >= 1) {
-				uri = uriArr[0];
-				hash = uriArr[1];
-			}
-			const connStr = uri.indexOf('?') >= 0 ? '&' : '?';
-			url = uri + connStr + pstr + '#' + hash + item.routerParams;
-		} else {
-			url='404';
+		if(uriArr.length>=1){
+			uri = uriArr[0] || homeUrl;
+			hash = uriArr[1];
 		}
+		const connStr = uri.indexOf('?') >= 0 ? '&' : '?';
+        const url = uri + connStr + pstr +'#'+ hash + item.routerParams;
 
         return (
             <div key ={item.code} className={active ? 'tab-content-item active': 'tab-content-item'} style={{ height: this.state.frameHeight }}>
