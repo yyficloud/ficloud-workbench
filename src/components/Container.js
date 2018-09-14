@@ -32,7 +32,7 @@ class Container extends Component {
 			// 页签列表数据
 			tabList: [],
 			// 当前页签
-			currentCode: this.props.current.serviceCode,
+			currentCode: '',
 			// 更多页签数据
 			moreList: [],
 			// 是否显示更多页签
@@ -58,18 +58,15 @@ class Container extends Component {
 	componentDidMount() {
 		let that = this;
 		let { current } =that.props;
-		if (this.props.env){
-			accbookStore.outEnvironment = this.props.env;
-			let url = accbookStore.getDefaultUrl() + '/home_index.html';
-			this.setState({homeUrl:url});
+		if (this.props.env) {
+			let url = this.props.getDefaultUrl(this.props.env) + '/home_index.html';
+			this.setState({homeUrl: url});
 		}
 		let { width,tabLength,height } = this.getWidth();
 		that.setState({
 			width: width,
 			maxLength: tabLength,height:height
 		});
-		// console.log(current.extendDesc);
-		// this.formartAccbook(current);
 		if(current&&current.serviceCode){
 			this.loadCurrent(current.serviceCode);
 		}
@@ -132,7 +129,7 @@ class Container extends Component {
 		if (newTab) {
 			newTab = Object.assign(newTab, newTab.service);
 			if(needAccBook){
-				newTab['accBook'] = accbookStore.getAccBook;
+				newTab['accBook'] = this.props.accBook;
 			}
 			newTab['extendDesc'] = newTab.ext1;
 			newTab['title'] = newTab.serviceName;
@@ -325,23 +322,23 @@ class Container extends Component {
 
 
 // 账簿改变,刷新当前页
-	refreshCurrent(newTab) {
+	refreshCurrent(newTab,accBook) {
 		// if(this.state.param){
 		// 	newTab = Object.assign(newTab, this.state.param);
 		// }
 		let tab = _.find(this.state.tabList, menu => menu.serviceCode == this.state.currentCode);
 		if (tab) {
-			if (newTab) {
+			if (newTab && newTab.url) {
 				tab['url'] = newTab.url;
 			}
-			this.refreshTabList(tab, this.state.currentCode);
+			this.refreshTabList(tab, this.state.currentCode,accBook);
 		} else {
 			tab = _.find(this.state.moreList, menu => menu.serviceCode == this.state.currentCode);
 			if(tab){
 				if (newTab) {
 					tab['url'] = newTab.url;
 				}
-				this.refreshMoreList(tab, this.state.currentCode);
+				this.refreshMoreList(tab, this.state.currentCode,accBook);
 			}
 		}
 	}
@@ -454,7 +451,7 @@ class Container extends Component {
 	accChange(value) {
 		// 改变账簿时候,把全局账簿变量修改(重构:重命名为当前账簿)
 		this.props.updateAccbook(value);
-		setTimeout(this.refreshCurrent(value && value.id ? value.id : ''), 100);
+		setTimeout(this.refreshCurrent(undefined,value && value.id ? value.id : ''), 100);
 		// 刷新当前的Tab页
 	}
 	onToggle=()=>{

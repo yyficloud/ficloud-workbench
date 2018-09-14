@@ -1,6 +1,7 @@
 import {
 	getAccBookURL,
-	getAccBookDefaultURL
+	getAccBookDefaultURL,
+	getDefaultURL
 } from './../utils/utils.urls';
 import * as types from '../constants/ActionTypes';
 /**
@@ -190,3 +191,8 @@ export const updateAccbook = data => dispatch => (
 		}
 	})
 );
+export function getDefaultUrl(env) {
+	return (dispatch) => {
+		return getDefaultURL(env);
+	};
+}
