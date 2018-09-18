@@ -37,10 +37,6 @@ export function queryAllAcc(outEnvironment,callback) {
 				dispatch(getAccBookTree(data.data));
 				dispatch(returnAccBookData(data.data));
 				// localStorage.setItem('accBookData', JSON.stringify(data.data));
-				// if(typeof callback ==='function' ){
-				// 	callback();
-				// }
-			} else {
 				if(typeof callback ==='function' ){
 					callback();
 				}
@@ -48,9 +44,6 @@ export function queryAllAcc(outEnvironment,callback) {
 		})
 		.catch((err) => {
 			console.log(err);
-			if(typeof callback ==='function' ){
-				callback();
-			}
 		});
 	};
 }
@@ -80,9 +73,7 @@ export function queryDefaultAcc(outEnvironment,callback) { // eslint-disable-lin
 				}
 			})
 			.catch((err) => {
-				if (typeof callback === 'function') {
-					callback();
-				}
+				console.log(err);
 			});
 	};
 }

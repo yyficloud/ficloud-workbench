@@ -80,14 +80,7 @@ class Container extends Component {
 			if(!current['accBook']){
 				current['accBook'] = this.props.accBook;
 			}
-			// if (current && current.serviceCode) {
-			// let tabList = [current];
-			// that.setState(
-			// 	{
-			// 		tabList
-			// 	});
 			this.loadCurrent(current.serviceCode,true);
-			// }
 		});
 		// 监听窗口大小改变事件
 		window.addEventListener('resize', this.handleResize);
@@ -102,27 +95,11 @@ class Container extends Component {
 			this.setState({ currentCode: newTab.serviceCode });
 			// this.loadCurrent(newTab.serviceCode);
 		}
-		// let newTab = nextProps.current;
-		// this.formartAccbook(newTab);
-		// if(newTab.serviceCode){
-		// 	if (newTab.serviceCode !== this.state.currentCode) {
-		// 		//切换页签
-		// 		this.changeOrOpenTab(newTab);
-		// 	}else{
-		// 		//刷新当前页签
-		// 		this.refreshCurrent(newTab);
-		// 	}
-		// }
 	}
 
 	loadCurrent = (serviceCode,needAccBook) => {
 		if (needAccBook) {
 			serviceCode = this.state.currentCode;
-			// if(this.state.currentCode.indexOf('_keep')>0){
-			// 	serviceCode = this.state.currentCode.replace('_keep', '');
-			// }else{
-			// 	serviceCode = this.state.currentCode;
-			// }
 		}
 		const menuPath = findPath(this.props.menuItems, 'children', 'serviceCode', serviceCode);
 		let newTab = menuPath.slice(-1)[0];
@@ -138,7 +115,7 @@ class Container extends Component {
 		}
 		this.formartAccbook(newTab);
 		if(newTab.serviceCode){
-			if (newTab.serviceCode !== this.state.currentCode || needAccBook) {
+			if (newTab.serviceCode !== this.state.currentCode || needAccBook || this.state.tabList.length === 0) {
 				//切换页签
 				this.changeOrOpenTab(newTab);
 			}else{
