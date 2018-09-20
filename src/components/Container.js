@@ -126,7 +126,7 @@ class Container extends Component {
 	}
 	formartAccbook=(current)=>{
 		if (!current.extendDesc) {
-			this.setState({isAccBook:false});
+			this.setState({ isAccBook:false });
 		} else {
 			let extendDesc =current.extendDesc;
 			if(extendDesc.indexOf('\\')>-1){
@@ -137,7 +137,7 @@ class Container extends Component {
 			}
 			try {
 				extendDesc = JSON.parse(extendDesc);
-				this.setState({isAccBook:extendDesc['accbook']});
+				this.setState({ isAccBook:extendDesc['accbook'] });
 			} catch(e) {
 				console.log(e);
 			}
@@ -146,6 +146,11 @@ class Container extends Component {
 
 	componentWillUnmount() {
 		window.removeEventListener('resize', this.handleResize);
+	}
+	test=()=>{
+		let time = Date.now();
+		let msg = { 'code':'addvoucher','params':{ 'v':time },'routerParams':'/C6CB6F71-163A-49FF-B50B-6DF0A9BF4C66' };
+		this.messageCallback(JSON.stringify(msg));
 	}
 	messageCallback (msg) {
 		//这里分发消息, 目前只有打开菜单消息
@@ -300,13 +305,13 @@ class Container extends Component {
 
 // 账簿改变,刷新当前页
 	refreshCurrent(newTab,accBook) {
-		// if(this.state.param){
-		// 	newTab = Object.assign(newTab, this.state.param);
-		// }
 		let tab = _.find(this.state.tabList, menu => menu.serviceCode == this.state.currentCode);
 		if (tab) {
 			if (newTab && newTab.url) {
 				tab['url'] = newTab.url;
+			}
+			if(this.state.param){
+				tab = Object.assign(tab, this.state.param);
 			}
 			this.refreshTabList(tab, this.state.currentCode,accBook);
 		} else {
@@ -314,6 +319,9 @@ class Container extends Component {
 			if(tab){
 				if (newTab) {
 					tab['url'] = newTab.url;
+				}
+				if(this.state.param){
+					tab = Object.assign(tab, this.state.param);
 				}
 				this.refreshMoreList(tab, this.state.currentCode,accBook);
 			}
