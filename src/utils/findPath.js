@@ -18,6 +18,17 @@ export function findPath(datas, childrenKey, compareKey, compareValue) {
 			} catch (e) {
 				console.log(e);
 			}
+			//需要处理value以数字和下划线为前缀的情况
+			if(typeof value === 'string'){
+				let valueArr = value.split('_');
+				if (valueArr.length > 1 && valueArr[0].match('^[1-9]\\d*|0$')) {
+					try{
+						value = value.substring(valueArr[0].length + 1,value.length);
+					}catch (e) {
+						console.log(e);
+					}
+				}
+			}
 			if (value === compareValue) {
 				result = true;
 			}

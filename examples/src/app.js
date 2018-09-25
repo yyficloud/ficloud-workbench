@@ -4281,7 +4281,7 @@ export default class App extends React.Component {
 									'serviceName':'凭证查询',
 									'serviceNameExt2':'Voucher Query',
 									'serviceNameExt3':'憑證查詢',
-									'serviceCode':'queryvoucher',
+									'serviceCode':'0_queryvoucher',
 									'applicationId':'44e471c8-493a-45d9-8a68-5d54d6a5ab8f',
 									'enable':true,
 									'url':'https://acc-daily.yyuap.com/home_index.html#/voucher/list',
