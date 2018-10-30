@@ -37,9 +37,9 @@ export function queryAllAcc(outEnvironment,callback) {
 				dispatch(getAccBookTree(data.data));
 				dispatch(returnAccBookData(data.data));
 				// localStorage.setItem('accBookData', JSON.stringify(data.data));
-				if(typeof callback ==='function' ){
-					callback();
-				}
+			}
+			if(typeof callback ==='function' ){
+				callback();
 			}
 		})
 		.catch((err) => {
@@ -117,7 +117,7 @@ function returnAccBook(data){
 	};
 }
 function returnAccBookData(data){
-	let accBookObj = data && data.length > 0 && data[0] ? data[0] : null;
+	let accBookObj = data && data.length > 0 && data[0] ? data[0] : {id:'',code:'',name:''};
 	return {
 		type: types.LOAD_ACCBOOKDATA,
 		data: {
