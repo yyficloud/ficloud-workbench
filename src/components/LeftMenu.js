@@ -28,6 +28,18 @@ function makeMenus(menus, isTop, i) {
 			return true;
 		}
 	}
+	function childIsshow (children) {
+		let flag = true;
+		if (children && children.length){
+			for(let i = 0;i<children.length;i++){
+				if(!formartIsshow(children[i].service)){
+					flag = false;
+					break;
+				}
+			}
+		}
+		return flag;
+	}
 	i++;
 	let result = [];
 	menus.forEach(({ children, menuItemId: id, menuItemIcon, menuItemName: name,service: service}) => {

@@ -3619,7 +3619,7 @@ export default class App extends React.Component {
 							'serviceCode':'ahsfwsxmx',
 							'applicationId':'c0c79b9d-61b6-4626-889b-bffd1269ec35',
 							'enable':true,
-							'url':'https://acc-daily.yyuap.com/home_index.html#/publicquery',
+							'url':'http://127.0.0.1:4001/home_index.html#/publicquery',
 							'serviceIcon':'https://file-cdn.yonyoucloud.com/workapplation/02%403x.png',
 							'capable':false,
 							'ykjId':0,
@@ -3695,7 +3695,7 @@ export default class App extends React.Component {
 									'serviceCode':'ahsfwsxmx_keep',
 									'applicationId':'7ac40087-a1a3-4e08-aae9-c95de6805d34',
 									'enable':true,
-									'url':'https://acc-daily.yyuap.com/home_index.html#/publicquery',
+									'url':'http://127.0.0.1:4001/home_index.html#/publicquery',
 									'serviceIcon':'',
 									'capable':false,
 									'ykjId':0,
@@ -3778,7 +3778,7 @@ export default class App extends React.Component {
 							'serviceCode':'ahsfwsxmx',
 							'applicationId':'c0c79b9d-61b6-4626-889b-bffd1269ec35',
 							'enable':true,
-							'url':'https://acc-daily.yyuap.com/home_index.html#/publicquery',
+							'url':'http://127.0.0.1:4001/home_index.html#/publicquery',
 							'serviceIcon':'https://file-cdn.yonyoucloud.com/workapplation/02%403x.png',
 							'capable':false,
 							'ykjId':0,
@@ -4122,7 +4122,7 @@ export default class App extends React.Component {
 									'serviceCode':'addvoucher',
 									'applicationId':'44e471c8-493a-45d9-8a68-5d54d6a5ab8f',
 									'enable':true,
-									'url':'https://acc-daily.yyuap.com/home_index.html#/voucher/edit',
+									'url':'http://127.0.0.1:4001/home_index.html#/voucher/edit',
 									'serviceIcon':'https://file-cdn.yonyoucloud.com/workapplation/default.svg',
 									'capable':false,
 									'ykjId':0,
@@ -4284,7 +4284,7 @@ export default class App extends React.Component {
 									'serviceCode':'0_queryvoucher',
 									'applicationId':'44e471c8-493a-45d9-8a68-5d54d6a5ab8f',
 									'enable':true,
-									'url':'https://acc-daily.yyuap.com/home_index.html#/voucher/list',
+									'url':'http://127.0.0.1:4001/home_index.html#/voucher/list',
 									'serviceIcon':'https://file-cdn.yonyoucloud.com/workapplation/default.svg',
 									'capable':false,
 									'ykjId':0,
@@ -7872,7 +7872,7 @@ export default class App extends React.Component {
 				serviceCode: 'addvoucher',
 				serviceId: '1af9e22b-5c52-4ce6-86f3-d8c50c761d01',
 				//组件内部嵌套iframe的url，此url会带有参数，形如：http://xxx.xxx.xxx/xxx?serviceCode=serv_1，iframe内部即可使用此serviceCode参数来控制属性菜单的展示
-				url: 'https://acc-daily.yyuap.com/home_index.html#/voucher/edit',
+				url: 'http://127.0.0.1:4001/home_index.html#/voucher/edit',
 				extendDesc:'{\\&quot;accbook\\&quot;:false}'////'{\\\"accbook\\\":true}'"{\\\"accbook\\\":true}""{&quot;accbook&quot;:true}"
 			}
 		};
@@ -7904,7 +7904,7 @@ export default class App extends React.Component {
 			</div>
 			<div className={''}>
 				<div className={''}>
-					<FinanceCloud menuItems={menuItems} current={{ ...current, extendDesc: current.ext1 }} updateCurrent={this.updateCurrent} env={'daily'}/>
+					<FinanceCloud menuItems={menuItems} current={{ ...current, extendDesc: current.ext1 }} updateCurrent={this.updateCurrent} env={'dev'}/>
 				</div>
 			</div>
 
