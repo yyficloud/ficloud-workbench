@@ -32,7 +32,7 @@ export default class TabContent extends Component {
     }
 
     render() {
-        const { homeUrl,active, item } = this.props;
+        const { homeUrl,active, item ,isAccBook} = this.props;
 
         //地址参数, 没有设置为空对象
         if (typeof(item.params) == 'undefined') {
@@ -44,7 +44,7 @@ export default class TabContent extends Component {
             item.routerParams = '';
         }
 		const version = process.env.NODE_VERSION || 'develop';
-		const pstr = 'version=' + version + '&serviceCode=' + item.serviceCode+ '&accbook=' + item.accBook + '&code=' + item.serviceCode + '&params=' + encodeURIComponent(JSON.stringify(item.params));
+		const pstr = 'version=' + version + '&serviceCode=' + item.serviceCode + '&accbook=' + item.accBook + '&showacc=' + isAccBook + '&code=' + item.serviceCode + '&params=' + encodeURIComponent(JSON.stringify(item.params));
         let uri = item.url?item.url:'';
         let hash = '/default';
         let uriArr = uri.split('#');
