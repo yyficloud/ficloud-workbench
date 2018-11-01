@@ -14,7 +14,8 @@
   "dependencies": {
     "classnames": "^2.2.4",
     "promise-polyfill": "^8.1.0",
-    "prop-types": "^15.6.0"
+    "prop-types": "^15.6.0",
+    "react-intl-universal": "^1.15.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

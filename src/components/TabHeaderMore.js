@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import intl from 'react-intl-universal';
 import Icon from 'bee-icon';
 import Dropdown from 'bee-dropdown';
 
@@ -22,7 +23,7 @@ export default class TabHeaderMore extends Component {
 						return (<li key={index} onClick={() => onActive(item.serviceCode)}><span>{item.title}</span></li>);
 					})
 				}
-				<li key="closeall" onClick={() => onActive('closeAll')}><span>关闭全部标签页</span></li>
+				<li key="closeall" onClick={() => onActive('closeAll')}><span>{intl.get('Close_All')}</span></li>
 			</ul>
 		);
         return (

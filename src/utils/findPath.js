@@ -50,3 +50,22 @@ export function findPath(datas, childrenKey, compareKey, compareValue) {
 }
 
 
+export function GetCookie(key){
+	let value = '';
+	let cookies = document.cookie;
+	if (cookies) {
+		let arr = cookies.split('; ');
+		if (arr.length > 0) {
+			let cookie = arr.find((val, index) => {
+				if (val.indexOf(key) == 0) {
+					return true;
+				}
+				return false;
+			});
+			if (cookie) {
+				value = cookie.split(key+'=').length > 1 ? cookie.split(key+'=')[1] : '';
+			}
+		}
+	}
+	return value;
+}

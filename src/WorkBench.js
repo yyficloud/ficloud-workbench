@@ -2,8 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Promise from 'promise-polyfill';
 import { Provider } from 'react-redux';
+import intl from 'react-intl-universal';
+import IntlPolyfill from 'intl';
+import { GetCookie } from './utils/findPath';
 import { configureStore } from './store/configureStore';
 import Container from './components/Container';
+global.Intl = IntlPolyfill;
+require('intl/locale-data/jsonp/en.js');
+require('intl/locale-data/jsonp/zh.js');
+require('intl/locale-data/jsonp/fr.js');
+require('intl/locale-data/jsonp/ja.js');
+const SUPPOER_LOCALES = ['en_US','zh_CN','zh_TW'];
+
 /**
  * WorkBench控件
  */
@@ -18,6 +28,14 @@ class FinanceCloud extends React.Component {
 		super(props);
 		this.state = {};
 		this.updateCurrent = this.updateCurrent.bind(this);
+		let currentLocale = GetCookie('locale');
+		currentLocale = SUPPOER_LOCALES.indexOf(currentLocale) > -1 ? currentLocale : 'zh_CN';
+		intl.init({
+			currentLocale,
+			locales: {
+				[currentLocale]: require(`./locales/${currentLocale}`)
+			}
+		});
 	}
 
 	updateCurrent(serviceCode) {
@@ -26,7 +44,7 @@ class FinanceCloud extends React.Component {
 	render() {
 		return (
 			<Provider store={store}>
-				<Container {...this.props}/>
+				<Container {...this.props} currentLocale={this.currentLocale}/>
 			</Provider>);
 	}
 }

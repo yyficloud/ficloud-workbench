@@ -5,6 +5,7 @@
  *  账簿切换组件
  */
 import React from 'react';
+import intl from 'react-intl-universal';
 import InputRef from './../common/InputRef';
 import RefAccBook from './../common/RefAccBook';
 
@@ -33,7 +34,7 @@ class TabAccbook extends React.Component {
         const {isAccBook,accBookData,accBookObj,accBook,accBookName} = this.props;
         return (
             <div style={{ display: isAccBook? 'inline-block': 'none' }} className={this.props.className ? this.props.className + ' global-accbook' : 'global-accbook'} >
-                <span className="mr5">账簿：</span>
+                <span className="mr5">{intl.get('Accounting_Book')+':'}</span>
                 <InputRef placeholder={accBookName} ref="periodRef" onChanged={this.accChanged}>
                     <RefAccBook ref="innerAcc" default = {accBook} accBooks={accBookData}/>
                 </InputRef>

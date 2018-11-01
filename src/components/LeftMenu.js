@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import intl from 'react-intl-universal';
 import Menu from 'bee-menus';
 import Icon from 'bee-icon';
 import { findPath } from '../utils/findPath';
@@ -153,10 +154,10 @@ export default class LeftMenu extends Component {
 			<div className={showLeft ? 'sideBar' : 'sideBar showLeft'}>
 				<section onClick={!showLeft?this.onToggle:undefined}
 					className={showLeft?'sideBar-title':'sideBar-title showLeft'} >
-					{showLeft?'导航':''}
+					{showLeft?intl.get('Navigation'):''}
 					{
-						showLeft?<Icon type={'uf-close'} title="隐藏菜单" onClick={this.onToggle}/>:
-							<Icon type={'uf-navmenu'} title="显示菜单"/>
+						showLeft?<Icon type={'uf-close'} title={intl.get('Hide_Menu')} onClick={this.onToggle}/>:
+							<Icon type={'uf-navmenu'} title={intl.get('Display_Menu')}/>
 					}
 				</section>
 				<Menu
