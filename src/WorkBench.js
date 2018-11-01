@@ -28,7 +28,8 @@ class FinanceCloud extends React.Component {
 		super(props);
 		this.state = {};
 		this.updateCurrent = this.updateCurrent.bind(this);
-		let currentLocale = GetCookie('locale');
+		const { locale  } = window.diworkContext();
+		let currentLocale = locale;
 		currentLocale = SUPPOER_LOCALES.indexOf(currentLocale) > -1 ? currentLocale : 'zh_CN';
 		intl.init({
 			currentLocale,
