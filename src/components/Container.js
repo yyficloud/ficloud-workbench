@@ -482,7 +482,6 @@ class Container extends Component {
 							onActive={this.active}
 							active={this.state.currentCode === item.serviceCode}
 							onRemove={this.remove}
-							isAccBook={this.state.isAccBook}
 						/>))}
 						{moreList.map((item,index) => (<TabContent
 							homeUrl = {this.state.homeUrl}
@@ -491,7 +490,6 @@ class Container extends Component {
 							onActive={this.active}
 							active={this.state.currentCode === item.serviceCode}
 							onRemove={this.remove}
-							isAccBook={this.state.isAccBook}
 						/>))}
 					</div>
 				</div>

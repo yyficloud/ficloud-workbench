@@ -30,10 +30,28 @@ export default class TabContent extends Component {
     componentWillUnmount() {
         window.removeEventListener('resize', this.handleResize);
     }
-
+	formartAccbook=(current)=>{
+		if (!current.extendDesc) {
+			return false;
+		} else {
+			let extendDesc =current.extendDesc;
+			if(extendDesc.indexOf('\\')>-1){
+				extendDesc = extendDesc.replace(/\\/g, '');
+			}
+			if(extendDesc.indexOf('&quot;')>-1){
+				extendDesc = extendDesc.replace(/&quot;/g, '"');
+			}
+			try {
+				extendDesc = JSON.parse(extendDesc);
+				return extendDesc['accbook'];
+			} catch(e) {
+				console.log(e);
+			}
+		}
+	}
     render() {
-        const { homeUrl,active, item ,isAccBook} = this.props;
-
+        const { homeUrl,active, item} = this.props;
+		const isAccBook = this.formartAccbook(item);
         //地址参数, 没有设置为空对象
         if (typeof(item.params) == 'undefined') {
             item.params = {};
