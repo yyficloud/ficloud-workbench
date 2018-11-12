@@ -71,7 +71,16 @@ export default class TabContent extends Component {
 			uri = uriArr[0] || homeUrl;
 			hash = uriArr[1];
 		}
-		const connStr = uri.indexOf('?') >= 0 ? '&' : '?';
+		let connStr = '?';
+		if (uri.indexOf('?') >= 0) {
+			connStr = '&';
+			let currentLocale = 'zh_CN';
+			if (typeof window.diworkContext === 'function') {
+				const {locale} = window.diworkContext();
+				currentLocale = locale;
+			}
+			uri = uri.replace('{locale}', currentLocale);
+		}
         const url = uri + connStr + pstr +'#'+ hash + item.routerParams;
 
         return (

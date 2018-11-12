@@ -77,7 +77,7 @@ export default class App extends React.Component {
 									'serviceCode':'GZTORG001',
 									'applicationId':'70d9c1a7-04e8-4d6b-9c23-868fe4b2805e',
 									'enable':true,
-									'url':'https://bd-daily.yyuap.com/orgcenter/org-unit/?locale=zh_CN#/',
+									'url':'https://bd-daily.yyuap.com/orgcenter/org-unit/?locale={locale}#/',
 									'serviceIcon':'https://file-cdn.yonyoucloud.com/workapplation/%E7%BB%84%E7%BB%87%E7%AE%A1%E7%90%861.png',
 									'capable':false,
 									'ykjId':0,
