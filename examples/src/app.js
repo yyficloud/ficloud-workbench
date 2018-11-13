@@ -5150,7 +5150,7 @@ export default class App extends React.Component {
 											'serviceCode':'zcfzb',
 											'applicationId':'44e471c8-493a-45d9-8a68-5d54d6a5ab8f',
 											'enable':true,
-											'url':'https://acc-daily.yyuap.com/fireport/client/#/view/BalanceSheet/yonyoufi/mmakkhgy/toolbar=true&',
+											'url':'https://acc-daily.yyuap.com/fireport/client/#/view/BalanceSheet/yonyoufi/{tenantId}/toolbar=true&',
 											'serviceIcon':'https://file-cdn.yonyoucloud.com/workapplation/%E8%B5%84%E4%BA%A7%E8%B4%9F%E5%80%BA%E8%A1%A8%403x.png',
 											'capable':false,
 											'ykjId':0,
