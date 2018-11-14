@@ -49,29 +49,34 @@ export default class TabContent extends Component {
 			}
 		}
 	}
-	replaceRegex = (url) => {
-		let regex = /(?<=\{)[^}]*(?=\})/g;  //{} 花括号
-		let needReplace = url.match(regex);
-		if (!needReplace) {
-			return url;
-		}
-		if (typeof window.diworkContext === 'function') {
-			const diworkContext = window.diworkContext();
-			// const diworkContext = {"tenantid":"hg35emfb","userid":"31829413-a7c7-4368-9461-cffb73142109","theme":"","username":"","locale":"zh_CN","timezone":"","appcode":"diwork","profile":"online","multilist":"[{\"default\":true,\"dislpayName\":\"简体中文\",\"enabled\":true,\"id\":\"c405bc04-37ea-4313-a98f-3b0c59b952a2\",\"langCode\":\"zh_CN\",\"langSequence\":1},{\"default\":false,\"dislpayName\":\"English\",\"enabled\":true,\"id\":\"ce73e0f1-0677-49fa-ba17-1110bbb9d599\",\"langCode\":\"en_US\",\"langSequence\":2},{\"default\":false,\"dislpayName\":\"繁体中文\",\"enabled\":true,\"id\":\"a5f747a6-800e-476e-8b3c-79fa6c1f1aba\",\"langCode\":\"zh_TW\",\"langSequence\":3}]"}//window.diworkContext();
-			if (needReplace.length > 0) {
-				let length = needReplace.length;
-				for (var i, i = 0; i < length; i++) {
-					let key = needReplace[i];
-					if (needReplace[i] == 'tenantId') {
-						key = 'tenantid';
-					}
-					if (diworkContext[key]) {
-						url = url.replace('{' + needReplace[i] + '}', diworkContext[key]);
+	replaceRegex = (url, item) => {
+		try {
+			let needReplace = url.match(/\{[^\}]+\}/);//{} 花括号
+			if (!needReplace) {
+				return url;
+			}
+			if (typeof window.diworkContext === 'function') {//typeof window.diworkContext === 'function'
+				const diworkContext = window.diworkContext();
+				// const diworkContext = {"tenantid":"hg35emfb","userid":"31829413-a7c7-4368-9461-cffb73142109","theme":"","username":"","locale":"zh_CN","timezone":"","appcode":"diwork","profile":"online","multilist":"[{\"default\":true,\"dislpayName\":\"简体中文\",\"enabled\":true,\"id\":\"c405bc04-37ea-4313-a98f-3b0c59b952a2\",\"langCode\":\"zh_CN\",\"langSequence\":1},{\"default\":false,\"dislpayName\":\"English\",\"enabled\":true,\"id\":\"ce73e0f1-0677-49fa-ba17-1110bbb9d599\",\"langCode\":\"en_US\",\"langSequence\":2},{\"default\":false,\"dislpayName\":\"繁体中文\",\"enabled\":true,\"id\":\"a5f747a6-800e-476e-8b3c-79fa6c1f1aba\",\"langCode\":\"zh_TW\",\"langSequence\":3}]"}//window.diworkContext();
+				if (needReplace.length > 0) {
+					let length = needReplace.length;
+					for (var i, i = 0; i < length; i++) {
+						needReplace[i] = needReplace[i].replace('{', '').replace('}', '');
+						let key = needReplace[i];
+						if (needReplace[i] == 'tenantId') {
+							key = 'tenantid';
+						}
+						if (diworkContext[key]) {
+							url = url.replace('{' + needReplace[i] + '}', diworkContext[key]);
+						}
 					}
 				}
+			} else {
+				url = url.replace('{locale}', 'zh_CN');
+				url = url.replace('{tenantId}', item.tenantId || '');
 			}
-		} else {
-			url = url.replace('{locale}', 'zh_CN');
+		} catch (e) {
+
 		}
 		return url;
 	}
@@ -101,9 +106,9 @@ export default class TabContent extends Component {
 		if (uri.indexOf('?') >= 0) {
 			connStr = '&';
 		}
-
+		uri = this.replaceRegex(uri,item);
+		hash = this.replaceRegex(hash,item);
 		let url = uri + connStr + pstr + '#' + hash + item.routerParams;
-		url = this.replaceRegex(url);
         return (
             <div key ={item.code} className={active ? 'tab-content-item active': 'tab-content-item'} style={{ height: this.state.frameHeight }}>
                 <iframe src={url} id={item.code} name={item.code} className="frame" />
