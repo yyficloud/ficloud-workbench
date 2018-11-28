@@ -477,7 +477,7 @@ class Container extends Component {
 					<div className="clear">
 						{tabList.map((item,index) => (<TabContent
 							homeUrl = {this.state.homeUrl}
-							key={`tabContent_${item.serviceCode+index}`}
+							key={`tabContent_${item.serviceCode}`}
 							item={item}
 							onActive={this.active}
 							active={this.state.currentCode === item.serviceCode}
@@ -485,7 +485,7 @@ class Container extends Component {
 						/>))}
 						{moreList.map((item,index) => (<TabContent
 							homeUrl = {this.state.homeUrl}
-							key={`tabContentMore_${item.serviceCode+index}`}
+							key={`tabContentMore_${item.serviceCode}`}
 							item={item}
 							onActive={this.active}
 							active={this.state.currentCode === item.serviceCode}
