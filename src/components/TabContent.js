@@ -107,8 +107,14 @@ export default class TabContent extends Component {
 			connStr = '&';
 		}
 		uri = this.replaceRegex(uri,item);
-		hash = this.replaceRegex(hash,item);
-		let url = uri + connStr + pstr + '#' + hash + item.routerParams;
+		let url = uri + connStr + pstr;
+		if (hash) {
+			hash = this.replaceRegex(hash, item);
+			url += '#' + hash;
+			if (item.routerParams) {
+				url += item.routerParams;
+			}
+		}
         return (
             <div key ={item.code} className={active ? 'tab-content-item active': 'tab-content-item'} style={{ height: this.state.frameHeight }}>
                 <iframe src={url} id={item.code} name={item.code} className="frame" />
