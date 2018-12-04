@@ -57,7 +57,7 @@ export default class TabContent extends Component {
 			}
 			if (typeof window.diworkContext === 'function') {//typeof window.diworkContext === 'function'
 				const diworkContext = window.diworkContext();
-				// const diworkContext = {"tenantid":"hg35emfb","userid":"31829413-a7c7-4368-9461-cffb73142109","theme":"","username":"","locale":"zh_CN","timezone":"","appcode":"diwork","profile":"online","multilist":"[{\"default\":true,\"dislpayName\":\"简体中文\",\"enabled\":true,\"id\":\"c405bc04-37ea-4313-a98f-3b0c59b952a2\",\"langCode\":\"zh_CN\",\"langSequence\":1},{\"default\":false,\"dislpayName\":\"English\",\"enabled\":true,\"id\":\"ce73e0f1-0677-49fa-ba17-1110bbb9d599\",\"langCode\":\"en_US\",\"langSequence\":2},{\"default\":false,\"dislpayName\":\"繁体中文\",\"enabled\":true,\"id\":\"a5f747a6-800e-476e-8b3c-79fa6c1f1aba\",\"langCode\":\"zh_TW\",\"langSequence\":3}]"}//window.diworkContext();
+				// const diworkContext = {"tenantid":"hg35emfb","userid":"31829413-a7c7-4368-9461-cffb73142109","theme":"","username":"","locale":"en_US","timezone":"","appcode":"diwork","profile":"online","multilist":"[{\"default\":true,\"dislpayName\":\"简体中文\",\"enabled\":true,\"id\":\"c405bc04-37ea-4313-a98f-3b0c59b952a2\",\"langCode\":\"zh_CN\",\"langSequence\":1},{\"default\":false,\"dislpayName\":\"English\",\"enabled\":true,\"id\":\"ce73e0f1-0677-49fa-ba17-1110bbb9d599\",\"langCode\":\"en_US\",\"langSequence\":2},{\"default\":false,\"dislpayName\":\"繁体中文\",\"enabled\":true,\"id\":\"a5f747a6-800e-476e-8b3c-79fa6c1f1aba\",\"langCode\":\"zh_TW\",\"langSequence\":3}]"}//window.diworkContext();
 				if (needReplace.length > 0) {
 					let length = needReplace.length;
 					for (var i, i = 0; i < length; i++) {
@@ -71,6 +71,8 @@ export default class TabContent extends Component {
 						}
 					}
 				}
+				url = url.replace('{locale}', diworkContext.locale);
+				url = url.replace('{tenantId}', diworkContext.tenantid);
 			} else {
 				url = url.replace('{locale}', 'zh_CN');
 				url = url.replace('{tenantId}', item.tenantId || '');

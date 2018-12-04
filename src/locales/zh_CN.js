@@ -4,4 +4,5 @@ module.exports = ({
 	'Display_Menu':'显示菜单',
 	'Accounting_Book': '账簿',
 	'Close_All':'关闭全部标签页',
+	'Please_Search':'请筛选',
 });

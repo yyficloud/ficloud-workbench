@@ -2,6 +2,7 @@
  *账簿树弹出层
  */
 import React from 'react';
+import intl from 'react-intl-universal';
 import OnClickOutside from 'react-onclickoutside';
 import Tree from 'rc-tree';
 const TreeNode = Tree.TreeNode;
@@ -103,7 +104,7 @@ onSelect=(selectedKeys, info)=> {
         <div className="input-accbook" onMouseLeave={this.handleClickOutside}>
             <div className="row">
                 <div className="search">
-                    <input placeholder="请筛选" className="form-control" value={this.state.inputValue} onChange={this.onChange} onKeyDown={this.onKeyDown} />
+                    <input placeholder={intl.get('Please_Search')} className="form-control" value={this.state.inputValue} onChange={this.onChange} onKeyDown={this.onKeyDown} />
                 </div>
                 <Tree
                     className={this.filterKeys && this.filterKeys.length > 0 ? ('myCls filtertree ') : ('myCls')}
