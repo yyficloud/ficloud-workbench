@@ -20,7 +20,7 @@ export default class TabHeaderMore extends Component {
 			<ul className={'u-dropdown-menu more'}>
 				{
 					moreList.map((item,index) => {
-						return (<li key={index} onClick={() => onActive(item.serviceCode)}><span>{item.title}</span></li>);
+						return (<li key={index} title={item.title} onClick={() => onActive(item.serviceCode)}><span>{item.title}</span></li>);
 					})
 				}
 				<li key="closeall" onClick={() => onActive('closeAll')}><span>{intl.get('Close_All')}</span></li>
