@@ -455,11 +455,11 @@ class Container extends Component {
 				moreList={this.state.moreList}
 				isShow={this.state.moreIsShow}
 			/>);
-
+			console.log(this.props);
 		return (
 			<div className={ classNames('ficloud-bench', { [`${className}`]: className })}>
 				{
-					<TabAccBook ref="acc" onChange={this.accChange} accBookName={this.props.accBookName} accBookObj={this.props.accBookObj} isAccBook={this.state.isAccBook} accBookData ={this.props.accBookTree} accBook={this.props.accBook} className={showLeft?'':'showLeft'}/>
+					<TabAccBook ref="acc" currentLocale={this.props.currentLocale} onChange={this.accChange} accBookName={this.props.accBookName} accBookObj={this.props.accBookObj} isAccBook={this.state.isAccBook} accBookData ={this.props.accBookTree} accBook={this.props.accBook} className={showLeft?'':'showLeft'}/>
 				}
 				<LeftMenu menus={menuItems} current={current} onMenuClick={this.menuClick} onToggle={this.onToggle} ref="menu" showLeft={showLeft} height={height}/>
 				<div className={showLeft?'main-tab':'main-tab showLeft'} style={{ width: this.state.width }}>

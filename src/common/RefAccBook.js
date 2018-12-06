@@ -81,15 +81,19 @@ onSelect=(selectedKeys, info)=> {
         return false;
     }
   render() {
+      let { currentLocale } = this.props;
+      currentLocale = currentLocale ? currentLocale : 'zh_CN';
+      let nameIndex = { 'zh_CN': '', 'en_US': '2', 'zh_TW': '3' }[currentLocale];
       const loop = data => {
           return data.map((item) => {
+              let nameValue = 'name' + nameIndex
               if (this.filterKeys && this.filterFn(item.name)) {
                   this.filterKeys.push(item.id);
               }
               if (item.children) {
-                  return <TreeNode key={item.id} title={item.name} code={item.code} id={item.id}>{loop(item.children)}</TreeNode>;
+                  return <TreeNode key={item.id} title={nameValue} code={item.code} id={item.id}>{loop(item.children)}</TreeNode>;
               }
-              return <TreeNode key={item.id} title={item.name} code={item.code} id={item.id}/>;
+              return <TreeNode key={item.id} title={nameValue} code={item.code} id={item.id}/>;
           });
       };
       let expandedKeys = this.state.expandedKeys;
