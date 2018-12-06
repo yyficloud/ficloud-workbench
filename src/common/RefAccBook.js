@@ -86,7 +86,7 @@ onSelect=(selectedKeys, info)=> {
       let nameIndex = { 'zh_CN': '', 'en_US': '2', 'zh_TW': '3' }[currentLocale];
       const loop = data => {
           return data.map((item) => {
-              let nameValue = 'name' + nameIndex
+              let nameValue = 'name' + nameIndex;
               if (this.filterKeys && this.filterFn(item.name)) {
                   this.filterKeys.push(item.id);
               }
