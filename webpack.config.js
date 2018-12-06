@@ -2,6 +2,7 @@ const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+
 // const OpenBrowserPlugin = require('open-browser-webpack-plugin');
 module.exports = {
 	context: path.resolve(__dirname, 'examples/src'),
@@ -51,7 +52,17 @@ module.exports = {
 						loader: 'html-loader',
 					}
 				]
-			},
+			},{
+		        test: /\.(woff|woff2|ttf|eot|svg)$/,
+		        use: [
+		          {
+		            loader: 'file-loader',
+		            options: {
+		              name: './fonts/[name]-[hash].[ext]',
+		            }
+		          }
+		        ]
+		      }
 		],
 	},
 	resolve: {
@@ -76,5 +87,6 @@ module.exports = {
 			'window.jQuery':'jquery'
 		}),
 		new ExtractTextPlugin('example.css'),
+		
 	]
 };

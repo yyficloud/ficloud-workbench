@@ -1,6 +1,7 @@
 const webpack = require('webpack');
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 // 获取版本
 const packageJSON = require('./package.json');
 module.exports = [{
@@ -42,7 +43,17 @@ module.exports = [{
 					fallback: 'style-loader',
 					use: ['css-loader', 'less-loader','resolve-url-loader'],
 				})
-			},
+			},{
+		        test: /\.(woff|woff2|ttf|eot|svg)$/,
+		        use: [
+		          {
+		            loader: 'file-loader',
+		            options: {
+		              name: './fonts/[name]-[hash].[ext]',
+		            }
+		          }
+		        ]
+		      }
 
 		],
 	},
@@ -109,6 +120,12 @@ module.exports = [{
 			},
 			// sourceMap: false,
 		}),
+		new CopyWebpackPlugin([
+	      {
+	        from: path.resolve(__dirname, 'less/rc-tree/fonts'),
+	        to: path.resolve(__dirname, 'dist/fonts')
+	      }
+	     ])
 	]
 }
 ];

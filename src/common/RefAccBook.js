@@ -101,7 +101,7 @@ onSelect=(selectedKeys, info)=> {
       const treeNodes = loop(this.props.accBooks);
 
       return (
-        <div className="input-accbook" onMouseLeave={this.handleClickOutside}>
+        <div className="input-accbook iconfont" onMouseLeave={this.handleClickOutside}>
             <div className="row">
                 <div className="search">
                     <input placeholder={intl.get('Please_Search')} className="form-control" value={this.state.inputValue} onChange={this.onChange} onKeyDown={this.onKeyDown} />
