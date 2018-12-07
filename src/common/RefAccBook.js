@@ -90,6 +90,10 @@ onSelect=(selectedKeys, info)=> {
       const loop = data => {
           return data.map((item) => {
               let nameValue = item['name' + nameIndex];
+              if(!nameValue){
+                nameValue = item['name'];
+              }
+              // console.log([GetCookie('locale'),nameValue,item,'name' + nameIndex]);
               if (this.filterKeys && this.filterFn(item.name)) {
                   this.filterKeys.push(item.id);
               }
@@ -108,7 +112,7 @@ onSelect=(selectedKeys, info)=> {
       const treeNodes = loop(this.props.accBooks);
 
       return (
-        <div className="input-accbook iconfont" onMouseLeave={this.handleClickOutside}>
+        <div className="input-accbook iconfont-ficloud-workbench" onMouseLeave={this.handleClickOutside}>
             <div className="row">
                 <div className="search">
                     <input placeholder={intl.get('Please_Search')} className="form-control" value={this.state.inputValue} onChange={this.onChange} onKeyDown={this.onKeyDown} />

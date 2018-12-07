@@ -204,7 +204,7 @@
   url('./fonts/iconfont.svg?t=1522216517208#iconfont') format('svg'); /* iOS 4.1- */
 }
 
-.iconfont {
+.iconfont-ficloud-workbench {
   font-family:"iconfont" !important;
   font-size:16px;
   font-style:normal;
@@ -370,7 +370,8 @@
 @mainGreenHover: #009886;
 .b0{ border: 0; }
 // 左树结构
-.rc-tree {
+
+.myCls.rc-tree {
   .p15;
   overflow: auto;
   height: 450px;
@@ -383,48 +384,55 @@
     .b0;
   }
 }
-.rc-tree li {
+.myCls.rc-tree li {
   line-height: 30px;
   .rc-tree-node-content-wrapper {
     height: auto;
     padding: 0 5px;
   }
 }
-.rc-tree li span.rc-tree-switcher {
+.myCls.rc-tree li span.rc-tree-switcher {
   background-image: none;
 }
 
-.rc-tree li span.rc-tree-iconEle {  // 凭证模板 公式编辑器 #ssc-formula2-tab-单据字段
+.myCls.rc-tree li span.rc-tree-iconEle {  // 凭证模板 公式编辑器 #ssc-formula2-tab-单据字段
   .none;
 }
-.rc-tree-switcher_open,.rc-tree-switcher_close,.rc-tree-switcher-noop,
-.rc-tree-roots_open,.rc-tree-roots_close,
-.rc-tree-center_open,.rc-tree-center_close,.rc-tree-center_docu,
-.rc-tree-bottom_open, .rc-tree-bottom_close, .rc-tree-bottom_docu{
+.myCls .rc-tree-switcher_open,
+.myCls .rc-tree-switcher_close,
+.myCls .rc-tree-switcher-noop,
+.myCls .rc-tree-roots_open,
+.myCls .rc-tree-roots_close,
+.myCls .rc-tree-center_open,
+.myCls .rc-tree-center_close,
+.myCls .rc-tree-center_docu,
+.myCls .rc-tree-bottom_open, 
+.myCls .rc-tree-bottom_close, 
+.myCls .rc-tree-bottom_docu{
   font-family: "iconfont" !important;
 }
-.rc-tree-switcher::before {
+.myCls .rc-tree-switcher::before {
   color: @mainGreen;
   .f14;
 }
-.rc-tree-switcher_open::before,
-.rc-tree-roots_open::before,
-.rc-tree-center_open::before,
-.rc-tree-bottom_open::before {
+.myCls .rc-tree-switcher_open::before,
+.myCls .rc-tree-roots_open::before,
+.myCls .rc-tree-center_open::before,
+.myCls .rc-tree-bottom_open::before {
   content: "\e68d";
 }
-.rc-tree-switcher_close::before,
-.rc-tree-roots_close::before,
-.rc-tree-center_close::before,
-.rc-tree-bottom_close::before {
+.myCls .rc-tree-switcher_close::before,
+.myCls .rc-tree-roots_close::before,
+.myCls .rc-tree-center_close::before,
+.myCls .rc-tree-bottom_close::before {
   content: "\e68f";
 }
-.rc-tree-switcher-noop::before,
-.rc-tree-center_docu::before,
-.rc-tree-bottom_docu::before {
+.myCls .rc-tree-switcher-noop::before,
+.myCls .rc-tree-center_docu::before,
+.myCls .rc-tree-bottom_docu::before {
   content: "\e6ae";
 }
 
-.rc-tree li.disabled >.rc-tree-node-content-wrapper {
+.myCls .rc-tree li.disabled >.rc-tree-node-content-wrapper {
   color: @fontColorLevel4;
 }
