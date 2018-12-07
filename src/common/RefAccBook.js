@@ -5,6 +5,7 @@ import React from 'react';
 import intl from 'react-intl-universal';
 import OnClickOutside from 'react-onclickoutside';
 import Tree from 'rc-tree';
+import { GetCookie } from '../utils/findPath';
 const TreeNode = Tree.TreeNode;
 
 class RefAccBook extends React.Component {
@@ -81,12 +82,14 @@ onSelect=(selectedKeys, info)=> {
         return false;
     }
   render() {
-      let { currentLocale } = this.props;
-      currentLocale = currentLocale ? currentLocale : 'zh_CN';
+      let currentLocale = 'zh_CN';
+      if(GetCookie('locale')) {
+          currentLocale = GetCookie('locale');
+      }
       let nameIndex = { 'zh_CN': '', 'en_US': '2', 'zh_TW': '3' }[currentLocale];
       const loop = data => {
           return data.map((item) => {
-              let nameValue = 'name' + nameIndex;
+              let nameValue = item['name' + nameIndex];
               if (this.filterKeys && this.filterFn(item.name)) {
                   this.filterKeys.push(item.id);
               }
