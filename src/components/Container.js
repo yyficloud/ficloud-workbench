@@ -275,6 +275,8 @@ class Container extends Component {
 		}
 		if(this.state.param){
 			newTab = Object.assign(newTab, this.state.param);
+		}else{
+			newTab = Object.assign(newTab, {params: {}});
 		}
 		let tabField = 'tabList';
 		let newState={ currentCode: newTab.serviceCode };
@@ -455,7 +457,7 @@ class Container extends Component {
 				moreList={this.state.moreList}
 				isShow={this.state.moreIsShow}
 			/>);
-			console.log(this.props);
+			// console.log(this.props);
 		return (
 			<div className={ classNames('ficloud-bench', { [`${className}`]: className })}>
 				{
