@@ -276,7 +276,7 @@ class Container extends Component {
 		if(this.state.param){
 			newTab = Object.assign(newTab, this.state.param);
 		}else{
-			newTab = Object.assign(newTab, {params: {}});
+			newTab = Object.assign(newTab, {params: {}, routerParams: ''});
 		}
 		let tabField = 'tabList';
 		let newState={ currentCode: newTab.serviceCode };
